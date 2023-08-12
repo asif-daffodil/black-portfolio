@@ -1,0 +1,631 @@
+/* Media Queries */
+@media screen and (max-width: 1700px) {
+.blog-list iframe, embed, object{
+     height: 94% !important;
+    min-height: auto;
+}
+.recent-comments .col-3{
+    width: 100%;
+    margin-top: 20px;
+}
+.recent-comments textarea{
+    width: 94%;
+}
+}
+@media screen and (max-width: 1200px) {
+    .blog-main {
+        margin: 0 30px 0 240px;
+    }
+    .blog-right {
+        width: 23%;
+    }
+    .blog-left {
+        width: 75%;
+    }
+    .blog-list .contact-social a i {
+        margin: 0 6px;
+    }
+    .blog-list .contact-social a:first-child i {
+        margin: 0 6px 0 0;
+    }
+    .blog-left .row .blog-list { width: 47%; 
+    }
+    .no-page{
+        margin:0 0 0 240px;
+    }
+}
+@media screen and (max-width: 1024px) {
+    .jspVerticalBar {
+        opacity: 1;
+    }
+    .menu nav {
+        top: 180px;
+    }
+    .social {
+        top: 535px;
+    }
+    .copyright {
+        padding: 20px 30px;
+    }
+    .inner {
+        padding: 50px;
+    }
+    .content {
+        width: 700px;
+    }
+    .slideshow figure {
+        width: 80%;
+        height: 80%;
+        margin: 0 10%;
+    }
+    .slideshow nav span.nav-prev, .slideshow nav span.nav-next {
+        top: 60%;
+    }
+    span.nav-prev {
+        display: none;
+    }
+    span.nav-next {
+        display: none;
+    }
+    .slideshow li {
+        display: none;
+    }
+    .slideshow li.current {
+        display: block;
+    }
+    .owl-pagination {
+        bottom: 20% !important;
+    }
+    .introduction-end-con {
+        width: 46%;
+        margin-top: 50%;
+    }
+    .introduction-end-con h3 {
+        font-size: 45px;
+        line-height: 90px;
+    }
+    .contact-form {
+        padding-bottom: 200px;
+    }
+    .menu nav a{
+        padding: 11px 0;
+    }
+    .pagerblock {
+        margin: 0 0 0 20%;
+    }
+    .blog-left{
+        width: 70%;
+    }
+    .comments-name, .comments-text{
+        width: 100%;
+    }
+    .comments-text{
+        margin-top: 3%;
+    }
+}
+@media screen and (max-width: 960px) {
+    .blog-left .row .blog-list {
+        margin: 0 4.6% 35px 0;
+        width: 45%;
+        min-height: 610px;
+    }
+    .blog-right {
+        width: 27%;
+    }
+    .blog-left {
+        width: 70%;
+    }
+    .no-page-text {
+        margin: 2% 0 0 353px;
+    }
+}
+@media screen and (max-width: 900px) {
+    .blog-right {
+        width: 32%;
+    }
+    .blog-left {
+        width: 68%;
+    }
+    .blog-list-details h3 { font-size: 16px; line-height: 22px; 
+    }
+    .no-page-text {
+        margin: 2% 0 0 386px;
+    }
+}
+@media screen and (max-width: 800px) {
+    .blog-left .row .blog-list {
+        min-height: 630px;
+    }
+    .blog-right {
+        width: 32%;
+    }
+    .blog-left {
+        width: 61%;
+    }
+    .content-left{
+        width: 100%;
+        margin-right: 0;
+    }
+    .content-right {
+        margin-left:0;
+        width: 100%;
+    }
+    .blog-left .row .blog-list { 
+        margin-right: 0; 
+        width: 47%;
+    }
+    .blog-left .row .blog-list:nth-child(2n) { 
+        float: right;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+    .codrops-top a {
+        background: #000;
+        color: #fff;
+        text-shadow: none;
+    }
+    nav .jspPane {
+        width: 100% !important
+    }
+    h2 {
+        font-size: 40px;
+    }
+    .codrops-top a:nth-child(1) {
+        left: 10px;
+    }
+    .menu {
+        position: fixed;
+        width: 100%;
+        height: 460px;
+    }
+    .menu nav {
+        top: 50px;
+        bottom: 20px;
+    }
+    .content-scroller {
+        position: relative;
+        height: auto;
+        left: 0;
+        overflow: visible;
+    }
+    .content-wrapper {
+        height: auto;
+        width: auto;
+        margin-left: 0px;
+    }
+    .content {
+        border: none;
+        width: 768px;
+        float: none;
+        overflow-y: auto;
+    }
+
+    .content:last-child {
+        display: none
+    }
+    .logo {
+        margin: 0
+    }
+    .logo span {
+        color: #fff;
+        display: block;
+        font-family: 'Oswald', sans-serif;
+        font-size: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        float: left;
+        width: 80%;
+        text-align: left;
+        padding: 13px 0 13px 15px;
+    }
+    .logo img {
+        display: none
+    }
+    .menu-link {
+        display: block;
+        float: right;
+        padding: 14px 15px 0 0;
+        width: 25px;
+        height: 25px;
+        font-size: 23px;
+        color: #FFF;
+    }
+    .menu-link:hover {
+        color: #999;
+    }
+    .menu-link:before {
+        content: "\f039";
+        font-family: 'FontAwesome';
+    }
+    .menu nav a {
+        margin: 0 17px
+    }
+    .menu nav a:last-child {
+        border-bottom: none
+    }
+    .menu nav {
+        display: none
+    }
+    nav.active {
+        display: block;
+        overflow: visible !important;
+        width: 100% !important;
+        background-color: #000;
+        height: 400px;
+    }
+    nav.active .jspContainer {
+        background-color: #000;
+        height: 380px !important;
+        width: 100% !important;
+    }
+    .menu {
+        height: 50px
+    }
+    .copyright {
+        display: none
+    }
+    .social {
+        display: none
+    }
+    .grid li {
+        width: 100%
+    }
+    .inner {
+        padding: 130px 40px 60px;
+    }
+    .introduction .jspContainer {
+        height: 600px !important;
+    }
+    .introduction .inner {
+        margin: 38% 0 0 0
+    }
+
+    .experience-details .col-3, .education-con .col-3 {
+        width: 30%
+    }
+    .slideshow figure {
+        width: auto;
+        height:auto;
+    }
+    .slideshow figcaption h3 {
+        line-height: 30px
+    }
+    .slideshow .nav-prev, .slideshow .nav-next {
+        display: none
+    }
+    .slideshow li:after {
+        position:relative;
+    }
+    .owl-pagination {
+        bottom: 0 !important;
+    }
+    .grid-gallery { 
+        height:auto;
+    }
+    .introduction .owl-theme .owl-controls {
+        margin-top: 0;
+        text-align: center;
+        position: absolute;
+        width: 100%;
+        bottom:40px;
+    }
+    a.totop-link {
+        display: block;
+    }
+    .blog-main {
+        margin: 50px 40px;
+        padding: 32px 0;
+    }
+    .pagerblock {
+        margin: 0;
+    }
+    .blog-details-title h2 {
+        line-height: 26px
+    }
+    .blog-left {
+        width: 60%;
+    }
+    .content-left, .content-right{
+        width: 100%;
+    }
+    .content-right{
+        margin-left: 0;
+    }
+    .comments-name{
+        width: 100%;
+    }
+    .button {
+        font-size: 12px;
+        width: auto;
+        display: block;
+        text-align: center;
+        float: left;
+    }
+    .comments-text{
+        width: 100%;
+        margin-top: 3%;
+    }
+    .blog-listing {
+        width: 67%;
+    }
+    .no-page{
+        margin: 40px 0 0 0 ;
+    }
+    .slideshow li { 
+        margin-left: -350px;
+    }
+    .blog-left .row .blog-list { 
+        min-height: 630px;
+    }
+
+}
+@media screen and (max-width: 767px) {
+    .content-wrapper {
+        height: auto;
+        margin-left: 0;
+        width: 100%;
+    }
+    .introduction .owl-pagination {
+        bottom: 15px;
+    }
+    .introduction .owl-theme .owl-controls {
+        margin-top: 0;
+    }
+    .content {
+        width: auto;
+    }
+    .introduction img {
+        height: auto
+    }
+    .contact-form {
+        padding-bottom: 0;
+    }
+    .comments-sub{
+        padding-left: 0;
+    }
+
+}
+
+@media screen and (max-width: 675px) {
+    .inner {
+        padding: 130px 30px 40px 30px;
+    }
+    .introduction .inner {
+        background: url(../images/black-transparent.png) repeat
+    }
+    .introduction h2 {
+        font-size: 35px;
+        line-height: 40px;
+        margin-bottom: 16px;
+    }
+    .introduction span.title {
+        display: block;
+        font-size: 11px;
+        color: #FFF;
+        padding: 10px 0;
+        border-bottom: 1px solid #fff;
+        border-top: 1px solid #fff;
+    }
+    .button {
+        width: auto;
+        float: left;
+    }
+    .about {
+        background: none
+    }
+    .about .inner {
+        width: auto
+    }
+    .jspPane {
+        width: 100% !important
+    }
+    .col-6, .col-4 {
+        width: 100%
+    }
+    .figcaption-details img {
+        height: 25px !important;
+        width: 25px !important;
+        margin: 0
+    }
+    .grid li {
+        margin: 0 0 40px 0
+    }
+    .grid-gallery .figcaption-details h3 {
+        font-size: 15px;
+        padding: 15px 0 0
+    }
+    .grid-gallery .figcaption-details span {
+    }
+    .skills-con .col-6 {
+        text-align: center
+    }
+    .skills-con h4 {
+        width: 100%;
+        margin: 0
+    }
+    .chart-text p {
+        margin: 0
+    }
+    .skills-con .margin-top50 .row > div:nth-child(3) {
+        margin-bottom: 50px
+    }
+    .experience-details .col-3, .education-con .col-3 {
+        width: 100%;
+    }
+    .flot-left {
+        width: 100%;
+        margin: 10px 0 0 0
+    }
+    .contact-details .col-2 {
+        width: 15%
+    }
+    .email {
+        margin-bottom: 0;
+    }
+    .contact-form input[type="text"], textarea {
+        width: 92%
+    }
+    .m-margin-top30 {
+        margin-top: 30px;
+    }
+    .contact-social a i {
+        margin: 0 10px;
+    }
+    .contact-social a:first-child i {
+        margin: 0 10px 0 0
+    }
+    .margin-top50 {
+        margin-top: 35px;
+    }
+    .margin-bottom50 {
+        margin-bottom: 35px
+    }
+    .no-margin-top {
+        margin-top: 0 !important;
+    }
+    .progress-value span {
+        display: none
+    }
+    .progress {
+        width: 100%
+    }
+    .progress-bar-description {
+        margin: 0
+    }
+}
+@media screen and (max-width: 620px) {
+    h2 {
+        font-size: 30px;
+        line-height: 30px;
+    }
+    .title-divider {
+        margin: 20px 0 30px 0;
+    }
+    .slideshow figure {
+        border: 20px solid #3f3f3f;
+        border-top: 10px solid #3f3f3f;
+    }
+    .slideshow figure {
+        width: 50%;
+    }
+    .slideshow li {
+        left: 50%;
+        top: 0;
+        margin: 20px 0 0 -265px;
+    }
+    .owl-pagination {
+        bottom: 0 !important;
+    }
+    .contact-form input[type="text"], textarea {
+        width: 88%;
+    }
+    .introduction .owl-theme .owl-controls {
+        bottom:30px;
+        z-index:11;
+    }
+    .blog-left {
+        width: 100%;
+        margin-bottom:30px;
+    }
+    .blog-left .row .blog-list {
+        margin: 0 0 35px 0;
+        width: 100%;
+        min-height: inherit;
+    }
+    .blog-right {
+        width: 100%;
+    }
+    .pagerblock li a {
+        font-size: 14px;
+        height: 20px;
+        line-height: 20px;
+        width: 20px;
+    }
+    .pagerblock li a i {
+        line-height: 22px;
+    }
+    .pagerblock li {
+        float: left;
+        margin: 0 6px;
+    }
+    .pagerblock {
+        margin: 0 0 0 0;
+    }
+    .pagination {
+        padding: 15px 0 10px;
+    }
+    .sidebar-block {
+        margin: 0 0 30px 0;
+    }
+    .blog-list-details .title-divider {
+        margin: 20px 0;
+    }
+    .post-details { margin: 10px 0 0 0; }
+    .margin-top30 {
+        margin-top: 20px;
+    }
+    .no-page-text {
+        margin: 2% 0 0 35px;
+    }
+}
+@media screen and (max-width: 420px) {
+    .slideshow figure {
+        width: 36%;
+    }
+    .slideshow li {
+        margin: 20px 0 0 -216px;
+    }
+    .slideshow nav span {
+        font-size: 1.6em;
+    }
+    .slideshow nav span.nav-close {
+        padding: 0.4em 0.5em;
+    }
+    .slideshow figcaption h3 {
+        font-size: 130%;
+        padding: 0 0 0px;
+    }
+    .grid-gallery {
+        height: auto
+    }
+    .comments-name .pull-left{
+        float: left;
+        text-align: center;
+        width: 100%;
+        display: block;
+    }
+    .media-object {
+        margin: 0;
+        width: 150px;
+        height: 150px;
+        display: inline-block;
+    }
+    .comments-details .name, .comments-details .date{
+        text-align: center;
+    }
+    .comments-name .button{
+        width: 87%;
+    }
+    .recent-comments input[type="text"]{
+        width: 94%;
+        margin-bottom: 20px;
+    }
+    .blog-details-title .breadcrumbs{
+        display: none;
+    }
+    .no-page-text {
+        margin: 10%;
+    }
+}
+@media screen and (max-width: 360px) {
+    .introduction .inner {
+        margin: 0 0 0 0;
+        padding-top: 130px !important;
+        width: 86%;
+    }
+}

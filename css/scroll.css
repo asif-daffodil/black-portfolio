@@ -1,0 +1,110 @@
+
+/*
+----------------------------------
+
+	Name: scroll.css
+        Version: 1.2
+
+----------------------------------
+
+	Table of Contents
+	
+	#Page Scroll
+
+*/
+
+/* ==========================================================================
+   #Page Scroll
+   ========================================================================== */
+   
+.jspContainer {
+	overflow: hidden;
+	position: relative;
+}
+.jspPane {
+	position: absolute;
+}
+.jspVerticalBar {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 5px;
+	height: 100%;
+	background: transparent;
+	opacity: 0;
+	-webkit-transition: opacity 0.2s linear;
+	-moz-transition: opacity 0.2s linear;
+	-o-transition: opacity 0.2s linear;
+	-ms-transition: opacity 0.2s linear;
+	transition: opacity 0.2s linear;
+}
+.jspHorizontalBar {
+	position: absolute;
+	bottom: 5px;
+	left: 0;
+	width: 100%;
+	height: 7px;
+	background: transparent;
+	display:none;
+}
+.jspVerticalBar *, .jspHorizontalBar * {
+	margin: 0;
+	padding: 0;
+}
+.jspCap {
+	display: none;
+}
+.jspHorizontalBar .jspCap {
+	float: left;
+}
+.jspTrack {
+	background: rgba(202, 202, 202, 0.2);
+	position: relative;
+}
+.jspDrag {
+	background: rgba(0, 0, 0, 0.1);
+	position: relative;
+	top: 0;
+	left: 0;
+	cursor: pointer;
+}
+.jspDrag:hover {
+	background: rgba(0, 0, 0, 0.2);
+}
+.jspHorizontalBar .jspTrack, .jspHorizontalBar .jspDrag {
+	float: left;
+	height: 100%;
+}
+.jspArrow {
+	background: #50506d;
+	text-indent: -20000px;
+	display: block;
+	cursor: pointer;
+}
+.jspArrow.jspDisabled {
+	cursor: default;
+	background: #80808d;
+}
+.jspVerticalBar .jspArrow {
+	height: 16px;
+}
+.jspHorizontalBar .jspArrow {
+	width: 16px;
+	float: left;
+	height: 100%;
+}
+.jspVerticalBar .jspArrow:focus {
+	outline: none;
+}
+.jspCorner {
+	background: #eeeef4;
+	float: left;
+	height: 100%;
+}
+* html .jspCorner {
+	margin: 0 -3px 0 0;
+}
+
+.noscroll {
+	overflow: hidden !important
+}

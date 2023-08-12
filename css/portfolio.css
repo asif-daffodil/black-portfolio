@@ -1,0 +1,264 @@
+/*
+----------------------------------
+
+        Name: portfolio.css
+        Version: 1.2
+
+----------------------------------
+
+        Table of Contents
+        
+        #General style
+        #Grid
+        #Slideshow
+        #Navigation
+
+*/
+
+/* ==========================================================================
+   #General style
+   ========================================================================== */
+.grid-gallery { height:2600px}
+.grid-gallery ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.grid-gallery figure {
+    margin: 0;
+}
+.grid-gallery figure img {
+    display: block;
+    width: 100%;
+}
+.grid-gallery figcaption h3 {
+    margin: 0;
+    font-weight: 500;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    color: #000;
+    text-transform: uppercase;
+    padding: 0 0 10px 0;
+}
+.grid-gallery figcaption span {
+    border-bottom: 3px solid #7dba5c;
+    color: #000;
+    display: block;
+    font-size: 12px;
+    margin: 0 0 25px;
+    padding: 0 0 15px;
+    text-transform: uppercase;
+}
+/* ==========================================================================
+   #Grid
+   ========================================================================== */
+
+.grid-wrap {
+}
+.grid {
+    margin: 0 auto;
+}
+.grid li {
+    width: 100%;
+    float: left;
+    cursor: pointer;
+    margin: 0 0 70px 0;
+    position: relative !important;
+    top: inherit !important;
+}
+.grid figure {
+    -webkit-transition: opacity 0.2s;
+    transition: opacity 0.2s;
+}
+.grid li:hover figure {
+    opacity: 1;
+}
+.grid figcaption {
+    background-color: #7dba5c;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+    -webkit-transition-timing-function: ease-out;
+    -o-transition-timing-function: ease-out;
+    transition-duration: .2s;
+    -moz-transition-duration: .2s;
+    -webkit-transition-duration: .2s;
+    -o-transition-duration: .2s;
+}
+.grid li:hover figcaption {
+    opacity: 1;
+    transition-timing-function: ease-out;
+    -moz-transition-timing-function: ease-out;
+    -webkit-transition-timing-function: ease-out;
+    -o-transition-timing-function: ease-out;
+    transition-duration: .2s;
+    -moz-transition-duration: .2s;
+    -webkit-transition-duration: .2s;
+    -o-transition-duration: .2s;
+}
+.figcaption-details {
+    position: absolute;
+    top: 32%;
+    width: 100%;
+    text-align: center;
+}
+.figcaption-details img {
+    width: 82px !important;
+    height: 82px !important;
+    display: inline !important;
+    margin: 0 0 30px
+}
+/* ==========================================================================
+   #Slideshow
+   ========================================================================== */
+
+.slideshow {
+    position: fixed;
+    background: rgba(0,0,0,0.9);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 500;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
+    -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+    transition: opacity 0.5s, visibility 0s 0.5s;
+}
+.slideshow-open .slideshow {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: opacity 0.5s;
+    transition: opacity 0.5s;
+}
+.slideshow ul {
+    width: 100%;
+    height: 100%;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    -webkit-transform: translate3d(0, 0, 150px);
+    transform: translate3d(0, 0, 150px);
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: transform 0.5s;
+}
+.slideshow ul.animatable li {
+    -webkit-transition: -webkit-transform 0.5s;
+    transition: transform 0.5s;
+}
+.slideshow-open .slideshow ul {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+.slideshow li {
+    width: 700px;
+    height: 630px;
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    margin: -280px 0 0 -400px;
+    visibility: hidden;
+}
+.slideshow li.show {
+    visibility: visible;
+}
+.slideshow li:after {
+    content: '';
+    position: absolute;
+    width: 116%;
+    height: 116%;
+    top: 0;
+    left: 0;
+    background: rgba(0,0,0,0.8);
+    -webkit-transition: opacity 0.3s;
+    transition: opacity 0.3s;
+}
+.slideshow li.current:after {
+    visibility: hidden;
+    opacity: 0;
+    -webkit-transition: opacity 0.3s, visibility 0s 0.3s;
+    transition: opacity 0.3s, visibility 0s 0.3s;
+}
+.slideshow figure {
+    width: 100%;
+    height: 100%;
+    background: #3f3f3f;
+    border: 50px solid #3f3f3f;
+    overflow: hidden;
+}
+.slideshow figcaption {
+    padding-bottom: 20px;
+}
+.slideshow figcaption h3 {
+    font-weight: 300;
+    font-size: 200%;
+}
+.slideshow figcaption h3, .slideshow figcaption span {
+    color: #818181;
+}
+/* ==========================================================================
+   #Navigation
+   ========================================================================== */
+
+.slideshow nav span {
+    position: fixed;
+    z-index: 1000;
+    color: #818181;
+    text-align: center;
+    padding: 3%;
+    cursor: pointer;
+    font-size: 2.2em;
+}
+.slideshow nav span:hover {
+    color: #FFF
+}
+.slideshow nav span.nav-prev, .slideshow nav span.nav-next {
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+.slideshow nav span.nav-close {
+    top: 0;
+    right: 0;
+    padding: 0.5em 0.7em;
+    color: #818181;
+    background-color: #3f3f3f;
+}
+.slideshow nav span.nav-close:hover {
+    background-color: #FFF;
+    color: #000
+}
+.icon:before, .icon:after {
+    font-family: 'FontAwesome';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+span.nav-prev {
+    left: 50%;
+    margin-left: -537px;
+}
+span.nav-prev:before {
+    content: "\f053";
+}
+span.nav-next {
+    right: 50%;
+    margin-right: -537px;
+}
+span.nav-next:before {
+    content: "\f054";
+}
+span.nav-close:before {
+    content: "\f00d";
+}
