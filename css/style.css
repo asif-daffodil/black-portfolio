@@ -812,7 +812,7 @@ a.totop-link {
   margin: 0 0 5px 0;
 }
 .experience-details {
-  float: left;
+  display: flex;
 }
 .experience-details i {
   transition-duration: 0.2s;
@@ -825,6 +825,7 @@ a.totop-link {
   color: #818181;
 }
 .experience-details:hover .col-3 {
+  object-fit: cover;
   width: 29%;
   transition-duration: 0.2s;
   -moz-transition-duration: 0.2s;
