@@ -431,7 +431,7 @@ h5 {
 }
 .menu nav a {
   display: block;
-  padding: 13px 0;
+  padding: 6px 0;
   text-align: left;
   outline: none;
   margin: 0 30px;
@@ -489,11 +489,11 @@ h5 {
   color: #181717;
 }
 .copyright {
-  position: absolute;
-  bottom: 5px;
+  position: fixed;
+  bottom: 0px;
   text-transform: uppercase;
   font-family: 'Oswald', sans-serif;
-  font-size: 11px;
+  font-size: 9px;
   padding: 30px;
   color: #747474;
   line-height: 18px;

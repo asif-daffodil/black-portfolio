@@ -71,6 +71,7 @@ var pagetitle=$(document).find("title").text();
 					$('#link_skills').removeClass('active');
 					$('#link_experience').removeClass('active');
 					$('#link_education').removeClass('active');
+					$('#link_certificate').removeClass('active');
 					$('#link_portfolio').removeClass('active');
 					$('#link_contact').removeClass('active');
 					
@@ -115,6 +116,7 @@ var pagetitle=$(document).find("title").text();
 					$('#link_skills').removeClass('active');
 					$('#link_experience').removeClass('active');
 					$('#link_education').removeClass('active');
+					$('#link_certificate').removeClass('active');
 					$('#link_portfolio').removeClass('active');
 					$('#link_contact').removeClass('active');
 					
