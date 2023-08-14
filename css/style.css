@@ -854,7 +854,7 @@ a.totop-link {
   margin: 0 0 5px 0;
 }
 .education-details {
-  float: left;
+  display: flex;
 }
 .education-details i {
   transition-duration: 0.2s;
@@ -942,39 +942,6 @@ a.totop-link {
 /* ==========================================================================
    #Last Screen
    ========================================================================== */
-.introduction-end {
-  background: url(http://placehold.it/1608x1080/000) no-repeat right top;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  cursor: pointer;
-}
-.introduction-end-con {
-  float: right;
-  margin: 30% 0 0;
-  width: 30%;
-}
-.introduction-end-con h3 {
-  font-size: 55px;
-  color: #818181;
-  line-height: 100px;
-}
-.introduction-end-con h3 strong {
-  border-top: 1px solid #333333;
-  border-bottom: 1px solid #333333;
-  padding: 10px 0;
-  color: #7dba5c;
-  font-weight: normal;
-}
-.introduction-end-con .rotate {
-  font-weight: 300;
-  color: #818181;
-  font-size: 55px;
-  text-transform: uppercase;
-  font-family: 'Oswald', sans-serif;
-  padding: 25px 0;
-}
 
 /* ==========================================================================
    #Blog Listing
