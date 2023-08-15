@@ -1,10 +1,10 @@
-<?php 
-  
- $name=$_POST["name"];
- $from=$_POST["email"];
- $msg=$_POST["message"];
- $receiver="info@yourdomain.com";
- $subject="Contact us form details";
+<?php
+
+$name = $_POST["name"];
+$from = $_POST["email"];
+$msg = $_POST["message"];
+$receiver = "asif.abir@hotmail.com";
+$subject = "Portfolio Contact us form details";
 
 $message = "
 <html>
@@ -22,15 +22,15 @@ $message = "
   </tr>
   <tr>
     <td align='right' valign='top' style='border-top:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 5px 7px 0;'>Name:</td>
-    <td align='left' valign='top' style='border-top:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 0 7px 5px;'>".$name."</td>
+    <td align='left' valign='top' style='border-top:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 0 7px 5px;'>" . $name . "</td>
   </tr>
   <tr>
     <td align='right' valign='top' style='border-top:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 5px 7px 0;'>Email:</td>
-    <td align='left' valign='top' style='border-top:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 0 7px 5px;'>".$from."</td>
+    <td align='left' valign='top' style='border-top:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 0 7px 5px;'>" . $from . "</td>
   </tr>
   <tr>
     <td align='right' valign='top' style='border-top:1px solid #dfdfdf; border-bottom:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 5px 7px 0;'>Message:</td>
-    <td align='left' valign='top' style='border-top:1px solid #dfdfdf; border-bottom:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 0 7px 5px;'>".nl2br($msg)."</td>
+    <td align='left' valign='top' style='border-top:1px solid #dfdfdf; border-bottom:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 0 7px 5px;'>" . nl2br($msg) . "</td>
   </tr>
 </table>
 </body>
@@ -42,17 +42,11 @@ $headers = "MIME-Version: 1.0" . "\r\n";
 $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
 // More headers
-$headers .= 'From: <'.$from.'>' . "\r\n";
+$headers .= 'From: <' . $from . '>' . "\r\n";
 
 
-   if(mail($receiver,$subject,$message,$headers))  
-   {
-      echo "The message has been sent!";
-   }
-   else
-   {
-      echo "The message could not been sent!";
-   }
-
-
-?>
+if (mail($receiver, $subject, $message, $headers)) {
+  echo "The message has been sent!";
+} else {
+  echo "The message could not been sent!";
+}

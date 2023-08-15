@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" crossorigin="anonymous"></script>
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<script src="typingEffect.js"></script>
+<style>
+body { font-family:'Raleway'; background-color:#fafafa}
+.container { margin:150px auto; max-width:640px;}
+h1, h2 { margin:50px auto;}
+</style>
+
+<title>jQuery Typing-Effects Plugin Demos</title>
+</head>
+<body>
+<div id="jquery-script-menu">
+<div class="jquery-script-center">
+<ul>
+<li><a href="https://www.jqueryscript.net/animation/Typing-Animation-jQuery-Typing-Effects.html">Download This Plugin</a></li>
+<li><a href="https://www.jqueryscript.net/">Back To jQueryScript.Net</a></li>
+</ul>
+<div class="jquery-script-ads"><script type="text/javascript"><!--
+google_ad_client = "ca-pub-2783044520727903";
+/* jQuery_demo */
+google_ad_slot = "2780937993";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript"
+src="https://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script></div>
+<div class="jquery-script-clear"></div>
+</div>
+</div>
+<div class="container">
+<h1>Typing-Effects Plugin</h1>
+    <h2>
+        Hi, I am
+        <span id="typed"></span>
+        <span class="cursor"></span>
+    </h2>
+    <h2>
+        I Love ❤
+        <span id="typed2"></span>
+        <span class="cursor"></span>
+    </h2>
+
+
+<style>
+    @-webkit-keyframes blink {
+        0% {
+            opacity:1;
+        }
+
+        50% {
+             opacity:0;
+        }
+
+        100% {
+            opacity:1;
+        }
+    }
+</style>
+<script>
+    $('#typed').typing();
+    $("#typed2").typing({
+        strings: ['jQueryScript.net!', 'jQuery Plugins !!', 'JavaScript and CSS3 !!!', 'HTML5 :)'],
+        eraseDelay: 10,
+        typeDelay: 70,
+        stringStartDelay: 1000,
+        color: 'red',
+        typingColor: 'black',
+        typingOpacity: '0.1',
+        loopCount: 3,
+        cursorBlink: false,
+        cursorChar: '<small>_</small>',
+        fade: true,
+        onTyping: function () {
+            console.log('onTyping');
+        },
+        onFinishedTyping: function () {
+            console.log('onFinishedTyping');
+        },
+        onErasing: function () {
+            console.log('onErasing');
+        },
+        onFinishedErasing: function () {
+            console.log('onFinishedErasing');
+        },
+        onAllTypingCompleted: function () {
+            console.log('onAllTypingCompleted');
+        },
+        onFinishedFadeErasing: function () {
+            console.log('onFinishedFadeErasing');
+        }
+    });
+</script>
+</div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36251023-1']);
+  _gaq.push(['_setDomainName', 'jqueryscript.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+</body>
+</html>

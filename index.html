@@ -1,991 +1,927 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1.0,maximum-scale=1"
-    />
-    <meta name="ROBOTS" content="INDEX, FOLLOW" />
-    <title>
-      Asif Abir | Zend Certified PHP Engineer | Web Developer | Web Designer
-    </title>
-    <link rel="shortcut icon" href="favicon.ico" />
 
-    <!-- Google Font-->
-    <link
-      href="http://fonts.googleapis.com/css?family=Roboto:400,300italic,300,100italic,100,400italic,500,500italic,700,900,900italic,700italic%7COswald:400,300,700"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <!-- Design Style -->
-    <link rel="stylesheet" type="text/css" href="css/scroll.css" />
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
-    <!-- Icon -->
-    <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
-    <!-- Portfolio Thumbnail / Slider -->
-    <link rel="stylesheet" type="text/css" href="css/portfolio.css" />
-    <link rel="stylesheet" type="text/css" href="css/carousel.css" />
-    <!-- Responsive -->
-    <link rel="stylesheet" type="text/css" href="css/responsive.css" />
-    <!-- Pie Chart / Skills -->
-    <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
-    <!-- Send Email -->
-    <script type="text/javascript" src="js/sendemail.js"></script>
-    <!-- Progressbar / Skills-->
-    <script type="text/javascript" src="js/progressbar.js"></script>
-    <!-- Portfolio-->
-    <script src="js/modernizr.custom.js"></script>
-  </head>
-  <body>
-    <div id="container" class="container">
-      <!-- Left Menu / Logo-->
-      <aside class="menu" id="menu">
-        <div class="logo">
-          <!-- Logo image-->
-          <img src="images/asif.jpg" width="140" height="140" alt="" />
-          <!-- Logo name-->
-          <span>Andrew Smith</span>
-        </div>
-        <!-- Mobile Navigation-->
-        <a href="#menu1" class="menu-link"></a>
-        <!-- Left Navigation-->
-        <nav id="menu1" role="navigation">
-          <a href="#chapterintroduction"
-            ><span id="link_introduction" class="active">Home</span></a
-          >
-          <a href="#chapterabout"><span id="link_about">About</span></a>
-          <a href="#chapterskills"><span id="link_skills">Skills</span></a>
-          <a href="#chapterexperience"><span id="link_experience">Experience</span></a>
-          <a href="#chaptereducation"><span id="link_education">Education</span></a>
-          <a href="#chaptercertificate"><span id="link_certificate">Certification</span></a>
-          <a href="#chapterportfolio"><span id="link_portfolio">Portfolio</span></a>
-          <a href="#chaptercontact"><span id="link_contact">Contact</span></a>
-        </nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+  <meta name="ROBOTS" content="INDEX, FOLLOW" />
+  <title>
+    Asif Abir | Zend Certified PHP Engineer | Web Developer | Web Designer
+  </title>
+  <link rel="shortcut icon" href="favicon.ico" />
 
-        <div class="copyright">
-          © Asif Abir.<br />
-          All Rights Reserved.
-        </div>
-      </aside>
-      <!-- Go to top link for mobile device -->
-      <a href="#menu" class="totop-link">Go to the top</a>
-      <div class="content-scroller">
-        <div class="content-wrapper">
-          <!-- Introduction -->
-          <article
-            class="content introduction noscroll"
-            id="chapterintroduction"
-          >
-            <div
-              class="inner"
-              style="background: rgba(255, 255, 255, 0.6); padding: 20px"
-            >
-              <h2 style="color: #000; text-shadow: 1px 1px #fff">
-                <span>HEllo, I'm</span><br />
-                Asif Mohammad Abir
-              </h2>
-              <span
-                class="title"
-                style="color: #000; text-shadow: 0.5px 0.5px #fff"
-                >Zend Certified PHP Engineer</span
-              >
-              <div class="social">
-                <a
-                  href="https://www.facebook.com/abir.upwork"
-                  target="_blank"
-                  class="facebook"
-                  ><i class="fa fa-facebook"></i
-                ></a>
-                <a href="https://www.linkedin.com/in/asif-abir-5a5a5927b/" target="_blank" class="twitter"
-                  ><i class="fa fa-linkedin"></i>
-                  </i
-                ></a>
-                <a
-                  href="https://github.com/asif-daffodilm"
-                  target="_blank"
-                  class="google-plus"
-                  ><i class="fa fa-github"></i
-                ></a>
-              </div>
-            </div>
-            <div id="owl-demo" class="owl-carousel">
-              <div class="item">
-                <img src="./images/Asif Abir.jpg" alt="" />
-              </div>
-            </div>
-          </article>
+  <!-- Google Font-->
+  <link
+    href="http://fonts.googleapis.com/css?family=Roboto:400,300italic,300,100italic,100,400italic,500,500italic,700,900,900italic,700italic%7COswald:400,300,700"
+    rel="stylesheet" type="text/css" />
+  <!-- Design Style -->
+  <link rel="stylesheet" type="text/css" href="css/scroll.css" />
+  <link rel="stylesheet" type="text/css" href="css/style.css" />
+  <!-- Icon -->
+  <link rel="stylesheet" type="text/css" href="css/font-awesome.css" />
+  <!-- Portfolio Thumbnail / Slider -->
+  <link rel="stylesheet" type="text/css" href="css/portfolio.css" />
+  <link rel="stylesheet" type="text/css" href="css/carousel.css" />
+  <!-- Responsive -->
+  <link rel="stylesheet" type="text/css" href="css/responsive.css" />
+  <!-- Pie Chart / Skills -->
+  <script type="text/javascript" src="js/code.jquery.com_jquery-3.7.0.min.js"></script>
+  <!-- Send Email -->
+  <script type="text/javascript" src="js/sendemail.js"></script>
+  <!-- Progressbar / Skills-->
+  <script type="text/javascript" src="js/progressbar.js"></script>
+  <!-- Portfolio-->
+  <script src="js/modernizr.custom.js"></script>
+  <script src="./plugins/Typing-Animation-jQuery-Typing-Effects/typingEffect.js">
+  </script>
+  <style>
+    @-webkit-keyframes blink {
+      0% {
+        opacity: 1;
+      }
 
-          <!-- About -->
-          <article class="content about white-bg" id="chapterabout">
-            <div class="inner">
-              <h2>About</h2>
-              <div class="title-divider"></div>
-              <div class="about-con">
-                <ul>
-                  <li>Name: Asif Mohammad Abir</li>
-                  <li>
-                    Email:
-                    <a href="mailto:andrew@gmail.com">asif.abir@hotmail.com</a>
-                  </li>
-                  <li>Phone: (880) - 19-55-517560</li>
-                  <li>Date of birth: 10 September 1987</li>
-                  <li>
-                    Address: 9 Sher-E-Bangla Road, Hazaribagh, Dhaka-1209.
-                  </li>
-                  <li>Nationality: Bangladesh</li>
-                </ul>
-                <h3>Professional Profile</h3>
-                <p>
-                  As a proficient full-stack and MERN stack web developer with a
-                  proven track record of delivering high-quality digital
-                  solutions, I am driven to excel in a dynamic work environment
-                  that fosters continuous learning and skill enhancement.
-                  Leveraging my expertise in PHP, along with my Zend Certified
-                  PHP Engineer credential, I am eager to contribute my versatile
-                  technical skills, problem-solving acumen, and creative mindset
-                  to a forward-thinking team. My goal is to collaborate on
-                  innovative projects, harness new technologies, and further
-                  elevate my abilities while creating impactful and user-centric
-                  web experiences.br />
-                </p>
-                <a
-                  href="./CV of Asif Mohammadd Abir.pdf"
-                  download="CV of Asif Mohammadd Abir.pdf"
-                  target="_blank"
-                  class="button"
-                  style="display: block; width: max-content;"
-                  >Download resume as PDF format</a
-                >
-                <img
-                  src="./images/signature.png"
-                  class="signature"
-                  alt=""
-                />
-              </div>
-            </div>
-          </article>
+      50% {
+        opacity: 0;
+      }
 
-          <!-- Skills -->
-          <article class="content skills gray-bg" id="chapterskills">
-            <div class="inner">
-              <h2>Skills</h2>
-              <div class="title-divider"></div>
-              <h3>Just My Awesome Skills</h3>
-              <p>
-                Experienced web developer proficient in both front-end and back-end technologies. Skilled in creating user-friendly and visually appealing websites, writing clean code, and utilizing modern frameworks. Committed to delivering high-quality web solutions that blend creativity with functionality.
-              </p>
-              <div class="skills-con">
-                <div class="container-sub margin-top50">
-                  <div class="row">
-                    <div class="col-6 margin-bottom50">
-                      <div class="col-6">
-                        <span class="chart" data-percent="75"
-                          ><span class="percent"></span>
-                        </span>
-                      </div>
-                      <div class="col-6 chart-text">
-                        <h4>Ract.js Next.js</h4>
-                        <p>Expert, 5 years</p>
-                      </div>
-                    </div>
-                    <div class="col-6 margin-bottom50">
-                      <div class="col-6">
-                        <span class="chart" data-percent="70"
-                          ><span class="percent"></span>
-                        </span>
-                      </div>
-                      <div class="col-6 chart-text">
-                        <h4>PHP Laravel</h4>
-                        <p>Expert, 10 years</p>
-                      </div>
-                    </div>
-                    <div class="col-6 margin-bottom50">
-                      <div class="col-6">
-                        <span class="chart" data-percent="70"
-                          ><span class="percent"></span>
-                        </span>
-                      </div>
-                      <div class="col-6 chart-text">
-                        <h4>Node.js Express.js</h4>
-                        <p>Advanced, 4 years</p>
-                      </div>
-                    </div>
-                    <div class="col-6 margin-bottom50">
-                      <div class="col-6">
-                        <span class="chart" data-percent="95"
-                          ><span class="percent"></span>
-                        </span>
-                      </div>
-                      <div class="col-6 chart-text">
-                        <h4>Bootstrap Tailwind.CSS</h4>
-                        <p>Expert, 4-8 years</p>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="col-6">
-                        <span class="chart" data-percent="70"
-                          ><span class="percent"></span>
-                        </span>
-                      </div>
-                      <div class="col-6 chart-text">
-                        <h4>MySQL Mongo.DB</h4>
-                        <p>Expert, 4-10 years</p>
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <div class="col-6">
-                        <span class="chart" data-percent="70"
-                          ><span class="percent"></span>
-                        </span>
-                      </div>
-                      <div class="col-6 chart-text">
-                        <h4>GitHub GitLab</h4>
-                        <p>Expert, 10 years</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="full-divider"></div>
-                <div class="container-sub skill-list">
-                  <div class="row">
-                    <h3>Dynamic Web Engineer</h3>
-                    <p>
-                      Devoted web developer with a holistic skill set spanning both front-end and back-end realms. I specialize in creating engaging user interfaces and seamlessly integrating them with robust backend functionality. My passion for translating ideas into impactful code is matched only by my commitment to continuous learning in the ever-evolving world of web development.
-                    </p>
-                    <div class="col-3 margin-top10">
-                      <ul>
-                        <li>TypeScript</li>
-                        <li>JSON</li>
-                        <li>Redux</li>
-                        <li>Vue.js</li>
-                        <li>Firebase</li>
-                        <li>Docker</li>
-                      </ul>
-                    </div>
-                    <div class="col-3 margin-top10">
-                      <ul>
-                        <li>Heroku</li>
-                        <li>jQuery</li>
-                        <li>jQuery Plugins</li>
-                        <li>ESLint</li>
-                        <li>Angular.js</li>
-                        <li>Vite</li>
-                      </ul>
-                    </div>
-                    <div class="col-3 margin-top10">
-                      <ul>
-                        <li>Framer Motion</li>
-                        <li>Jira</li>
-                        <li>WordPress</li>
-                        <li>Shopify</li>
-                        <li>Magento</li>
-                        <li>Joomla</li>
-                      </ul>
-                    </div>
-                    <div class="col-3 margin-top10">
-                      <ul>
-                        <li>Wix</li>
-                        <li>Sass/Scss</li>
-                        <li>cPanel</li>
-                        <li>FileZilla</li>
-                        <li>REST API</li>
-                        <li>Fontawesome</li>
-                      </ul>
-                    </div>
-                    
-                  </div>
-                </div>
-                <div class="full-divider"></div>
-                <div class="container-sub">
-                  <div class="row">
-                    <h3>Language Skills</h3>
-                    <p>
-                      My effective communication skills allow me to convey intricate technical concepts with ease. This proficiency ensures seamless collaboration with colleagues, clients, and documentation tasks, promoting clarity in both code and communication.
-                    </p>
-                    <div class="progressbar-main margin-top50">
-                      <div class="progress-bar-description">
-                        English (Fluent)
-                      </div>
-                      <div id="progressBar" class="progress">
-                        <div class="progress-value"></div>
-                      </div>
-                    </div>
-                    <div class="progressbar-main margin-top40">
-                      <div class="progress-bar-description">
-                        Bangla (Native)
-                      </div>
-                      <div id="progressBar2" class="progress">
-                        <div class="progress-value"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
+      100% {
+        opacity: 1;
+      }
+    }
+  </style>
 
-          <!-- Experience -->
-          <article class="content experience white-bg" id="chapterexperience">
-            <div class="inner">
-              <h2>Experience</h2>
-              <div class="title-divider"></div>
-              <h3>10+ Years Experience!</h3>
-              <p>
-                With a decade of fullstack web development experience, I excel in creating engaging user interfaces and robust backends. My track record includes architecting complex solutions, adapting to new technologies, and delivering innovative web projects.
-              </p>
-              <div class="experience-con">
-                <div class="container-sub">
-                  <div class="full-divider"></div>
-                  <div class="row">
-                    <div class="experience-details">
-                      <div class="col-6 margin-top50" style="display: flex; display: flex; align-items: center;">
-                        <div class="col-3 icon-block" style="margin-right: 20px;">
-                          <img src="./images/Untitled.png" alt="" style="width: 100%; filter: drop-shadow(1px 1px #fff)">
-                        </div>
-                        <div class="col-7">
-                          <h5>Daffodil International Professonal Training Institute</h5>
-                          <h4>Sinyor Lecturer</h4>
-                          <span>Sep 2017 - present</span>
-                        </div>
-                      </div>
-                      <div
-                        class="col-6 margin-top50 no-margin-top"
-                      >
-                        <ul>
-                          <li>Instructor for all types of Web Technologies</li>
-                          <li>Prepare students for Interviews</li>
-                          <li>Providing Individual Support</li>
-                          <li>Staying Updated with Industry Trends</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="full-divider"></div>
-                    <div class="experience-details">
-                      <div class="col-6 margin-top50" style="display: flex; display: flex; align-items: center;">
-                        <div class="col-3 icon-block" style="margin-right: 20px;">
-                          <img src="./images/dti.png" alt="" style="width: 100%; filter: drop-shadow(1px 1px #fff)">
-                        </div>
-                        <div class="col-7">
-                          <h5>Daffodil Technical Institute </h5>
-                          <h4>Led Web Developer</h4>
-                          <span>Sep 2017 - present</span>
-                        </div>
-                      </div>
-                      <div
-                        class="col-6 margin-top50 no-margin-top"
-                      >
-                        <ul>
-                          <li>Lead Web Developer for entire project</li>
-                          <li>WordPress used in this project</li>
-                          <li>Maintain the website</li>
-                          <li>Project Link: <a href="https://dti.ac">dti.ac</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="full-divider"></div>
-                    <div class="experience-details">
-                      <div class="col-6 margin-top50" style="display: flex; display: flex; align-items: center;">
-                        <div class="col-3 icon-block" style="margin-right: 20px;">
-                          <img src="./images/banglalink.png" alt="" style="width: 100%; filter: drop-shadow(1px 1px #fff)">
-                        </div>
-                        <div class="col-7">
-                          <h5>Banglalink Digital Communications Ltd</h5>
-                          <h4>Customer Care Representative</h4>
-                          <span>Feb 2014 - Nov 2014</span>
-                        </div>
-                      </div>
-                      <div
-                        class="col-6 margin-top50 no-margin-top"
-                      >
-                        <ul>
-                          <li>Managed calls, inquiries, and solutions for positive experiences.</li>
-                          <li>Assisted with billing and technical matters professionally.</li>
-                          <li>Documented call details accurately for future reference.</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="full-divider"></div>
-                    <div class="experience-details">
-                      <div class="col-6 margin-top50" style="display: flex; align-items: center;">
-                        <div class="col-3 icon-block" style="margin-right: 20px">
-                          <img src="./images/grameenphone-logo.png" alt="" style="width: 100%; filter: drop-shadow(1px 1px #fff);">
-                        </div>
-                        <div class="col-7">
-                          <h5>Grameenphone Ltd</h5>
-                          <h4>Executive</h4>
-                          <span>Sep 2009 - Jul 2012</span>
-                        </div>
-                      </div>
-                      <div
-                        class="col-6 margin-top50 no-margin-top"
-                      >
-                        <ul>
-                          <li>Assisted mobile subscribers with inquiries and issues.</li>
-                          <li>Managed billing, upgrades, and adjustments for accounts.</li>
-                          <li>Provided technical support for device and network problems.</li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="full-divider"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
+  <script
+    src="./plugins/jQuery-Plugin-For-Particle-System-Background-with-Parallax-Effect-Particleground/jquery.particleground.min.js"></script>
+</head>
 
-          <!-- Education -->
-          <article class="content education gray-bg" id="chaptereducation">
-            <div class="inner">
-              <h2>Education</h2>
-              <div class="title-divider"></div>
-              <h3>Just My Education</h3>
-              <p>
-                Empowered by a strong educational foundation, my journey as a web developer began with a solid academic background. I pursued a rigorous curriculum that encompassed both theory and hands-on practical learning. Through dedicated coursework and real-world projects, I honed my skills and developed a keen understanding of modern web technologies. My educational experience has instilled in me a passion for continuous growth and an unwavering commitment to crafting exceptional digital experiences.x
-              </p>
-              <div class="education-con">
-                <div class="container-sub">
-                  <div class="full-divider"></div>
-                  <div class="row">
-                    <div class="education-details">
-                      <div class="col-12 margin-top50" style="display: flex; align-items: center;">
-                        <div class="col-3 icon-block">
-                          <img src="./images/Darul.png" alt="" style="width: calc(100% - 30px);">
-                        </div>
-                        <div class="col-9">
-                          <h5>Darul Ihsan University</h5>
-                          <h4>Bechelor In Business Administration</h4>
-                          <span>2006 - 2010</span><br>
-                          <span>Major: Human Resource Management</span><br>
-                          <span>Result: 3.5 Out of 4</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="full-divider"></div>
-                    <div class="education-details">
-                      <div class="col-12 margin-top50" style="display: flex; align-items: center;">
-                        <div class="col-3 icon-block">
-                          <img src="./images/rifles.png" alt="" style="width: calc(100% - 30px);">
-                        </div>
-                        <div class="col-9">
-                          <h5>Rifles Public School & College</h5>
-                          <h4>Heigher Secondery Certificate</h4>
-                          <span>Passing Year: 2005</span><br>
-                          <span>Major: Human Resource Management</span><br>
-                          <span>Result: 3.10 Out of 5</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="full-divider"></div>
-                    <div class="education-details">
-                      <div class="col-12 margin-top50" style="display: flex; align-items: center;">
-                        <div class="col-3 icon-block">
-                          <img src="./images/Government_Laboratory_High_School_Monogram.png" alt="" style="width: calc(100% - 30px); filter: drop-shadow(1px 1px #fff);">
-                        </div>
-                        <div class="col-9">
-                          <h5>Government Laboratory Heigh School</h5>
-                          <h4>Secondery School Certificate</h4>
-                          <span>Passing Year: 2003</span><br>
-                          <span>Major: Human Resource Management</span><br>
-                          <span>Result: 3.81 Out of 5</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- certificate -->
-          <article class="content education gray-bg" id="chaptercertificate">
-            <div class="inner">
-              <h2>Certification</h2>
-              <div class="title-divider"></div>
-              <h3>Just My Certification</h3>
-              <p>
-                Empowered by a strong educational foundation, my journey as a web developer began with a solid academic background. I pursued a rigorous curriculum that encompassed both theory and hands-on practical learning. Through dedicated coursework and real-world projects, I honed my skills and developed a keen understanding of modern web technologies. My educational experience has instilled in me a passion for continuous growth and an unwavering commitment to crafting exceptional digital experiences.x
-              </p>
-              <div class="education-con">
-                <div class="container-sub">
-                  <div class="full-divider"></div>
-                  <div class="row">
-                    <div class="education-details">
-                      <div class="col-12 margin-top50" style="display: flex; align-items: center;">
-                        <div class="col-3 icon-block">
-                          <img src="./images/zce-2017-small.gif" alt="" style="width: calc(100% - 30px);">
-                        </div>
-                        <div class="col-9">
-                          <h5>Zend</h5>
-                          <h4>Zend Certified PHP Engineer</h4>
-                          <span>Passing Year: Dec - 2020</span><br>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="full-divider"></div>
-                    <div class="education-details">
-                      <div class="col-12 margin-top50" style="display: flex; align-items: center;">
-                        <div class="col-3 icon-block">
-                          <img src="./images/rifles.png" alt="" style="width: calc(100% - 30px);">
-                        </div>
-                        <div class="col-9">
-                          <h5>Rifles Public School & College</h5>
-                          <h4>Heigher Secondery Certificate</h4>
-                          <span>Passing Year: 2005</span><br>
-                          <span>Major: Human Resource Management</span><br>
-                          <span>Result: 3.10 Out of 5</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="full-divider"></div>
-                    <div class="education-details">
-                      <div class="col-12 margin-top50" style="display: flex; align-items: center;">
-                        <div class="col-3 icon-block">
-                          <img src="./images/Government_Laboratory_High_School_Monogram.png" alt="" style="width: calc(100% - 30px); filter: drop-shadow(1px 1px #fff);">
-                        </div>
-                        <div class="col-9">
-                          <h5>Government Laboratory Heigh School</h5>
-                          <h4>Secondery School Certificate</h4>
-                          <span>Passing Year: 2003</span><br>
-                          <span>Major: Human Resource Management</span><br>
-                          <span>Result: 3.81 Out of 5</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-
-
-          <!-- Pportfolio -->
-          <article class="content portfolio white-bg" id="chapterportfolio">
-            <div class="inner">
-              <h2>Portfolio</h2>
-              <div class="title-divider"></div>
-              <h3>Our portfolio features a variety of projects and services</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-                ornare sem sed quam tempus aliquet vitae eget dolor. Proin eu
-                ultrices libero. Curabitur vulputate vestibulum elementum.
-                Suspendisse id neque a nibh mollis blandit. Quisque varius eros
-                ac purus dignissim.
-              </p>
-              <div class="portfolio-con">
-                <div class="container-sub margin-top50">
-                  <div class="row">
-                    <div id="grid-gallery" class="grid-gallery">
-                      <section class="grid-wrap">
-                        <ul class="grid">
-                          <li>
-                            <figure>
-                              <img src="http://placehold.it/700x475" alt="" />
-                              <figcaption>
-                                <div class="figcaption-details">
-                                  <img
-                                    src="images/icon-plus.png"
-                                    height="82"
-                                    width="82"
-                                    alt=""
-                                  />
-                                  <h3>The Flavour Restaurant</h3>
-                                  <span>Website Design & Development</span>
-                                </div>
-                              </figcaption>
-                            </figure>
-                          </li>
-                          <li>
-                            <figure>
-                              <img src="http://placehold.it/700x475" alt="" />
-                              <figcaption>
-                                <div class="figcaption-details">
-                                  <img
-                                    src="images/icon-plus.png"
-                                    height="82"
-                                    width="82"
-                                    alt=""
-                                  />
-                                  <h3>Herbal Beauty Salon</h3>
-                                  <span>Photography</span>
-                                </div>
-                              </figcaption>
-                            </figure>
-                          </li>
-                          <li>
-                            <figure>
-                              <img src="http://placehold.it/700x475" alt="" />
-                              <figcaption>
-                                <div class="figcaption-details">
-                                  <img
-                                    src="images/icon-plus.png"
-                                    height="82"
-                                    width="82"
-                                    alt=""
-                                  />
-                                  <h3>Kayra Modelleri</h3>
-                                  <span>Branding and Identity</span>
-                                </div>
-                              </figcaption>
-                            </figure>
-                          </li>
-                          <li>
-                            <figure>
-                              <img src="http://placehold.it/700x475" alt="" />
-                              <figcaption>
-                                <div class="figcaption-details">
-                                  <img
-                                    src="images/icon-plus.png"
-                                    height="82"
-                                    width="82"
-                                    alt=""
-                                  />
-                                  <h3>Fashion and You</h3>
-                                  <span>APPS and Web Design</span>
-                                </div>
-                              </figcaption>
-                            </figure>
-                          </li>
-                          <li>
-                            <figure>
-                              <img src="http://placehold.it/700x475" alt="" />
-                              <figcaption>
-                                <div class="figcaption-details">
-                                  <img
-                                    src="images/icon-plus.png"
-                                    height="82"
-                                    width="82"
-                                    alt=""
-                                  />
-                                  <h3>Whole Food Flour</h3>
-                                  <span>Branding and Identity</span>
-                                </div>
-                              </figcaption>
-                            </figure>
-                          </li>
-                        </ul>
-                      </section>
-
-                      <!-- Lightbox Popup -->
-                      <section class="slideshow">
-                        <ul>
-                          <li>
-                            <figure>
-                              <figcaption>
-                                <h3>The Flavour Restaurant</h3>
-                                <span>Website Design & Development</span>
-                                <p>
-                                  Kale chips lomo biodiesel stumptown Godard
-                                  Tumblr, mustache sriracha tattooed cray aute
-                                  slow-carb placeat delectus. Letterpress
-                                  asymmetrical fanny pack art party est
-                                  pour-over skateboard anim quis, ullamco craft
-                                  beer.
-                                </p>
-                              </figcaption>
-                              <div id="owl-demo1" class="owl-carousel">
-                                <div class="item">
-                                  <img
-                                    src="http://placehold.it/700x475"
-                                    alt=""
-                                  />
-                                </div>
-                                <div class="item">
-                                  <img
-                                    src="http://placehold.it/700x475"
-                                    alt=""
-                                  />
-                                </div>
-                                <div class="item">
-                                  <img
-                                    src="http://placehold.it/700x475"
-                                    alt=""
-                                  />
-                                </div>
-                                <div class="item">
-                                  <img
-                                    src="http://placehold.it/700x475"
-                                    alt=""
-                                  />
-                                </div>
-                                <div class="item">
-                                  <img
-                                    src="http://placehold.it/700x475"
-                                    alt=""
-                                  />
-                                </div>
-                              </div>
-                            </figure>
-                          </li>
-                          <li>
-                            <figure>
-                              <figcaption>
-                                <h3>Herbal Beauty Salon</h3>
-                                <span>Photography</span>
-                                <p>
-                                  Kale chips lomo biodiesel stumptown Godard
-                                  Tumblr, mustache sriracha tattooed cray aute
-                                  slow-carb placeat delectus. Letterpress
-                                  asymmetrical fanny pack art party est
-                                  pour-over skateboard anim quis, ullamco craft
-                                  beer.
-                                </p>
-                              </figcaption>
-                              <img src="http://placehold.it/700x475" alt="" />
-                            </figure>
-                          </li>
-                          <li>
-                            <figure>
-                              <figcaption>
-                                <h3>Kayra Modelleri</h3>
-                                <span>Branding and Identity</span>
-                                <p>
-                                  Kale chips lomo biodiesel stumptown Godard
-                                  Tumblr, mustache sriracha tattooed cray aute
-                                  slow-carb placeat delectus. Letterpress
-                                  asymmetrical fanny pack art party est
-                                  pour-over skateboard anim quis, ullamco craft
-                                  beer.
-                                </p>
-                              </figcaption>
-                              <div id="owl-demo2" class="owl-carousel">
-                                <div class="item">
-                                  <img
-                                    src="http://placehold.it/700x475"
-                                    alt=""
-                                  />
-                                </div>
-                                <div class="item">
-                                  <img
-                                    src="http://placehold.it/700x475"
-                                    alt=""
-                                  />
-                                </div>
-                                <div class="item">
-                                  <img
-                                    src="http://placehold.it/700x475"
-                                    alt=""
-                                  />
-                                </div>
-                                <div class="item">
-                                  <img
-                                    src="http://placehold.it/700x475"
-                                    alt=""
-                                  />
-                                </div>
-                                <div class="item">
-                                  <img
-                                    src="http://placehold.it/700x475"
-                                    alt=""
-                                  />
-                                </div>
-                              </div>
-                            </figure>
-                          </li>
-                          <li>
-                            <figure>
-                              <figcaption>
-                                <h3>Fashion and You</h3>
-                                <span>APPS and Web Design</span>
-                                <p>
-                                  Kale chips lomo biodiesel stumptown Godard
-                                  Tumblr, mustache sriracha tattooed cray aute
-                                  slow-carb placeat delectus. Letterpress
-                                  asymmetrical fanny pack art party est
-                                  pour-over skateboard anim quis, ullamco craft
-                                  beer.
-                                </p>
-                              </figcaption>
-                              <iframe
-                                width="854"
-                                height="480"
-                                src="//www.youtube.com/embed/ZwzY1o_hB5Y"
-                                frameborder="0"
-                                allowfullscreen
-                              ></iframe>
-                            </figure>
-                          </li>
-                          <li>
-                            <figure>
-                              <figcaption>
-                                <h3>Whole Food Flour</h3>
-                                <span>Branding and Identity</span>
-                                <p>
-                                  Kale chips lomo biodiesel stumptown Godard
-                                  Tumblr, mustache sriracha tattooed cray aute
-                                  slow-carb placeat delectus. Letterpress
-                                  asymmetrical fanny pack art party est
-                                  pour-over skateboard anim quis, ullamco craft
-                                  beer.
-                                </p>
-                              </figcaption>
-                              <img src="http://placehold.it/700x475" alt="" />
-                            </figure>
-                          </li>
-                        </ul>
-                        <nav>
-                          <span class="fa nav-prev"></span>
-                          <span class="fa nav-next"></span>
-                          <span class="fa nav-close"></span>
-                        </nav>
-                      </section>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- Contact -->
-          <article class="content contact gray-bg" id="chaptercontact">
-            <div class="inner">
-              <h2>Contact</h2>
-              <div class="title-divider"></div>
-              <h3>Let's Keep In Touch</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-                ornare sem sed quam tempus aliquet vitae eget dolor. Proin eu
-                ultrices libero. Curabitur vulputate vestibulum elementum.
-                Suspendisse id neque a nibh mollis blandit. Quisque varius eros
-                ac purus dignissim.
-              </p>
-              <div class="full-divider"></div>
-              <div class="contact-con margin-top50">
-                <div class="container-sub">
-                  <div class="row">
-                    <div class="contact-details">
-                      <div class="col-6">
-                        <div class="contact-text">
-                          <div class="col-2 icon-block address">
-                            <i class="fa fa-map-marker"></i>
-                          </div>
-                          <div class="flot-left">
-                            <strong>Andrew Smith</strong><br />
-                            PO Box 16122 Collins Street West,<br />
-                            Victoria 8007, United States.
-                          </div>
-                        </div>
-                        <div class="contact-text">
-                          <div class="col-2 icon-block phone">
-                            <i class="fa fa-phone"></i>
-                          </div>
-                          <div class="flot-left">
-                            <strong>Phone</strong><br />
-                            +123-456-7890
-                          </div>
-                        </div>
-                        <div class="contact-text">
-                          <div class="col-2 icon-block email">
-                            <i class="fa fa-envelope"></i>
-                          </div>
-                          <div class="flot-left">
-                            <strong>Email</strong><br />
-                            <a href="mailto:no-reply@domain.com"
-                              >no-reply@domain.com</a
-                            >
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-6 m-margin-top30">
-                        <h3>I'm also on Social Networks</h3>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Proin ornare sem sed quam tempus aliquet vitae eget
-                        dolor.
-                        <div class="contact-social margin-top30">
-                          <a href="https://www.facebook.com" target="_blank"
-                            ><i class="fa fa-facebook"></i
-                          ></a>
-                          <a href="https://twitter.com" target="_blank"
-                            ><i class="fa fa-twitter"></i
-                          ></a>
-                          <a href="https://www.youtube.com" target="_blank"
-                            ><i class="fa fa-youtube"></i></a
-                          ><a href="https://plus.google.com" target="_blank"
-                            ><i class="fa fa-google-plus"></i></a
-                          ><a href="https://www.linkedin.com" target="_blank"
-                            ><i class="fa fa-linkedin"></i
-                          ></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="full-divider"></div>
-                <div class="container-sub">
-                  <div class="row">
-                    <div class="contact-form">
-                      <h3>Drop Me a Line</h3>
-                      <form id="form1" name="form1" method="post">
-                        <input
-                          name="name"
-                          type="text"
-                          id="name"
-                          placeholder="Your Name..."
-                        />
-                        <input
-                          name="email"
-                          type="text"
-                          id="email"
-                          placeholder="Your Email..."
-                        />
-                        <textarea
-                          name="message"
-                          id="message"
-                          cols="45"
-                          rows="5"
-                          placeholder="Your Message..."
-                        ></textarea>
-                        <input
-                          type="submit"
-                          name="button"
-                          id="button"
-                          value="say hello!"
-                        />
-                        <div id="successmsg"></div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
-        <!-- content-wrapper -->
+<body>
+  <div id="container" class="container">
+    <!-- Left Menu / Logo-->
+    <aside class="menu" id="menu">
+      <div id="particles" style="position: absolute; width: 100%; height: 100%; z-index: 10;"></div>
+      <div class="logo">
+        <!-- Logo image-->
+        <img src="images/asif.jpg" width="140" height="140" alt="" style="position: relative; z-index: 100;" />
+        <!-- Logo name-->
+        <span>Andrew Smith</span>
       </div>
-      <!-- content-scroller -->
+      <!-- Mobile Navigation-->
+      <a href="#menu1" class="menu-link"></a>
+      <!-- Left Navigation-->
+      <nav id="menu1" class="" role="navigation" style="z-index: 100;">
+        <a href="#chapterintroduction"><span id="link_introduction" class="active">Home</span></a>
+        <a href="#chapterabout"><span id="link_about">About</span></a>
+        <a href="#chapterskills"><span id="link_skills">Skills</span></a>
+        <a href="#chapterexperience"><span id="link_experience">Experience</span></a>
+        <a href="#chaptereducation"><span id="link_education">Education</span></a>
+        <a href="#chaptercertificate"><span id="link_certificate">Certification</span></a>
+        <a href="#chapterportfolio"><span id="link_portfolio">Portfolio</span></a>
+        <a href="#chaptercontact"><span id="link_contact">Contact</span></a>
+      </nav>
+
+      <div class="copyright">
+        © Asif Abir.<br />
+        All Rights Reserved.
+      </div>
+    </aside>
+
+    <!-- Go to top link for mobile device -->
+    <a href="#menu" class="totop-link">Go to the top</a>
+    <div class="content-scroller">
+      <div class="content-wrapper">
+        <!-- Introduction -->
+        <article class="content introduction noscroll" id="chapterintroduction">
+          <div class="inner">
+            <h2 style="color: #000; text-shadow: 1px 1px #fff">
+              <span style="font-size: 26px;">
+                HEllo, I'm a
+                <span id="typed"> </span>
+                <span class="cursor"></span>
+              </span><br />
+              Asif Mohammad Abir
+            </h2>
+            <script>
+              $("#typed").typing({
+                strings: ['PHP Developer', 'Laravel Developer', 'React Developer', 'Full-stack Developer', 'MERN-stack Developer'],
+                eraseDelay: 10,
+                typeDelay: 70,
+                stringStartDelay: 1000,
+                color: '#7dba5',
+                typingColor: 'black',
+                typingOpacity: '0.1',
+                loopCount: 9999999,
+                cursorBlink: false,
+                cursorChar: '<small>_</small>',
+                fade: true,
+              });
+            </script>
+            <span class="title animate-charcter" style="font-size: 22px;">Zend Certified
+              PHP
+              Engineer</span>
+            <div class="social">
+              <a href="https://www.facebook.com/abir.upwork" target="_blank" class="facebook"><i
+                  class="fa fa-facebook"></i></a>
+              <a href="https://www.linkedin.com/in/asif-abir-5a5a5927b/" target="_blank" class="twitter"><i
+                  class="fa fa-linkedin"></i>
+                </i></a>
+              <a href="https://github.com/asif-daffodilm" target="_blank" class="google-plus"><i
+                  class="fa fa-github"></i></a>
+            </div>
+          </div>
+          <div id="owl-demo" class="owl-carousel">
+            <div class="item">
+              <img src="./images/Asif Abir.jpg" alt="" />
+            </div>
+          </div>
+        </article>
+
+        <!-- About -->
+        <article class="content about white-bg" id="chapterabout">
+          <div class="inner">
+            <h2>About</h2>
+            <div class="title-divider"></div>
+            <div class="about-con">
+              <ul>
+                <li>Name: Asif Mohammad Abir</li>
+                <li>
+                  Email:
+                  <a href="mailto:andrew@gmail.com">asif.abir@hotmail.com</a>
+                </li>
+                <li>Phone: (880) - 19-55-517560</li>
+                <li>Date of birth: 10 September 1987</li>
+                <li>
+                  Address: 9 Sher-E-Bangla Road, Hazaribagh, Dhaka-1209.
+                </li>
+                <li>Nationality: Bangladesh</li>
+              </ul>
+              <h3>Professional Profile</h3>
+              <p>
+                As a proficient full-stack and MERN stack web developer with a
+                proven track record of delivering high-quality digital
+                solutions, I am driven to excel in a dynamic work environment
+                that fosters continuous learning and skill enhancement.
+                Leveraging my expertise in PHP, along with my Zend Certified
+                PHP Engineer credential, I am eager to contribute my versatile
+                technical skills, problem-solving acumen, and creative mindset
+                to a forward-thinking team. My goal is to collaborate on
+                innovative projects, harness new technologies, and further
+                elevate my abilities while creating impactful and user-centric
+                web experiences.br />
+              </p>
+              <a href="./CV of Asif Mohammadd Abir.pdf" download="CV of Asif Mohammadd Abir.pdf" target="_blank"
+                class="button" style="display: block; width: max-content;">Download resume as PDF format</a>
+              <img src="./images/signature.png" class="signature" alt="" />
+            </div>
+          </div>
+        </article>
+
+        <!-- Skills -->
+        <article class="content skills gray-bg" id="chapterskills">
+          <div class="inner">
+            <h2>Skills</h2>
+            <div class="title-divider"></div>
+            <h3>Just My Awesome Skills</h3>
+            <p>
+              Experienced web developer proficient in both front-end and back-end technologies. Skilled in creating
+              user-friendly and visually appealing websites, writing clean code, and utilizing modern frameworks.
+              Committed to delivering high-quality web solutions that blend creativity with functionality.
+            </p>
+            <div class="skills-con">
+              <div class="container-sub margin-top50">
+                <div class="row">
+                  <div class="col-6 margin-bottom50">
+                    <div class="col-6">
+                      <span class="chart" data-percent="75"><span class="percent"></span>
+                      </span>
+                    </div>
+                    <div class="col-6 chart-text">
+                      <h4>Ract.js Next.js</h4>
+                      <p>Expert, 5 years</p>
+                    </div>
+                  </div>
+                  <div class="col-6 margin-bottom50">
+                    <div class="col-6">
+                      <span class="chart" data-percent="70"><span class="percent"></span>
+                      </span>
+                    </div>
+                    <div class="col-6 chart-text">
+                      <h4>PHP Laravel</h4>
+                      <p>Expert, 10 years</p>
+                    </div>
+                  </div>
+                  <div class="col-6 margin-bottom50">
+                    <div class="col-6">
+                      <span class="chart" data-percent="70"><span class="percent"></span>
+                      </span>
+                    </div>
+                    <div class="col-6 chart-text">
+                      <h4>Node.js Express.js</h4>
+                      <p>Advanced, 4 years</p>
+                    </div>
+                  </div>
+                  <div class="col-6 margin-bottom50">
+                    <div class="col-6">
+                      <span class="chart" data-percent="95"><span class="percent"></span>
+                      </span>
+                    </div>
+                    <div class="col-6 chart-text">
+                      <h4>Bootstrap Tailwind.CSS</h4>
+                      <p>Expert, 4-8 years</p>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="col-6">
+                      <span class="chart" data-percent="70"><span class="percent"></span>
+                      </span>
+                    </div>
+                    <div class="col-6 chart-text">
+                      <h4>MySQL Mongo.DB</h4>
+                      <p>Expert, 4-10 years</p>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="col-6">
+                      <span class="chart" data-percent="70"><span class="percent"></span>
+                      </span>
+                    </div>
+                    <div class="col-6 chart-text">
+                      <h4>GitHub GitLab</h4>
+                      <p>Expert, 10 years</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="full-divider"></div>
+              <div class="container-sub skill-list">
+                <div class="row">
+                  <h3>Dynamic Web Engineer</h3>
+                  <p>
+                    Devoted web developer with a holistic skill set spanning both front-end and back-end realms. I
+                    specialize in creating engaging user interfaces and seamlessly integrating them with robust
+                    backend
+                    functionality. My passion for translating ideas into impactful code is matched only by my
+                    commitment
+                    to continuous learning in the ever-evolving world of web development.
+                  </p>
+                  <div class="col-3 margin-top10">
+                    <ul>
+                      <li>TypeScript</li>
+                      <li>JSON</li>
+                      <li>Redux</li>
+                      <li>Vue.js</li>
+                      <li>Firebase</li>
+                      <li>Docker</li>
+                    </ul>
+                  </div>
+                  <div class="col-3 margin-top10">
+                    <ul>
+                      <li>Heroku</li>
+                      <li>jQuery</li>
+                      <li>jQuery Plugins</li>
+                      <li>ESLint</li>
+                      <li>Angular.js</li>
+                      <li>Vite</li>
+                    </ul>
+                  </div>
+                  <div class="col-3 margin-top10">
+                    <ul>
+                      <li>Framer Motion</li>
+                      <li>Jira</li>
+                      <li>WordPress</li>
+                      <li>Shopify</li>
+                      <li>Magento</li>
+                      <li>Joomla</li>
+                    </ul>
+                  </div>
+                  <div class="col-3 margin-top10">
+                    <ul>
+                      <li>Wix</li>
+                      <li>Sass/Scss</li>
+                      <li>cPanel</li>
+                      <li>FileZilla</li>
+                      <li>REST API</li>
+                      <li>Fontawesome</li>
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
+              <div class="full-divider"></div>
+              <div class="container-sub">
+                <div class="row">
+                  <h3>Language Skills</h3>
+                  <p>
+                    My effective communication skills allow me to convey intricate technical concepts with ease. This
+                    proficiency ensures seamless collaboration with colleagues, clients, and documentation tasks,
+                    promoting clarity in both code and communication.
+                  </p>
+                  <div class="progressbar-main margin-top50">
+                    <div class="progress-bar-description">
+                      English (Fluent)
+                    </div>
+                    <div id="progressBar" class="progress">
+                      <div class="progress-value"></div>
+                    </div>
+                  </div>
+                  <div class="progressbar-main margin-top40">
+                    <div class="progress-bar-description">
+                      Bangla (Native)
+                    </div>
+                    <div id="progressBar2" class="progress">
+                      <div class="progress-value"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <script>
+
+          $('#particles').particleground({
+            minSpeedX: 0.1,
+            maxSpeedX: 0.7,
+            minSpeedY: 0.1,
+            maxSpeedY: 0.7,
+            directionX: 'center',
+            directionY: 'center',
+            density: 6000,
+            dotColor: '#66666666',
+            lineColor: '#33333333',
+            particleRadius: 7, // Dot size
+            lineWidth: 1,
+            curvedLines: false,
+            proximity: 100,
+            parallax: true,
+            parallaxMultiplier: 5,
+            onInit: function () { },
+            onDestroy: function () { }
+          });
+        </script>
+        <!-- Experience -->
+        <article class="content experience white-bg" id="chapterexperience">
+          <div class="inner">
+            <h2>Experience</h2>
+            <div class="title-divider"></div>
+            <h3>10+ Years Experience!</h3>
+            <p>
+              With a decade of fullstack web development experience, I excel in creating engaging user interfaces and
+              robust backends. My track record includes architecting complex solutions, adapting to new technologies,
+              and delivering innovative web projects.
+            </p>
+            <div class="experience-con">
+              <div class="container-sub">
+                <div class="full-divider"></div>
+                <div class="row">
+                  <div class="experience-details">
+                    <div class="col-6 margin-top50" style="display: flex; display: flex; align-items: center;">
+                      <div class="col-3 icon-block" style="margin-right: 20px;">
+                        <img src="./images/Untitled.png" alt="" style="width: 100%; filter: drop-shadow(1px 1px #fff)">
+                      </div>
+                      <div class="col-7">
+                        <h5>Daffodil International Professonal Training Institute</h5>
+                        <h4>Sinyor Lecturer</h4>
+                        <span>Sep 2017 - present</span>
+                      </div>
+                    </div>
+                    <div class="col-6 margin-top50 no-margin-top">
+                      <ul>
+                        <li>Instructor for all types of Web Technologies</li>
+                        <li>Prepare students for Interviews</li>
+                        <li>Providing Individual Support</li>
+                        <li>Staying Updated with Industry Trends</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="full-divider"></div>
+                  <div class="experience-details">
+                    <div class="col-6 margin-top50" style="display: flex; display: flex; align-items: center;">
+                      <div class="col-3 icon-block" style="margin-right: 20px;">
+                        <img src="./images/dti.png" alt="" style="width: 100%; filter: drop-shadow(1px 1px #fff)">
+                      </div>
+                      <div class="col-7">
+                        <h5>Daffodil Technical Institute </h5>
+                        <h4>Led Web Developer</h4>
+                        <span>Sep 2017 - present</span>
+                      </div>
+                    </div>
+                    <div class="col-6 margin-top50 no-margin-top">
+                      <ul>
+                        <li>Lead Web Developer for entire project</li>
+                        <li>WordPress used in this project</li>
+                        <li>Maintain the website</li>
+                        <li>Project Link: <a href="https://dti.ac">dti.ac</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="full-divider"></div>
+                  <div class="experience-details">
+                    <div class="col-6 margin-top50" style="display: flex; display: flex; align-items: center;">
+                      <div class="col-3 icon-block" style="margin-right: 20px;">
+                        <img src="./images/banglalink.png" alt=""
+                          style="width: 100%; filter: drop-shadow(1px 1px #fff)">
+                      </div>
+                      <div class="col-7">
+                        <h5>Banglalink Digital Communications Ltd</h5>
+                        <h4>Customer Care Representative</h4>
+                        <span>Feb 2014 - Nov 2014</span>
+                      </div>
+                    </div>
+                    <div class="col-6 margin-top50 no-margin-top">
+                      <ul>
+                        <li>Managed calls, inquiries, and solutions for positive experiences.</li>
+                        <li>Assisted with billing and technical matters professionally.</li>
+                        <li>Documented call details accurately for future reference.</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="full-divider"></div>
+                  <div class="experience-details">
+                    <div class="col-6 margin-top50" style="display: flex; align-items: center;">
+                      <div class="col-3 icon-block" style="margin-right: 20px">
+                        <img src="./images/grameenphone-logo.png" alt=""
+                          style="width: 100%; filter: drop-shadow(1px 1px #fff);">
+                      </div>
+                      <div class="col-7">
+                        <h5>Grameenphone Ltd</h5>
+                        <h4>Executive</h4>
+                        <span>Sep 2009 - Jul 2012</span>
+                      </div>
+                    </div>
+                    <div class="col-6 margin-top50 no-margin-top">
+                      <ul>
+                        <li>Assisted mobile subscribers with inquiries and issues.</li>
+                        <li>Managed billing, upgrades, and adjustments for accounts.</li>
+                        <li>Provided technical support for device and network problems.</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="full-divider"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Education -->
+        <article class="content education gray-bg" id="chaptereducation">
+          <div class="inner">
+            <h2>Education</h2>
+            <div class="title-divider"></div>
+            <h3>Just My Education</h3>
+            <p>
+              Empowered by a strong educational foundation, my journey as a web developer began with a solid academic
+              background. I pursued a rigorous curriculum that encompassed both theory and hands-on practical learning.
+              Through dedicated coursework and real-world projects, I honed my skills and developed a keen understanding
+              of modern web technologies. My educational experience has instilled in me a passion for continuous growth
+              and an unwavering commitment to crafting exceptional digital experiences.
+            </p>
+            <div class="education-con">
+              <div class="container-sub">
+                <div class="full-divider"></div>
+                <div class="row">
+                  <div class="education-details">
+                    <div class="col-12 margin-top50" style="display: flex; align-items: center;">
+                      <div class="col-3 icon-block">
+                        <img src="./images/Darul.png" alt="" style="width: calc(100% - 30px);">
+                      </div>
+                      <div class="col-9">
+                        <h5>Darul Ihsan University</h5>
+                        <h4>Bechelor In Business Administration</h4>
+                        <span>2006 - 2010</span><br>
+                        <span>Major: Human Resource Management</span><br>
+                        <span>Result: 3.5 Out of 4</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="full-divider"></div>
+                  <div class="education-details">
+                    <div class="col-12 margin-top50" style="display: flex; align-items: center;">
+                      <div class="col-3 icon-block">
+                        <img src="./images/rifles.png" alt="" style="width: calc(100% - 30px);">
+                      </div>
+                      <div class="col-9">
+                        <h5>Rifles Public School & College</h5>
+                        <h4>Heigher Secondery Certificate</h4>
+                        <span>Passing Year: 2005</span><br>
+                        <span>Major: Human Resource Management</span><br>
+                        <span>Result: 3.10 Out of 5</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="full-divider"></div>
+                  <div class="education-details">
+                    <div class="col-12 margin-top50" style="display: flex; align-items: center;">
+                      <div class="col-3 icon-block">
+                        <img src="./images/Government_Laboratory_High_School_Monogram.png" alt=""
+                          style="width: calc(100% - 30px); filter: drop-shadow(1px 1px #fff);">
+                      </div>
+                      <div class="col-9">
+                        <h5>Government Laboratory Heigh School</h5>
+                        <h4>Secondery School Certificate</h4>
+                        <span>Passing Year: 2003</span><br>
+                        <span>Major: Human Resource Management</span><br>
+                        <span>Result: 3.81 Out of 5</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- certificate -->
+        <article class="content education white-bg" id="chaptercertificate">
+          <div class="inner">
+            <h2>Certification</h2>
+            <div class="title-divider"></div>
+            <h3>Just My Certification</h3>
+            <p>
+              In the certifications section of my portfolio, you'll find a testament to my commitment to continuous
+              growth and expertise. Each certification represents a dedicated journey towards mastering key skills and
+              technologies. From project management to cutting-edge software proficiency, these certifications not only
+              validate my knowledge but also reflect my passion for staying at the forefront of industry trends. With
+              each achievement, I'm equipped to deliver innovative solutions and add exceptional value to every project
+              I undertake.
+            </p>
+            <div class="education-con">
+              <div class="container-sub">
+                <div class="full-divider"></div>
+                <div class="row">
+                  <div class="education-details">
+                    <div class="col-12 margin-top50" style="display: flex; align-items: center;">
+                      <div class="col-3 icon-block">
+                        <img src="./images/zce-2017-small.gif" alt="" style="width: calc(100% - 30px);">
+                      </div>
+                      <div class="col-9">
+                        <h5>Zend</h5>
+                        <h4>Zend Certified PHP Engineer</h4>
+                        <span>Passing Year: Dec - 2020</span><br>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="full-divider"></div>
+                  <div class="education-details">
+                    <div class="col-12 margin-top50" style="display: flex; align-items: center;">
+                      <div class="col-3 icon-block">
+                        <img src="./images/ntvqf.png" alt="" style="width: calc(100% - 30px);">
+                      </div>
+                      <div class="col-9">
+                        <h5>National Training and Vocational Qualifications Framework (NTVQF) </h5>
+                        <h4>Professional Web Developer (Level 4)</h4>
+                        <span>Passing Year: Nov 2022</span><br>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="full-divider"></div>
+                  <div class="education-details">
+                    <div class="col-12 margin-top50" style="display: flex; align-items: center;">
+                      <div class="col-3 icon-block">
+                        <img src="./images/bteb.png" alt=""
+                          style="width: calc(100% - 30px); filter: drop-shadow(1px 1px #fff);">
+                      </div>
+                      <div class="col-9">
+                        <h5>Bangladesh Technical Education Board (BTEB)</h5>
+                        <h4>Web Design and Development</h4>
+                        <span>Passing Year: Dec 2019</span><br>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="full-divider"></div>
+                  <div class="education-details">
+                    <div class="col-12 margin-top50" style="display: flex; align-items: center;">
+                      <div class="col-3 icon-block">
+                        <img src="./images/creativeIt.webp" alt=""
+                          style="width: calc(100% - 30px); filter: drop-shadow(1px 1px #fff);">
+                      </div>
+                      <div class="col-9">
+                        <h5>Creative IT</h5>
+                        <h4>Search Engine Optimaization (SEO)</h4>
+                        <span>Passing Year: Dec 2015</span><br>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="full-divider"></div>
+                  <div class="education-details">
+                    <div class="col-12 margin-top50" style="display: flex; align-items: center;">
+                      <div class="col-3 icon-block">
+                        <img src="./images/diit-whitw-1.png" alt=""
+                          style="width: calc(100% - 30px); filter: drop-shadow(1px 1px #fff);">
+                      </div>
+                      <div class="col-9">
+                        <h5>Daffodil Institue of IT</h5>
+                        <h4>Diploma in Web & Ecommerce</h4>
+                        <span>Passing Year: Jul 2015</span><br>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="full-divider"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+
+        <!-- Pportfolio -->
+        <article class="content portfolio gray-bg" id="chapterportfolio">
+          <div class="inner">
+            <h2>Portfolio</h2>
+            <div class="title-divider"></div>
+            <h3>My portfolio features a variety of projects and services</h3>
+            <p>
+              Welcome to my portfolio, where creativity and functionality converge in the digital realm. As a dedicated
+              web developer, I have woven lines of code into captivating experiences that transcend screens. From sleek
+              and responsive designs to immersive user interfaces, my work embodies the perfect fusion of aesthetics and
+              functionality. Each project showcased here is a testament to my unwavering commitment to crafting dynamic
+              websites that leave a lasting impression. Join me on a journey through pixels and possibilities, and
+              explore how my expertise can elevate your online presence to new heights.
+            </p>
+            <div class="portfolio-con">
+              <div class="container-sub margin-top50">
+                <div class="row">
+                  <div id="grid-gallery" class="grid-gallery">
+                    <section class="grid-wrap">
+                      <ul class="grid">
+                        <li>
+                          <figure>
+                            <img src="./images/dreamfuturebd1.jpg" alt="" />
+                            <figcaption>
+                              <div class="figcaption-details">
+                                <img src="images/icon-plus.png" height="82" width="82" alt="" />
+                                <h3>dreamfuturebd.com</h3>
+                                <span>Laravel Ecommerce Project</span>
+                              </div>
+                            </figcaption>
+                          </figure>
+                        </li>
+                        <li>
+                          <figure>
+                            <img src="./images/imfashionbd.png" alt="" />
+                            <figcaption>
+                              <div class="figcaption-details">
+                                <img src="images/icon-plus.png" height="82" width="82" alt="" />
+                                <h3>imfashionbd</h3>
+                                <span>PHP Ecommerce Project</span>
+                              </div>
+                            </figcaption>
+                          </figure>
+                        </li>
+                        <li>
+                          <figure>
+                            <img src="./images/rakugroupbd.png" alt="" />
+                            <figcaption>
+                              <div class="figcaption-details">
+                                <img src="images/icon-plus.png" height="82" width="82" alt="" />
+                                <a href="">
+                                  <h3>rakugroupbd</h3>
+                                </a>
+                                <span>VISA CONSULTANCY Wordpress website</span>
+                              </div>
+                            </figcaption>
+                          </figure>
+                        </li>
+                        <li>
+                          <figure>
+                            <img src="./images/legendcoder.png" alt="" />
+                            <figcaption>
+                              <div class="figcaption-details">
+                                <img src="images/icon-plus.png" height="82" width="82" alt="" />
+                                <h3>legendcoder</h3>
+                                <span>React Project</span>
+                              </div>
+                            </figcaption>
+                          </figure>
+                        </li>
+                        <li>
+                          <figure>
+                            <img src="./images/dis.png" alt="" />
+                            <figcaption>
+                              <div class="figcaption-details">
+                                <img src="images/icon-plus.png" height="82" width="82" alt="" />
+                                <h3>Daffodil International School</h3>
+                                <span>Laravel Admission Form</span>
+                              </div>
+                            </figcaption>
+                          </figure>
+                        </li>
+                      </ul>
+                    </section>
+
+                    <!-- Lightbox Popup -->
+                    <section class="slideshow">
+                      <ul>
+                        <li>
+                          <figure>
+                            <img src="./images/dreamfuturebd1.jpg" alt="">
+                            <figcaption>
+                              <div class="figcaption-details">
+                                <h3>dreamfuturebd.com</h3>
+                                <span></span>
+                                <span>Project Type: Ecommerce</span>
+                                <span>Technolodgy: Laravel</span>
+                                <span>Project URL: <a href="http://dreamfuturebd.com/"
+                                    style="text-transform: lowercase;">https://dreamfuturebd.com/</a></span>
+                              </div>
+                            </figcaption>
+                          </figure>
+                        </li>
+                        <li>
+                          <figure>
+                            <img src="./images/imfashionbd.png" alt="">
+                            <figcaption>
+                              <div class="figcaption-details">
+                                <h3>imfashionbd</h3>
+                                <span></span>
+                                <span>Project Type: Ecommerce</span>
+                                <span>Technolodgy: PHP & MySQL</span>
+                                <span>Project URL: <a href="https://imfashionbd.com/"
+                                    style="text-transform: lowercase;">https://imfashionbd.com/</a></span>
+                              </div>
+                            </figcaption>
+                          </figure>
+                        </li>
+                        <li>
+                          <figure>
+                            <img src="./images/rakugroupbd.png" alt="">
+                            <figcaption>
+                              <div class="figcaption-details">
+                                <h3>rakugroupbd</h3>
+                                <span></span>
+                                <span>Project Type: VISA CONSULTANCY</span>
+                                <span>Technolodgy: WordPress</span>
+                                <span>Project URL: <a href="https://rakugroupbd.com/"
+                                    style="text-transform: lowercase;">https://rakugroupbd.com/</a></span>
+                              </div>
+                            </figcaption>
+                          </figure>
+                        </li>
+                        <li>
+                          <figure>
+                            <img src="./images/legendcoder.png" alt="">
+                            <figcaption>
+                              <div class="figcaption-details">
+                                <h3>legendcoder</h3>
+                                <span></span>
+                                <span>Project Type: Agency</span>
+                                <span>Technolodgy: Ract.js</span>
+                                <span>Project URL: <a href="https://www.legendcoder.com/"
+                                    style="text-transform: lowercase;">https://www.legendcoder.com/</a></span>
+                              </div>
+                            </figcaption>
+                          </figure>
+                        </li>
+                        <li>
+                          <figure>
+                            <img src="./images/dis.png" alt="">
+                            <figcaption>
+                              <div class="figcaption-details">
+                                <h3>Daffodil International School</h3>
+                                <span></span>
+                                <span>Project Type: Admission System</span>
+                                <span>Technolodgy: Laravel</span>
+                                <span>Project URL: <a href="http://admission.dis.edu.bd/"
+                                    style="text-transform: lowercase;">http://admission.dis.edu.bd//</a></span>
+                              </div>
+                            </figcaption>
+                          </figure>
+                        </li>
+                      </ul>
+                      <nav>
+                        <span class="fa nav-prev"></span>
+                        <span class="fa nav-next"></span>
+                        <span class="fa nav-close"></span>
+                      </nav>
+                    </section>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Contact -->
+        <article class="content contact gray-bg" id="chaptercontact">
+          <div class="inner">
+            <h2>Contact</h2>
+            <div class="title-divider"></div>
+            <h3>Let's Keep In Touch</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
+              ornare sem sed quam tempus aliquet vitae eget dolor. Proin eu
+              ultrices libero. Curabitur vulputate vestibulum elementum.
+              Suspendisse id neque a nibh mollis blandit. Quisque varius eros
+              ac purus dignissim.
+            </p>
+            <div class="full-divider"></div>
+            <div class="contact-con margin-top50">
+              <div class="container-sub">
+                <div class="row">
+                  <div class="contact-details">
+                    <div class="col-6">
+                      <div class="contact-text">
+                        <div class="col-2 icon-block address">
+                          <i class="fa fa-map-marker"></i>
+                        </div>
+                        <div class="flot-left">
+                          <strong>Asif Mohammad Abir</strong><br />
+                          9 Sher-E-Bangla Road, <br />
+                          Hazaribagh, Dhaka-1209 <br>
+                          Bangladesh
+                        </div>
+                      </div>
+                      <div class="contact-text">
+                        <div class="col-2 icon-block phone">
+                          <i class="fa fa-phone"></i>
+                        </div>
+                        <div class="flot-left">
+                          <strong>Phone</strong><br />
+                          +880 1955 517 560
+                        </div>
+                      </div>
+                      <div class="contact-text">
+                        <div class="col-2 icon-block email">
+                          <i class="fa fa-envelope"></i>
+                        </div>
+                        <div class="flot-left">
+                          <strong>Email</strong><br />
+                          <a href="mailto:no-reply@domain.com">asif.abir@hotmail.com</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-6 m-margin-top30">
+                      <h3>I'm also on Social Networks</h3>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      Proin ornare sem sed quam tempus aliquet vitae eget
+                      dolor.
+                      <div class="contact-social margin-top30">
+                        <a href="https://www.facebook.com" target="_blank"><i class="fa fa-facebook"></i></a>
+                        <a href="https://twitter.com" target="_blank"><i class="fa fa-twitter"></i></a>
+                        <a href="https://www.youtube.com" target="_blank"><i class="fa fa-youtube"></i></a><a
+                          href="https://plus.google.com" target="_blank"><i class="fa fa-google-plus"></i></a><a
+                          href="https://www.linkedin.com" target="_blank"><i class="fa fa-linkedin"></i></a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="full-divider"></div>
+              <div class="container-sub">
+                <div class="row">
+                  <div class="contact-form">
+                    <h3>Drop Me a Line</h3>
+                    <form id="form1" name="form1" method="post">
+                      <input name="name" type="text" id="name" placeholder="Your Name..." />
+                      <input name="email" type="text" id="email" placeholder="Your Email..." />
+                      <textarea name="message" id="message" cols="45" rows="5" placeholder="Your Message..."></textarea>
+                      <input type="submit" name="button" id="button" value="say hello!" />
+                      <div id="successmsg"></div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+      <!-- content-wrapper -->
     </div>
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/head.min.js"></script>
-    <!-- Portfolio Thumbnail -->
-    <script type="text/javascript" src="js/imagesloaded.min.js"></script>
-    <script type="text/javascript" src="js/masonry.min.js"></script>
-    <script type="text/javascript" src="js/class_helper.js"></script>
-    <script type="text/javascript" src="js/grid_gallery.js"></script>
-    <!-- Portfolio Grid -->
-    <script>
-      new CBPGridGallery(document.getElementById('grid-gallery'));
-    </script>
-    <!-- Portfolio Slider-->
-    <script type="text/javascript" src="js/carousel.js"></script>
-    <script type="text/javascript" src="js/jquery.easypiechart.js"></script>
-    <script type="text/javascript" src="js/text.rotator.js"></script>
-    <!-- Page Scrolling -->
-    <script>
-      head.js(
-        { mousewheel: 'js/jquery.mousewheel.js' },
-        { mwheelIntent: 'js/mwheelIntent.js' },
-        { jScrollPane: 'js/jquery.jscrollpane.min.js' },
-        { history: 'js/jquery.history.js' },
-        { stringLib: 'js/core.string.js' },
-        { easing: 'js/jquery.easing.1.3.js' },
-        { smartresize: 'js/jquery.smartresize.js' },
-        { page: 'js/jquery.page.js' }
-      );
-    </script>
-    <!-- Fit Video -->
-    <script type="text/javascript" src="js/jquery.fitvids.js"></script>
-    <!-- All Javascript Component-->
-    <script src="js/settings.js"></script>
-  </body>
+    <!-- content-scroller -->
+  </div>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script type="text/javascript" src="js/head.min.js"></script>
+  <!-- Portfolio Thumbnail -->
+  <script type="text/javascript" src="js/imagesloaded.min.js"></script>
+  <script type="text/javascript" src="js/masonry.min.js"></script>
+  <script type="text/javascript" src="js/class_helper.js"></script>
+  <script type="text/javascript" src="js/grid_gallery.js"></script>
+  <!-- Portfolio Grid -->
+  <script>
+    new CBPGridGallery(document.getElementById('grid-gallery'));
+  </script>
+  <!-- Portfolio Slider-->
+  <script type="text/javascript" src="js/carousel.js"></script>
+  <script type="text/javascript" src="js/jquery.easypiechart.js"></script>
+  <script type="text/javascript" src="js/text.rotator.js"></script>
+  <!-- Page Scrolling -->
+  <script>
+    head.js(
+      { mousewheel: 'js/jquery.mousewheel.js' },
+      { mwheelIntent: 'js/mwheelIntent.js' },
+      { jScrollPane: 'js/jquery.jscrollpane.min.js' },
+      { history: 'js/jquery.history.js' },
+      { stringLib: 'js/core.string.js' },
+      { easing: 'js/jquery.easing.1.3.js' },
+      { smartresize: 'js/jquery.smartresize.js' },
+      { page: 'js/jquery.page.js' }
+    );
+  </script>
+  <!-- Fit Video -->
+  <script type="text/javascript" src="js/jquery.fitvids.js"></script>
+  <!-- All Javascript Component-->
+  <script src="js/settings.js"></script>
+</body>
+
 </html>
