@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asif Mohammad Abir — Zend Certified PHP Engineer & Full-Stack Developer CV</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 10mm 12mm 10mm 12mm;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-size: 9pt;
+      line-height: 1.38;
+      color: #1a1a1a;
+      background: #ffffff;
+      padding: 16px 20px;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    @media print {
+      body {
+        padding: 0;
+        max-width: 100%;
+        color: #000000;
+      }
+      .no-print {
+        display: none !important;
+      }
+      a {
+        color: #1a1a1a !important;
+        text-decoration: none !important;
+      }
+      .page-break {
+        page-break-before: always;
+        break-before: page;
+      }
+    }
+    
+    /* Print action bar */
+    .print-bar {
+      text-align: center;
+      margin-bottom: 14px;
+      padding: 8px;
+      background: #f4f6fb;
+      border: 1px solid #d8e0f0;
+      border-radius: 6px;
+    }
+    .print-btn {
+      padding: 7px 16px;
+      background: #2b4c7e;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 9pt;
+      cursor: pointer;
+      margin: 0 4px;
+    }
+    .print-btn:hover {
+      background: #1d355a;
+    }
+
+    /* Header with Photo */
+    .cv-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #2b4c7e;
+      padding-bottom: 10px;
+    }
+    .header-photo-wrap {
+      flex-shrink: 0;
+      width: 82px;
+      height: 82px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 2.5px solid #2b4c7e;
+      background: #f0f4f8;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .header-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .header-text {
+      flex: 1;
+    }
+    .cv-name {
+      font-size: 18pt;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #111111;
+      text-transform: uppercase;
+      line-height: 1.1;
+      margin-bottom: 2px;
+    }
+    .cv-tagline {
+      font-size: 10pt;
+      font-weight: 700;
+      color: #2b4c7e;
+      margin-bottom: 4px;
+    }
+    .cv-contacts {
+      font-size: 8.2pt;
+      color: #444444;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px 10px;
+      line-height: 1.25;
+    }
+    .cv-contacts a {
+      color: #2b4c7e;
+      text-decoration: none;
+    }
+    
+    /* Sections */
+    .cv-section {
+      margin-top: 8px;
+      margin-bottom: 8px;
+    }
+    .section-title {
+      font-size: 10pt;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: #111111;
+      border-bottom: 1.5px solid #2b4c7e;
+      padding-bottom: 2px;
+      margin-bottom: 5px;
+      letter-spacing: 0.03em;
+    }
+    
+    /* Summary */
+    .summary-text {
+      text-align: justify;
+      color: #222222;
+      font-size: 8.7pt;
+      line-height: 1.4;
+    }
+    
+    /* Skills */
+    .skills-group {
+      margin-bottom: 3px;
+      font-size: 8.6pt;
+      line-height: 1.35;
+    }
+    .skills-label {
+      font-weight: 700;
+      color: #111111;
+    }
+    
+    /* Experience */
+    .item-block {
+      margin-bottom: 6px;
+      break-inside: avoid;
+    }
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 1px;
+    }
+    .item-title {
+      font-size: 9pt;
+      font-weight: 700;
+      color: #111111;
+    }
+    .item-subtitle {
+      font-size: 8.7pt;
+      font-weight: 600;
+      color: #2b4c7e;
+    }
+    .item-date {
+      font-size: 8.2pt;
+      font-weight: 600;
+      color: #555555;
+      text-align: right;
+      white-space: nowrap;
+    }
+    
+    /* Bullet lists */
+    ul.item-bullets {
+      margin-left: 15px;
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+    ul.item-bullets li {
+      font-size: 8.4pt;
+      color: #222222;
+      margin-bottom: 1.5px;
+      line-height: 1.33;
+    }
+    
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px 10px;
+      margin-top: 4px;
+    }
+    @media (max-width: 600px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .project-card {
+      background: #fafbfc;
+      border-left: 2.5px solid #2b4c7e;
+      padding: 2.5px 0 2.5px 7px;
+      font-size: 8.2pt;
+      line-height: 1.3;
+      break-inside: avoid;
+    }
+    .project-name {
+      font-weight: 700;
+      color: #111111;
+    }
+    .project-name a {
+      color: #2b4c7e;
+      text-decoration: none;
+    }
+    .project-desc {
+      color: #333333;
+    }
+    .project-tech {
+      font-size: 7.5pt;
+      color: #555555;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="print-bar no-print">
+    <button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    <a href="CV of Asif Mohammadd Abir.pdf" download class="print-btn" style="text-decoration:none;display:inline-block;">📥 Download Direct PDF</a>
+  </div>
+
+  <!-- HEADER -->
+  <header class="cv-header">
+    <div class="header-photo-wrap">
+      <img src="./images/Asif Abir .png" alt="Asif Mohammad Abir" class="header-photo" />
+    </div>
+    <div class="header-text">
+      <h1 class="cv-name">Asif Mohammad Abir</h1>
+      <div class="cv-tagline">Zend Certified PHP Engineer (ZCE) | Senior Full-Stack Developer</div>
+      <div class="cv-contacts">
+        <span>📍 Dhaka-1209, Bangladesh</span>
+        <span>📞 +880 1955 517 560</span>
+        <span>✉️ <a href="mailto:asif.abir@hotmail.com">asif.abir@hotmail.com</a></span>
+        <span>🌐 <a href="https://asif.com.bd" target="_blank">asif.com.bd</a></span>
+        <span>💻 <a href="https://github.com/asif-daffodil" target="_blank">github.com/asif-daffodil</a></span>
+        <span>💼 <a href="https://www.linkedin.com/in/asif-abir-5a5a5927b/" target="_blank">linkedin.com/in/asif-abir</a></span>
+        <span>⭐ <a href="https://www.upwork.com/freelancers/asifabir" target="_blank">Upwork Top Rated (100% JSS)</a></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROFESSIONAL SUMMARY -->
+  <section class="cv-section">
+    <h2 class="section-title">Professional Summary</h2>
+    <p class="summary-text">
+      Results-driven <strong>Zend Certified PHP Engineer (ZCE)</strong> and Senior Full-Stack Developer with <strong>14+ years of experience</strong> architecting, developing, and deploying high-traffic enterprise web applications, e-commerce platforms, and RESTful APIs. Senior Web Developer at <strong>Daffodil Group</strong>, Lead Developer of <strong>itech-bd.com</strong>, and <strong>Top-Rated Freelancer on Upwork</strong> with a <strong>100% Job Success Score</strong> across 37+ international contracts. Highly proficient in <strong>PHP, Laravel, Node.js, Next.js, React, TypeScript, MySQL, and MongoDB</strong>, with active specialization in <strong>AI integration (OpenAI API, RAG architectures, and autonomous agentic workflows)</strong>. Proven track record in technical leadership, agile mentoring, and shipping clean, PSR-compliant, secure software.
+    </p>
+  </section>
+
+  <!-- CORE TECHNICAL SKILLS -->
+  <section class="cv-section">
+    <h2 class="section-title">Core Technical Skills</h2>
+    <div class="skills-group">
+      <span class="skills-label">Backend &amp; Frameworks:</span> PHP 8+, Laravel (ZCE Certified), Node.js, Express.js, RESTful APIs, GraphQL, Microservices, MVC Architecture, WebSockets, JWT / Sanctum Auth.
+    </div>
+    <div class="skills-group">
+      <span class="skills-label">Frontend Stack:</span> JavaScript (ES6+), TypeScript, React.js, Next.js, HTML5, CSS3 / SCSS, Tailwind CSS, Bootstrap, Redux Toolkit, Vite, Three.js.
+    </div>
+    <div class="skills-group">
+      <span class="skills-label">Databases &amp; Caching:</span> MySQL, PostgreSQL, MongoDB, Redis, Database Indexing, Query Optimization, Eloquent ORM.
+    </div>
+    <div class="skills-group">
+      <span class="skills-label">AI &amp; Emerging Tech:</span> OpenAI API (<code>openai-php/laravel</code>), RAG Systems (Retrieval-Augmented Generation), Agentic Workflows, Vector Embeddings.
+    </div>
+    <div class="skills-group">
+      <span class="skills-label">DevOps, Tools &amp; CMS:</span> Git, GitHub, Docker, CI/CD Automation, cPanel, Linux / Ubuntu Server, Postman, WordPress (Custom Theme &amp; Plugin Dev), Jira.
+    </div>
+    <div class="skills-group">
+      <span class="skills-label">Methodologies:</span> PSR Standards, Clean Code, Agile/Scrum, Test-Driven Development (TDD), OWASP Web Security Principles.
+    </div>
+  </section>
+
+  <!-- WORK EXPERIENCE -->
+  <section class="cv-section">
+    <h2 class="section-title">Professional Work Experience</h2>
+
+    <!-- Daffodil Group -->
+    <div class="item-block">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Senior Web Developer</span> — <span class="item-subtitle">Daffodil Group</span>
+        </div>
+        <span class="item-date">2017 – Present | Dhaka, Bangladesh</span>
+      </div>
+      <ul class="item-bullets">
+        <li>Architect, build, and maintain mission-critical enterprise web applications and institutional ERP platforms across Daffodil Group’s conglomerate ecosystem.</li>
+        <li>Engineer scalable backend architectures using Laravel 10+, PHP 8+, and MySQL, serving tens of thousands of daily active students, faculty, and corporate users.</li>
+        <li>Design and implement secure RESTful API endpoints for seamless integrations between ERP portals, mobile apps, and payment gateways (SSLCommerz, bKash, Nagad).</li>
+        <li>Enforce PSR coding standards, optimize complex database queries, and reduce page response latency by over 35%.</li>
+        <li>Lead and mentor agile teams of frontend developers, UI/UX designers, and QA engineers on best coding practices.</li>
+      </ul>
+    </div>
+
+    <!-- itech-bd.com -->
+    <div class="item-block">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Lead Developer &amp; Technical Founder</span> — <span class="item-subtitle">itech-bd.com</span>
+        </div>
+        <span class="item-date">2018 – Present | Dhaka, Bangladesh</span>
+      </div>
+      <ul class="item-bullets">
+        <li>Architected and built <strong>itech-bd.com</strong>, an advanced EdTech &amp; e-learning platform delivering interactive tech education and programming courses.</li>
+        <li>Developed end-to-end full-stack platform using Laravel, Next.js, and MySQL with integrated LMS, automated certification, and student subscription billing.</li>
+        <li>Configured automated CI/CD deployment pipelines, server security hardening, backup automation, and Redis caching.</li>
+      </ul>
+    </div>
+
+    <!-- DIPTI AYETS -->
+    <div class="item-block">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Senior Instructor — Web Development (PHP, MERN &amp; Freelancing)</span> — <span class="item-subtitle">DIPTI AYETS Project</span>
+        </div>
+        <span class="item-date">2017 – Present | Dhaka, Bangladesh</span>
+      </div>
+      <ul class="item-bullets">
+        <li>Conduct 30+ hours weekly of technical instruction covering modern PHP, Laravel, JavaScript ES6+, React.js, Node.js, MongoDB, and REST API engineering.</li>
+        <li>Designed industry-aligned curricula, hands-on coding labs, and evaluation frameworks for hundreds of aspiring full-stack engineers.</li>
+        <li>Mentored students on international freelancing platforms (Upwork, Fiverr), real-world tech interviews, and git-based team workflows.</li>
+      </ul>
+    </div>
+
+    <!-- Upwork -->
+    <div class="item-block">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Full-Stack API Developer (Top Rated — 100% Job Success Score)</span> — <span class="item-subtitle">Upwork Freelance</span>
+        </div>
+        <span class="item-date">2015 – Present | Global Remote</span>
+      </div>
+      <ul class="item-bullets">
+        <li>Maintained an exceptional <strong>100% Job Success Score (JSS)</strong> and <strong>Top-Rated</strong> status across 37+ completed global client projects.</li>
+        <li>Delivered custom API backends, SaaS platforms, e-commerce applications, and third-party integrations for clients across North America, Europe, and Asia.</li>
+        <li>Engineered custom Laravel and Node.js solutions with JWT authentication, role-based access control (RBAC), and webhook handlers.</li>
+      </ul>
+    </div>
+
+    <!-- CodemanBD -->
+    <div class="item-block">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Backend Web Developer (Contract)</span> — <span class="item-subtitle">CodemanBD</span>
+        </div>
+        <span class="item-date">2023 – Present | Dhaka, Bangladesh</span>
+      </div>
+      <ul class="item-bullets">
+        <li>Engineered custom REST APIs and database schemas with Laravel and MySQL for training management and student onboarding portals.</li>
+        <li>Provided technical guidance to frontend developers on API contracts, response payloads, and data serialization.</li>
+      </ul>
+    </div>
+
+    <!-- Early Career -->
+    <div class="item-block">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Early Career Experience:</span>
+          <span style="font-size:8.3pt;color:#444;">Customer Care Representative at <strong>Banglalink Digital Communications</strong> (2014) | Executive at <strong>Grameenphone Ltd.</strong> (2009 – 2012) — Enterprise telecom technical support, client account management, and CRM operations.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE BREAK HERE FOR PERFECT 2-PAGE LAYOUT -->
+  <div class="page-break"></div>
+
+  <!-- KEY PROJECTS -->
+  <section class="cv-section">
+    <h2 class="section-title">Key Projects &amp; Systems Built</h2>
+    <div class="projects-grid">
+      
+      <div class="project-card">
+        <div class="project-name"><a href="https://itech-bd.com/" target="_blank">itech-bd.com</a> — EdTech &amp; Enterprise Platform</div>
+        <div class="project-desc">Full-featured technical education portal with course LMS, enrollment, and payment integration.</div>
+        <div class="project-tech">Laravel · Next.js · MySQL · PHP</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-name"><a href="https://shopbasebd.com/" target="_blank">shopbasebd.com</a> — Dropshipping Platform</div>
+        <div class="project-desc">Leading Bangladeshi dropshipping and reselling marketplace with automated inventory &amp; order dispatch.</div>
+        <div class="project-tech">Laravel · REST APIs · MySQL · E-Commerce</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-name"><a href="https://rangsemart.com.bd/" target="_blank">rangsemart.com.bd</a> — RANGS eMART Store</div>
+        <div class="project-desc">Official electronics e-commerce store for Rangs Group with product catalog, EMI, and checkout.</div>
+        <div class="project-tech">Laravel · E-Commerce · Payment Gateway · MySQL</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-name"><a href="https://tmt.edu.bd/" target="_blank">tmt.edu.bd</a> — Tamirul Millat Madrasah</div>
+        <div class="project-desc">Institutional educational ERP with digital notice boards, student archives, and exam results.</div>
+        <div class="project-tech">PHP · MySQL · Bootstrap · Student ERP</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-name"><a href="https://mpsc.edu.bd/" target="_blank">mpsc.edu.bd</a> — Mohammadpur Preparatory</div>
+        <div class="project-desc">School &amp; college portal featuring online admissions, fee processing, and student records.</div>
+        <div class="project-tech">Laravel · EdTech · School ERP · MySQL</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-name"><a href="https://hotel71.com.bd/" target="_blank">hotel71.com.bd</a> — Hotel 71 Dhaka</div>
+        <div class="project-desc">3-star boutique hotel web portal with real-time room booking engine and reservation management.</div>
+        <div class="project-tech">PHP · Booking Engine · UI/UX · MySQL</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-name"><a href="https://dainikamadershomoy.com/" target="_blank">dainikamadershomoy.com</a> — Amader Shomoy</div>
+        <div class="project-desc">High-traffic national daily newspaper delivering real-time news publishing and media feeds.</div>
+        <div class="project-tech">PHP · MySQL · High Traffic · Cache Optimization</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-name"><a href="https://thefinancialexpress.com.bd/" target="_blank">thefinancialexpress.com.bd</a> — Financial Express</div>
+        <div class="project-desc">First financial daily of Bangladesh with stock updates, economic archives, and digital e-paper.</div>
+        <div class="project-tech">PHP · Media Portal · High Availability · Responsive</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-name"><a href="https://dti.ac/" target="_blank">dti.ac / ti.ac</a> — Daffodil Technical Institute</div>
+        <div class="project-desc">BTEB-affiliated polytechnic institute portal with 4-year diploma programs and admissions.</div>
+        <div class="project-tech">Laravel · EdTech · BTEB · MySQL</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-name"><a href="https://eminence.edu.bd/" target="_blank">eminence.edu.bd</a> — Eminence College</div>
+        <div class="project-desc">Academic portal for HSC, BBA, and B.Sc in CSE programs under National University.</div>
+        <div class="project-tech">PHP · EdTech · Daffodil Network · MySQL</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-name"><a href="https://codemanbd.com/" target="_blank">codemanbd.com</a> — CodemanBD Academy</div>
+        <div class="project-desc">Freelancing IT training academy portal with student LMS, batch management, and enrollment.</div>
+        <div class="project-tech">WordPress · React · UI/UX · E-Learning</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-name"><a href="https://diet.ac/" target="_blank">diet.ac</a> — DIET Polytechnic Institute</div>
+        <div class="project-desc">Polytechnic institute portal offering BTEB diploma engineering programs and student services.</div>
+        <div class="project-tech">Laravel · EdTech · Polytechnic ERP · MySQL</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-name"><a href="https://myekids.com/" target="_blank">myekids.com</a> — My e-Kids Network</div>
+        <div class="project-desc">Children &amp; youth technology education portal teaching coding, robotics, and multimedia.</div>
+        <div class="project-tech">PHP · EdTech · Kids Coding · Daffodil Family</div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-name"><a href="https://dipti.com.bd/" target="_blank">dipti.com.bd</a> — DIPTI Institute</div>
+        <div class="project-desc">Pioneer professional training institute offering government-certified skill development.</div>
+        <div class="project-tech">Laravel · EdTech · Skill Development · MySQL</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section class="cv-section">
+    <h2 class="section-title">Certifications &amp; Credentials</h2>
+    <ul class="item-bullets" style="margin-left: 15px;">
+      <li><strong>Zend Certified PHP Engineer (ZCE)</strong> — <em>Zend by Perforce</em> (Dec 2020) — <em>Industry Gold Standard</em></li>
+      <li><strong>Web Design with Freelancing (Level 3)</strong> — <em>National Skills Development Authority (NSDA)</em> (Feb 2024)</li>
+      <li><strong>Web Design and Development (Level 4)</strong> — <em>National Technical &amp; Vocational Qualifications Framework (NTVQF)</em> (Nov 2022)</li>
+      <li><strong>Web Design &amp; Development Certification</strong> — <em>Bangladesh Technical Education Board (BTEB)</em> (Dec 2019)</li>
+      <li><strong>Diploma in Web &amp; E-Commerce</strong> — <em>Daffodil Institute of IT (DIIT)</em> (Jul 2015)</li>
+      <li><strong>Search Engine Optimization (SEO) Certification</strong> — <em>Creative IT Institute</em> (Dec 2015)</li>
+    </ul>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="cv-section">
+    <h2 class="section-title">Education</h2>
+    <div class="item-block">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Bachelor of Business Administration (BBA)</span> — <span class="item-subtitle">Darul Ihsan University</span>
+        </div>
+        <span class="item-date">2006 – 2010 | CGPA: 3.5 / 4.0</span>
+      </div>
+      <div style="font-size:8.4pt;color:#444;margin-left:2px;">Major: Human Resource Management (HRM) | Dhaka, Bangladesh</div>
+    </div>
+    <div class="item-block">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Higher Secondary Certificate (HSC)</span> — <span class="item-subtitle">Rifles Public School &amp; College</span>
+        </div>
+        <span class="item-date">Passing Year: 2005 | GPA: 3.10 / 5.0</span>
+      </div>
+      <div style="font-size:8.4pt;color:#444;margin-left:2px;">Business Studies | Dhaka, Bangladesh</div>
+    </div>
+    <div class="item-block">
+      <div class="item-header">
+        <div>
+          <span class="item-title">Secondary School Certificate (SSC)</span> — <span class="item-subtitle">Government Laboratory High School</span>
+        </div>
+        <span class="item-date">Passing Year: 2003 | GPA: 3.81 / 5.0</span>
+      </div>
+      <div style="font-size:8.4pt;color:#444;margin-left:2px;">Science | Dhaka, Bangladesh</div>
+    </div>
+  </section>
+
+  <!-- LANGUAGES -->
+  <section class="cv-section">
+    <h2 class="section-title">Languages</h2>
+    <div style="font-size:8.6pt;line-height:1.35;">
+      <strong>English:</strong> Professional Working Proficiency / Fluent (C2) &nbsp;|&nbsp; 
+      <strong>Bengali (Bangla):</strong> Native / Bilingual Proficiency
+    </div>
+  </section>
+
+</body>
+</html>
