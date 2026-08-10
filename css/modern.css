@@ -151,14 +151,32 @@ section {
 }
 
 .nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--font-heading);
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 700;
+  letter-spacing: -0.03em;
+  text-decoration: none;
+  color: var(--clr-text);
+}
+
+.nav-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--clr-primary);
+  box-shadow: 0 0 10px var(--clr-primary-glow);
+  display: block;
+}
+
+.nav-logo-text {
   background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  letter-spacing: -0.03em;
 }
 
 .nav-links {
@@ -540,11 +558,13 @@ section {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: 64px;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .about-image-wrap {
   position: relative;
+  top: 0;
+  align-self: flex-start;
 }
 
 .about-image-container {
@@ -554,13 +574,14 @@ section {
   aspect-ratio: 4/5;
   background: linear-gradient(135deg, var(--clr-primary), var(--clr-accent));
   padding: 3px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
 }
 
 .about-image-container img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top;
+  object-position: top center;
   border-radius: calc(var(--radius-xl) - 3px);
   display: block;
 }
@@ -1254,15 +1275,17 @@ section {
 
 .upwork-card {
   background: linear-gradient(135deg, rgba(20, 168, 0, 0.08), rgba(20, 168, 0, 0.03));
-  border: 1px solid rgba(20, 168, 0, 0.2);
+  border: 1px solid rgba(20, 168, 0, 0.22);
   border-radius: var(--radius-xl);
-  padding: 48px;
+  padding: 36px 44px;
   display: flex;
   align-items: center;
-  gap: 48px;
+  justify-content: space-between;
+  gap: 32px;
   position: relative;
   overflow: hidden;
-  margin-top: 56px;
+  margin-top: 48px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 .upwork-card::before {
   content: '';
@@ -1271,54 +1294,147 @@ section {
   right: -10%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(20,168,0,0.06), transparent 70%);
+  background: radial-gradient(circle, rgba(20,168,0,0.08), transparent 70%);
   pointer-events: none;
 }
 
+.upwork-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.upwork-avatar-wrap {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.upwork-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #14a800;
+  box-shadow: 0 4px 14px rgba(20,168,0,0.35);
+  display: block;
+}
+
+.upwork-badge-icon {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  background: #14a800;
+  color: #fff;
+  font-size: 0.65rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--clr-surface);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.upwork-logo-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
 .upwork-logo {
-  font-size: 3rem;
-  font-weight: 900;
+  font-size: 1.6rem;
+  font-weight: 800;
   color: #14a800;
   font-family: var(--font-heading);
-  flex-shrink: 0;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.upwork-title-sub {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--clr-text-muted);
 }
 
 .upwork-stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
+  gap: 14px;
   flex: 1;
+  max-width: 620px;
+  align-items: stretch;
 }
 
-.upwork-stat { text-align: center; }
+.upwork-stat {
+  background: rgba(20, 168, 0, 0.05);
+  border: 1px solid rgba(20, 168, 0, 0.16);
+  border-radius: var(--radius-md);
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: var(--transition);
+  min-height: 78px;
+}
+.upwork-stat:hover {
+  background: rgba(20, 168, 0, 0.12);
+  border-color: rgba(20, 168, 0, 0.35);
+  transform: translateY(-2px);
+}
+
 .upwork-stat .num {
   font-family: var(--font-heading);
-  font-size: 2.5rem;
+  font-size: 1.35rem;
   font-weight: 700;
   color: #14a800;
-  display: block;
-  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  line-height: 1.2;
+  margin-bottom: 3px;
+  white-space: nowrap;
 }
+
+.upwork-stat .num .star-icon {
+  color: #f59e0b;
+  font-size: 0.85em;
+}
+
+.upwork-stat .num .badge-icon-inline {
+  font-size: 0.82em;
+  color: #14a800;
+}
+
 .upwork-stat .lbl {
-  font-size: 0.78rem;
+  font-size: 0.68rem;
   color: var(--clr-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-top: 6px;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
 .upwork-link {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   padding: 12px 24px;
   background: #14a800;
   color: #fff;
   font-weight: 600;
   border-radius: var(--radius-md);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   transition: var(--transition);
   flex-shrink: 0;
+  white-space: nowrap;
 }
 .upwork-link:hover {
   background: #0d7c00;
