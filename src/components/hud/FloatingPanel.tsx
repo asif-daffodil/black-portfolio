@@ -27,18 +27,17 @@ export default function FloatingPanel({
       id={sectionId}
       className={`w-full mx-auto ${maxWidth} ${className} pointer-events-none`}
     >
-      {/* Floating HUD Glassmorphic Shell with idle micro-motion */}
-      <div className="hud-floating pointer-events-auto">
-        <div className="glass-panel hud-bracket rounded-3xl p-5 sm:p-7 md:p-9 border border-cyan-500/25 shadow-2xl shadow-cyan-950/60 relative overflow-hidden backdrop-blur-xl">
-          {/* Top Telemetry Header Strip */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-3 sm:pb-4 mb-4 sm:mb-6">
+      <div className="pointer-events-auto">
+        <div className="glass-luxury rounded-3xl p-5 sm:p-7 md:p-9 border border-white/10 shadow-[0_25px_70px_rgba(0,0,0,0.85)] relative overflow-hidden backdrop-blur-2xl">
+          {/* Top Subtle Header Bar */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-3 sm:pb-4 mb-5 sm:mb-7">
             <div className="flex items-center gap-2.5">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-              <span className="font-mono text-xs sm:text-sm font-bold tracking-widest text-cyan-400 uppercase">
+              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_#38bdf8]" />
+              <span className="font-mono text-xs sm:text-sm font-semibold tracking-widest text-cyan-300 uppercase">
                 {sectorCode} // {sectorName}
               </span>
               {badge && (
-                <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] font-mono font-semibold bg-cyan-500/10 border border-cyan-500/30 text-cyan-300">
+                <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono font-medium bg-cyan-500/10 border border-cyan-500/30 text-cyan-300">
                   {badge}
                 </span>
               )}
@@ -47,16 +46,16 @@ export default function FloatingPanel({
             <div className="flex items-center gap-3 text-xs font-mono text-gray-400">
               <span className="hidden sm:inline-flex items-center gap-1.5 text-emerald-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                HUD TELEMETRY: SYNCED
+                STATUS: ACTIVE
               </span>
-              <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-[11px]">
-                SEC-0{['bridge', 'about', 'skills', 'experience', 'education', 'ai', 'portfolio', 'contact'].indexOf(sectionId) + 1}
+              <span className="px-2.5 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-[10px] text-gray-300">
+                CHAPTER 0{['bridge', 'about', 'skills', 'experience', 'education', 'ai', 'portfolio', 'contact'].indexOf(sectionId) + 1}
               </span>
             </div>
           </div>
 
-          {/* Panel Interior Content with custom scroll */}
-          <div className="max-h-[min(65vh,680px)] overflow-y-auto pr-1.5 sm:pr-3 space-y-6">
+          {/* Panel Interior Content */}
+          <div className="max-h-[min(72vh,780px)] overflow-y-auto pr-1 sm:pr-3 space-y-6 scrollbar-thin">
             {children}
           </div>
         </div>
@@ -64,4 +63,3 @@ export default function FloatingPanel({
     </div>
   );
 }
-

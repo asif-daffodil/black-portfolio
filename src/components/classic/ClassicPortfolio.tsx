@@ -184,11 +184,11 @@ export default function ClassicPortfolio() {
             <div className="relative w-64 sm:w-80 aspect-[4/5] rounded-3xl overflow-hidden glass-panel p-3 shadow-2xl border border-cyan-500/30">
               <div className="relative w-full h-full rounded-2xl overflow-hidden border border-white/10">
                 <Image
-                  src="/images/asif.jpg"
-                  alt="Portrait photo of Asif Abir, Senior Full-Stack Engineer and Zend Certified Engineer"
+                  src="/images/asif-abir-executive.png"
+                  alt="Portrait photo of Asif Abir, Zend Certified PHP Engineer"
                   fill
                   sizes="(max-width: 768px) 100vw, 360px"
-                  className="object-cover object-center"
+                  className="object-cover object-top"
                   priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#05070c] via-transparent to-transparent opacity-85" />

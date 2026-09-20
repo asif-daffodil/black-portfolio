@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     locale: 'en_US',
     images: [
       {
-        url: 'https://asif.com.bd/images/asif.jpg',
+        url: 'https://asif.com.bd/images/asif-abir-executive.png',
         width: 800,
         height: 800,
         alt: 'Asif Abir - Zend Certified Full-Stack Developer',
@@ -64,13 +64,13 @@ export const metadata: Metadata = {
     title: 'Asif Abir | Zend Certified Full-Stack Developer',
     description:
       '14+ years building modern web apps. PHP/Laravel ZCE, Node.js, Next.js, React, AI integration.',
-    images: ['https://asif.com.bd/images/asif.jpg'],
+    images: ['https://asif.com.bd/images/asif-abir-executive.png'],
     creator: '@asif_abir',
   },
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon.ico',
-    apple: '/images/asif.jpg',
+    apple: '/images/asif-abir-executive.png',
   },
 };
 
@@ -101,7 +101,7 @@ const jsonLdData = {
         url: 'https://daffodil.family',
       },
       url: 'https://asif.com.bd',
-      image: 'https://asif.com.bd/images/asif.jpg',
+      image: 'https://asif.com.bd/images/asif-abir-executive.png',
       email: `mailto:${profileData.email}`,
       telephone: profileData.phone,
       address: {

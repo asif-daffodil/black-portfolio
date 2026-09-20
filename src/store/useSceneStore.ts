@@ -168,11 +168,7 @@ export function detectOptimalViewMode(): { mode: ViewMode; reason: string | null
     return { mode: 'classic', reason: 'low-cpu-cores' };
   }
 
-  // 5. Small mobile screen fallback
-  if (window.innerWidth < 640) {
-    return { mode: 'classic', reason: 'small-mobile-device' };
-  }
-
+  // Default to full 3D experience
   return { mode: '3d', reason: null };
 }
 
