@@ -55,7 +55,7 @@ export default function FloatingPanel({
           </div>
 
           {/* Panel Interior Content */}
-          <div className="max-h-[min(72vh,780px)] overflow-y-auto pr-1 sm:pr-3 space-y-6 scrollbar-thin">
+          <div className="max-h-[min(78vh,820px)] overflow-y-auto pr-1 sm:pr-3 space-y-5 sm:space-y-6 scrollbar-thin">
             {children}
           </div>
         </div>

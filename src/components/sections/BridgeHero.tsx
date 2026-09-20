@@ -34,29 +34,29 @@ export default function BridgeHero() {
           </div>
 
           {/* Main Headline */}
-          <div className="space-y-2">
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-none">
+          <div className="space-y-1.5">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-none">
               <span className="block text-gradient-cyan">Asif Abir</span>
             </h1>
-            <p className="text-lg sm:text-2xl font-light text-gray-200 tracking-wide font-sans">
+            <p className="text-base sm:text-xl font-light text-gray-200 tracking-wide font-sans">
               Zend Certified PHP Engineer <span className="text-cyan-400">&</span> Full-Stack Architect
             </p>
           </div>
 
           {/* Subtitle / Value proposition */}
-          <p className="text-sm sm:text-base text-gray-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
+          <p className="text-xs sm:text-sm text-gray-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
             14+ years engineering resilient, high-availability enterprise web architectures, 
             university ERP systems at Daffodil Group, and mission-critical cloud platforms for global founders.
           </p>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-3.5 px-4 sm:px-5 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-xl max-w-xl mx-auto lg:mx-0 font-mono shadow-xl">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 py-2.5 px-4 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-xl max-w-xl mx-auto lg:mx-0 font-mono shadow-xl">
             {profileData.stats.map((stat, idx) => (
               <div key={idx} className="space-y-0.5 text-center lg:text-left">
-                <div className="text-xl sm:text-2xl font-black text-cyan-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.4)]">
+                <div className="text-lg sm:text-xl font-black text-cyan-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.4)]">
                   {stat.value}
                 </div>
-                <div className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider">
+                <div className="text-[9px] text-gray-400 font-semibold uppercase tracking-wider">
                   {stat.label}
                 </div>
               </div>
@@ -64,29 +64,29 @@ export default function BridgeHero() {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1">
             <button
               onClick={() => handleJump('portfolio')}
-              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full font-bold text-xs sm:text-sm bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-500 hover:from-cyan-300 hover:to-indigo-400 text-black shadow-[0_0_25px_rgba(56,189,248,0.4)] transition-all transform hover:-translate-y-0.5 cursor-pointer focus:outline-none"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-xs bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-500 hover:from-cyan-300 hover:to-indigo-400 text-black shadow-[0_0_20px_rgba(56,189,248,0.35)] transition-all transform hover:-translate-y-0.5 cursor-pointer focus:outline-none"
             >
               <span>Explore 17 Projects</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
 
             <a
               href="/images/CV of Asif Mohammadd Abir.pdf"
               download="CV of Asif Mohammadd Abir.pdf"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full font-mono text-xs sm:text-sm font-semibold bg-white/[0.05] hover:bg-white/[0.1] text-white border border-white/20 backdrop-blur-xl transition-all transform hover:-translate-y-0.5 focus:outline-none"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full font-mono text-xs font-semibold bg-white/[0.05] hover:bg-white/[0.1] text-white border border-white/20 backdrop-blur-xl transition-all transform hover:-translate-y-0.5 focus:outline-none"
             >
-              <Download className="w-4 h-4 text-cyan-400" />
+              <Download className="w-3.5 h-3.5 text-cyan-400" />
               <span>Download CV</span>
             </a>
 
             <button
               onClick={() => handleJump('contact')}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full font-mono text-xs sm:text-sm font-medium text-cyan-300 hover:text-white transition-colors cursor-pointer focus:outline-none"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full font-mono text-xs font-medium text-cyan-300 hover:text-white transition-colors cursor-pointer focus:outline-none"
             >
-              <Sparkles className="w-4 h-4 text-amber-400" />
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               <span>Direct Relay</span>
             </button>
           </div>
@@ -94,7 +94,7 @@ export default function BridgeHero() {
 
         {/* Right Feature: New Executive Studio Portrait Card */}
         <div className="lg:col-span-5 flex justify-center">
-          <div className="relative w-64 sm:w-80 aspect-[4/5] rounded-3xl overflow-hidden glass-luxury p-3 group shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-cyan-500/30">
+          <div className="relative w-60 sm:w-72 aspect-[4/5] rounded-3xl overflow-hidden glass-luxury p-2.5 group shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-cyan-500/30">
             {/* Hologram Scanner Effect */}
             <div className="hologram-scanner" />
 

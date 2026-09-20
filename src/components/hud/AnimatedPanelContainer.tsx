@@ -112,7 +112,7 @@ export default function AnimatedPanelContainer() {
   };
 
   return (
-    <div className="fixed inset-x-0 top-16 sm:top-20 bottom-24 sm:bottom-28 z-20 flex items-center justify-center p-3 sm:p-4 pointer-events-none overflow-hidden">
+    <div className="fixed inset-x-0 top-16 sm:top-20 bottom-16 sm:bottom-20 z-20 flex items-center justify-center p-2 sm:p-4 pointer-events-none overflow-hidden">
       <AnimatePresence mode="popLayout" custom={transitionDirection}>
         <motion.div
           key={currentSection}
