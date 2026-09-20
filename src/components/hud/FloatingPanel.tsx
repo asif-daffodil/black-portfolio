@@ -1,7 +1,9 @@
 'use client';
 
 import React from 'react';
-import { SectionId } from '@/store/useSceneStore';
+import { useSceneStore, SectionId, SECTION_ORDER } from '@/store/useSceneStore';
+import { ArrowRight } from 'lucide-react';
+import { soundFX } from '@/lib/sound';
 
 interface FloatingPanelProps {
   sectionId: SectionId;
@@ -13,6 +15,17 @@ interface FloatingPanelProps {
   className?: string;
 }
 
+const SECTION_LABELS: Record<SectionId, string> = {
+  bridge: '00 ORBIT // BRIDGE',
+  about: '01 ORIGIN // PROFILE',
+  skills: '02 ARSENAL // SKILLS',
+  experience: '03 FLIGHT LOG // CAREER',
+  education: '04 CREDENTIALS // EDUCATION',
+  ai: '05 NEURAL AI // AGENTS',
+  portfolio: '06 SHOWCASE // PORTFOLIO',
+  contact: '07 RELAY // CONTACT',
+};
+
 export default function FloatingPanel({
   sectionId,
   sectorCode,
@@ -22,6 +35,16 @@ export default function FloatingPanel({
   maxWidth = 'max-w-5xl',
   className = '',
 }: FloatingPanelProps) {
+  const setSection = useSceneStore((state) => state.setSection);
+  const currentIndex = SECTION_ORDER.indexOf(sectionId);
+  const nextSectionId = SECTION_ORDER[(currentIndex + 1) % SECTION_ORDER.length];
+  const nextLabel = SECTION_LABELS[nextSectionId];
+
+  const handleNextStation = () => {
+    soundFX.playButtonClick();
+    setSection(nextSectionId);
+  };
+
   return (
     <div
       id={sectionId}
@@ -54,9 +77,25 @@ export default function FloatingPanel({
             </div>
           </div>
 
-          {/* Panel Interior Content */}
-          <div className="max-h-[min(78vh,820px)] overflow-y-auto pr-1 sm:pr-3 space-y-5 sm:space-y-6 scrollbar-thin">
+          {/* Panel Interior Content with generous bottom padding so user can easily reach bottom */}
+          <div className="max-h-[min(78vh,820px)] overflow-y-auto pr-1 sm:pr-3 space-y-6 scrollbar-thin pb-28 sm:pb-36">
             {children}
+
+            {/* Bottom Station Waypoint Footer with breathing room */}
+            <div className="pt-8 sm:pt-10 mt-10 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-4 font-mono">
+              <div className="flex items-center gap-2 text-xs text-gray-400">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/80 animate-ping" />
+                <span>End of sector dossier</span>
+              </div>
+
+              <button
+                onClick={handleNextStation}
+                className="group inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 hover:border-cyan-500/40 text-xs text-gray-300 hover:text-white transition-all cursor-pointer focus:outline-none"
+              >
+                <span>Proceed to {nextLabel}</span>
+                <ArrowRight className="w-3.5 h-3.5 text-cyan-400 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

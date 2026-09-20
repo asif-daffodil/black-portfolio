@@ -58,38 +58,41 @@ export default function CameraController() {
     const delta = getShortestRailDelta(currentT, targetT);
     const destT = currentT + delta;
 
-    const travelDuration = useSceneStore.getState().travelDuration || 1.4;
+    const travelDuration = useSceneStore.getState().travelDuration || 1.35;
 
-    // Smooth rail travel tween
+    // Smooth rail travel tween with cinematic power2 easing
     gsap.killTweensOf(stateRef.current, 't');
     gsap.to(stateRef.current, {
       t: destT,
       duration: travelDuration,
-      ease: 'power3.inOut',
+      ease: 'power2.inOut',
       onUpdate: () => {
         const normT = ((stateRef.current.t % 1) + 1) % 1;
         setRailProgress(normT);
       },
       onComplete: () => {
-        stateRef.current.t = targetT;
-        stateRef.current.prevT = targetT;
-        setRailProgress(targetT);
+        // Continuous integer wrap: preserves exact velocity delta without any snap or jerk
+        const wrap = Math.floor(stateRef.current.t);
+        stateRef.current.t -= wrap;
+        stateRef.current.prevT -= wrap;
+        setRailProgress(stateRef.current.t);
       },
     });
   }, [activeSection, camera, setRailProgress]);
 
   useFrame((state, delta) => {
-    const s = stateRef.current;
+    const s = stateRef.current as typeof stateRef.current & { bankAngle?: number };
 
     // Smooth pointer lerp for organic inertia
     s.targetPointerX = state.pointer.x;
     s.targetPointerY = state.pointer.y;
-    s.pointerX = THREE.MathUtils.damp(s.pointerX, s.targetPointerX, 4, delta);
-    s.pointerY = THREE.MathUtils.damp(s.pointerY, s.targetPointerY, 4, delta);
+    s.pointerX = THREE.MathUtils.damp(s.pointerX, s.targetPointerX, 3.5, delta);
+    s.pointerY = THREE.MathUtils.damp(s.pointerY, s.targetPointerY, 3.5, delta);
 
-    // Compute angular velocity for dynamic banking
+    // Compute angular velocity for dynamic banking with safe bounds
     const dt = s.t - s.prevT;
-    s.velocity = THREE.MathUtils.damp(s.velocity, dt / Math.max(delta, 0.001), 6, delta);
+    const instantaneousVel = THREE.MathUtils.clamp(dt / Math.max(delta, 0.001), -4.0, 4.0);
+    s.velocity = THREE.MathUtils.damp(s.velocity, instantaneousVel, 4.5, delta);
     s.prevT = s.t;
 
     // Current position along circular celestial rail
@@ -104,13 +107,13 @@ export default function CameraController() {
 
     // Idle organic breathing drift (Atmos/Robin Payot feel)
     const time = state.clock.getElapsedTime();
-    const idleHoverX = Math.sin(time * 0.4) * 0.05;
-    const idleHoverY = Math.cos(time * 0.3) * 0.04;
-    const idleHoverZ = Math.sin(time * 0.5) * 0.03;
+    const idleHoverX = Math.sin(time * 0.4) * 0.04;
+    const idleHoverY = Math.cos(time * 0.3) * 0.035;
+    const idleHoverZ = Math.sin(time * 0.5) * 0.025;
 
     // Mouse parallax offset (ethereal 3D perspective shift)
-    const px = s.pointerX * 0.45 + idleHoverX;
-    const py = s.pointerY * 0.32 + idleHoverY;
+    const px = s.pointerX * 0.38 + idleHoverX;
+    const py = s.pointerY * 0.28 + idleHoverY;
 
     // Camera target position with parallax
     const camPos = pos
@@ -120,17 +123,19 @@ export default function CameraController() {
 
     camera.position.copy(camPos);
 
-    // Dynamic bank / roll into the turn
-    const bankAngle = THREE.MathUtils.clamp(s.velocity * -0.35, -0.22, 0.22);
+    // Gentle, cinematic bank / roll into the turn
+    const targetBank = THREE.MathUtils.clamp(s.velocity * -0.22, -0.14, 0.14);
+    s.bankAngle = THREE.MathUtils.damp(s.bankAngle || 0, targetBank, 3.5, delta);
+
     camera.up.set(
-      Math.sin(bankAngle) * right.x,
-      Math.cos(bankAngle),
-      Math.sin(bankAngle) * right.z
+      Math.sin(s.bankAngle) * right.x,
+      Math.cos(s.bankAngle),
+      Math.sin(s.bankAngle) * right.z
     ).normalize();
 
     // Look slightly towards center with parallax compensation
     const targetLookAt = BLACK_HOLE_CENTER.clone().add(
-      new THREE.Vector3(px * 0.3, py * 0.3, 0)
+      new THREE.Vector3(px * 0.25, py * 0.25, 0)
     );
     camera.lookAt(targetLookAt);
   });

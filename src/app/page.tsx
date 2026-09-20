@@ -57,23 +57,47 @@ export default function Home() {
   useEffect(() => {
     if (!is3D) return;
 
-    const handleWheel = (e: WheelEvent) => {
-      // If user is actively scrolling inside an overflowing scroll container, don't hijack immediately
-      const target = e.target as HTMLElement | null;
-      const scrollable = target?.closest('.overflow-y-auto');
-      if (scrollable) {
-        const atTop = scrollable.scrollTop <= 2 && e.deltaY < -20;
-        const atBottom =
-          scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 4 &&
-          e.deltaY > 20;
+    let overscrollAccumulator = 0;
 
-        if (!atTop && !atBottom) {
-          return; // Allow natural content scroll
+    const handleWheel = (e: WheelEvent) => {
+      // Check active panel's scrollable container anywhere inside the view
+      const scrollable = document.querySelector('.overflow-y-auto') as HTMLElement | null;
+
+      if (scrollable) {
+        const canScroll = scrollable.scrollHeight > scrollable.clientHeight + 15;
+        if (canScroll) {
+          const atTop = scrollable.scrollTop <= 2;
+          const atBottom =
+            scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 8;
+
+          // While user is actively scrolling through content, allow natural scroll without hijacking
+          if ((!atTop && e.deltaY < 0) || (!atBottom && e.deltaY > 0)) {
+            overscrollAccumulator = 0;
+            return;
+          }
+
+          // User is at boundary: require deliberate, sustained overscroll (> 240 delta)
+          if (atBottom && e.deltaY > 0) {
+            overscrollAccumulator += e.deltaY;
+            if (overscrollAccumulator < 240) {
+              return;
+            }
+            overscrollAccumulator = 0;
+          } else if (atTop && e.deltaY < 0) {
+            overscrollAccumulator += Math.abs(e.deltaY);
+            if (overscrollAccumulator < 240) {
+              return;
+            }
+            overscrollAccumulator = 0;
+          } else {
+            overscrollAccumulator = 0;
+            return;
+          }
         }
       }
 
       const now = Date.now();
-      if (now - lastScrollTime.current < 900) return; // 900ms smooth debounce
+      if (now - lastScrollTime.current < 1100) return; // 1100ms smooth debounce
 
       if (Math.abs(e.deltaY) > 35) {
         lastScrollTime.current = now;
@@ -112,21 +136,23 @@ export default function Home() {
       const touchEndY = e.changedTouches[0].clientY;
       const deltaY = touchStartY.current - touchEndY;
 
-      const target = e.target as HTMLElement | null;
-      const scrollable = target?.closest('.overflow-y-auto');
+      const scrollable = document.querySelector('.overflow-y-auto') as HTMLElement | null;
       if (scrollable) {
-        const atTop = scrollable.scrollTop <= 2 && deltaY < -40;
-        const atBottom =
-          scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 4 &&
-          deltaY > 40;
+        const canScroll = scrollable.scrollHeight > scrollable.clientHeight + 15;
+        if (canScroll) {
+          const atTop = scrollable.scrollTop <= 2 && deltaY < -60;
+          const atBottom =
+            scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 8 &&
+            deltaY > 60;
 
-        if (!atTop && !atBottom) return;
+          if (!atTop && !atBottom) return;
+        }
       }
 
       const now = Date.now();
-      if (now - lastScrollTime.current < 800) return;
+      if (now - lastScrollTime.current < 900) return;
 
-      if (Math.abs(deltaY) > 60) {
+      if (Math.abs(deltaY) > 75) {
         lastScrollTime.current = now;
         if (deltaY > 0) {
           navigateStation('next');

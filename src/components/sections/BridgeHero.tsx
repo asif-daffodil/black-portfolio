@@ -1,18 +1,69 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import FloatingPanel from '@/components/hud/FloatingPanel';
 import { profileData } from '@/data/profile';
-import { ArrowRight, Download, Award, ShieldCheck, Star, Sparkles } from 'lucide-react';
+import { ArrowRight, Download, Award, ShieldCheck, Star, Sparkles, Camera } from 'lucide-react';
 import { useSceneStore } from '@/store/useSceneStore';
 import { soundFX } from '@/lib/sound';
 
+const HERO_PERSPECTIVES = [
+  {
+    id: 'executive',
+    label: 'Executive',
+    badge: 'ZCE 7.1',
+    src: '/images/asif-abir-executive.png',
+    title: 'Zend Certified PHP Engineer',
+    metric: '100% JSS · 37+ Contracts',
+  },
+  {
+    id: 'architect',
+    label: 'Architect',
+    badge: '14+ YRS',
+    src: '/images/asif-abir-architect.jpg',
+    title: 'Lead Software Architect',
+    metric: 'Enterprise Cloud & ERP',
+  },
+  {
+    id: 'outdoor',
+    label: 'Explorer',
+    badge: 'GLOBAL',
+    src: '/images/asif-abir-outdoor.jpg',
+    title: 'System Builder & Explorer',
+    metric: 'Scalable Microservices',
+  },
+  {
+    id: 'focus',
+    label: 'Focus',
+    badge: 'AI CORE',
+    src: '/images/asif-abir-selfie.jpg',
+    title: 'AI & Next-Gen Innovator',
+    metric: 'Autonomous Workflows',
+  },
+  {
+    id: 'candid',
+    label: 'Mentor',
+    badge: 'COMMUNITY',
+    src: '/images/asif-abir-candid.jpg',
+    title: 'Tech Lead & Mentor',
+    metric: 'Engineering Excellence',
+  },
+];
+
 export default function BridgeHero() {
   const setSection = useSceneStore((state) => state.setSection);
+  const [photoIndex, setPhotoIndex] = useState(0);
+  const currentPhoto = HERO_PERSPECTIVES[photoIndex];
 
   const handleJump = (id: 'portfolio' | 'contact') => {
     soundFX.playButtonClick();
     setSection(id);
+  };
+
+  const handleSelectPhoto = (idx: number) => {
+    soundFX.playButtonClick();
+    setPhotoIndex(idx);
   };
 
   return (
@@ -92,8 +143,8 @@ export default function BridgeHero() {
           </div>
         </div>
 
-        {/* Right Feature: New Executive Studio Portrait Card */}
-        <div className="lg:col-span-5 flex justify-center">
+        {/* Right Feature: Interactive 5-Perspective Portrait Card */}
+        <div className="lg:col-span-5 flex flex-col items-center gap-3">
           <div className="relative w-60 sm:w-72 aspect-[4/5] rounded-3xl overflow-hidden glass-luxury p-2.5 group shadow-[0_20px_60px_rgba(0,0,0,0.8)] border border-cyan-500/30">
             {/* Hologram Scanner Effect */}
             <div className="hologram-scanner" />
@@ -101,8 +152,9 @@ export default function BridgeHero() {
             {/* Inner Portrait Container */}
             <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gradient-to-b from-[#0e1628] to-[#040711] border border-white/10">
               <Image
-                src="/images/asif-abir-executive.png"
-                alt="Portrait of Asif Abir, Zend Certified PHP Engineer"
+                key={currentPhoto.src}
+                src={currentPhoto.src}
+                alt={`Portrait of Asif Abir - ${currentPhoto.label}`}
                 fill
                 sizes="(max-width: 768px) 100vw, 360px"
                 className="object-cover object-top scale-105 group-hover:scale-110 transition-transform duration-700 ease-out"
@@ -112,30 +164,55 @@ export default function BridgeHero() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#040711] via-[#040711]/20 to-transparent opacity-90" />
 
               {/* Floating Verified Badges */}
-              <div className="absolute bottom-3.5 left-3.5 right-3.5 p-3 rounded-2xl bg-[#070d1e]/90 backdrop-blur-2xl border border-white/15 space-y-1.5 shadow-2xl">
+              <div className="absolute bottom-3 left-3 right-3 p-2.5 rounded-2xl bg-[#070d1e]/90 backdrop-blur-2xl border border-white/15 space-y-1 shadow-2xl">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Award className="w-4 h-4 text-amber-400 drop-shadow-[0_0_6px_#f59e0b]" />
-                    <span className="text-xs font-bold text-white tracking-wide">
-                      Zend Certified PHP Engineer
+                  <div className="flex items-center gap-1.5 truncate">
+                    <Award className="w-3.5 h-3.5 text-amber-400 drop-shadow-[0_0_6px_#f59e0b] shrink-0" />
+                    <span className="text-xs font-bold text-white tracking-wide truncate">
+                      {currentPhoto.title}
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono font-bold text-amber-400 bg-amber-500/15 px-1.5 py-0.5 rounded border border-amber-500/30">
-                    ZCE 7.1
+                  <span className="text-[9px] font-mono font-bold text-amber-400 bg-amber-500/15 px-1.5 py-0.5 rounded border border-amber-500/30 shrink-0">
+                    {currentPhoto.badge}
                   </span>
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-emerald-400 font-medium">
-                  <div className="flex items-center gap-1.5">
-                    <Star className="w-3.5 h-3.5 fill-emerald-400 text-emerald-400" />
-                    <span>Upwork Top Rated</span>
+                <div className="flex items-center justify-between text-[11px] text-emerald-400 font-medium">
+                  <div className="flex items-center gap-1">
+                    <Star className="w-3 h-3 fill-emerald-400 text-emerald-400" />
+                    <span>Verified Profile</span>
                   </div>
-                  <span className="font-mono text-[11px] font-bold text-white">
-                    100% JSS · 37+ Contracts
+                  <span className="font-mono text-[10px] font-bold text-white">
+                    {currentPhoto.metric}
                   </span>
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* 5-Photo Switcher Bar */}
+          <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-xl font-mono text-[10px]">
+            <span className="px-2 py-0.5 text-gray-400 flex items-center gap-1">
+              <Camera className="w-3 h-3 text-cyan-400" />
+              <span>VIEWS:</span>
+            </span>
+            {HERO_PERSPECTIVES.map((p, idx) => {
+              const active = idx === photoIndex;
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => handleSelectPhoto(idx)}
+                  className={`px-2.5 py-1 rounded-xl transition-all cursor-pointer ${
+                    active
+                      ? 'bg-cyan-500/25 border border-cyan-400/50 text-cyan-300 font-bold shadow-[0_0_10px_rgba(56,189,248,0.3)]'
+                      : 'text-gray-400 hover:text-white hover:bg-white/[0.06]'
+                  }`}
+                  title={p.title}
+                >
+                  {p.label}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

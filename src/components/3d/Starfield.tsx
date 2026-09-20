@@ -87,8 +87,23 @@ export default function Starfield({ count = 2800 }: StarfieldProps) {
     }
 
     if (dustRef.current) {
-      dustRef.current.rotation.y += delta * 0.012;
-      dustRef.current.rotation.z += delta * 0.006;
+      dustRef.current.rotation.y += delta * 0.008;
+      dustRef.current.rotation.z += delta * 0.004;
+
+      const posAttr = dustRef.current.geometry.attributes.position;
+      const posArray = posAttr.array as Float32Array;
+      const speed = delta * 1.8; // continuous cosmic forward flight drift
+
+      for (let i = 0; i < posArray.length; i += 3) {
+        posArray[i + 2] += speed;
+        // When particle streams past camera viewport (z > 6), recycle it far ahead (z = -16)
+        if (posArray[i + 2] > 6) {
+          posArray[i + 2] = -16;
+          posArray[i] = (Math.random() - 0.5) * 22;
+          posArray[i + 1] = (Math.random() - 0.5) * 14;
+        }
+      }
+      posAttr.needsUpdate = true;
     }
   });
 

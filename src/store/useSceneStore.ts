@@ -210,13 +210,12 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
 
     const {
       direction,
-      intermediates,
       travelDuration,
       exitDuration,
       enterDuration,
     } = getRailTravelTiming(currentSection, targetSection);
 
-    // Step 1: Thrusters fire! Active section and transition timing update at the exact same moment
+    // Step 1: Active section and transition timing update smoothly
     set({
       activeSection: targetSection,
       transitionDirection: direction,
@@ -226,41 +225,15 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
       isFlashing: false,
     });
 
-    const exitMs = Math.round(exitDuration * 1000);
-    const flashMs = 160;
-
-    if (intermediates.length === 0) {
-      // Adjacent station: after outgoing panel begins exit, target mounts at arrival delay
-      const arrivalDelay = 350;
-      const tArrive = setTimeout(() => {
-        set({
-          displayedSection: targetSection,
-          isFlashing: false,
-        });
-      }, arrivalDelay);
-      transitionTimeouts.push(tArrive);
-    } else {
-      // Flash through intermediate stations along the shorter arc
-      intermediates.forEach((interId, idx) => {
-        const tFlash = setTimeout(() => {
-          set({
-            displayedSection: interId,
-            isFlashing: true,
-          });
-        }, exitMs + idx * flashMs);
-        transitionTimeouts.push(tFlash);
+    // Step 2: Smooth cinematic handoff: outgoing panel exits, then target section arrives as camera nears destination
+    const arrivalDelay = Math.round(exitDuration * 1000) + 80;
+    const tArrive = setTimeout(() => {
+      set({
+        displayedSection: targetSection,
+        isFlashing: false,
       });
-
-      // Target station arrives after all intermediate stations have passed
-      const arrivalDelay = exitMs + intermediates.length * flashMs + 50;
-      const tTarget = setTimeout(() => {
-        set({
-          displayedSection: targetSection,
-          isFlashing: false,
-        });
-      }, arrivalDelay);
-      transitionTimeouts.push(tTarget);
-    }
+    }, arrivalDelay);
+    transitionTimeouts.push(tArrive);
   },
   selectedProjectId: null,
   setSelectedProject: (id: string | null) => set({ selectedProjectId: id }),

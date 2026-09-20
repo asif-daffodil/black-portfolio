@@ -24,6 +24,28 @@ export default function ExperienceSection() {
           </p>
         </div>
 
+        {/* Executive Experience Highlights Banner */}
+        <div className="flex flex-col sm:flex-row items-center gap-4 p-4 rounded-2xl glass-panel border border-cyan-500/20 bg-gradient-to-r from-[#070e1c] to-black/60">
+          <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden border border-cyan-400/40 shrink-0 shadow-lg">
+            <Image
+              src="/images/asif-abir-architect.jpg"
+              alt="Asif Abir Lead Architect"
+              fill
+              sizes="80px"
+              className="object-cover object-center"
+            />
+          </div>
+          <div className="space-y-1 text-center sm:text-left">
+            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+              <span className="text-sm font-bold text-white">14+ Years Enterprise Engineering Leadership</span>
+              <span className="text-[10px] font-mono text-cyan-300 bg-cyan-500/15 px-2 py-0.5 rounded border border-cyan-500/30">ZCE 7.1</span>
+            </div>
+            <p className="text-xs text-gray-300 leading-relaxed font-light">
+              From architecting Daffodil Group university admissions and ERP portals to leading international media and fintech cloud architectures.
+            </p>
+          </div>
+        </div>
+
         {/* Vertical Flight Log Timeline */}
         <div className="relative border-l-2 border-cyan-500/30 ml-4 sm:ml-6 space-y-8 pl-6 sm:pl-8">
           {experienceData.map((log) => (

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { contactData } from '@/data/contact';
 import FloatingPanel from '@/components/hud/FloatingPanel';
 import {
@@ -86,6 +87,31 @@ export default function ContactSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Left Column: Telemetry Channels & Social Links */}
           <div className="lg:col-span-5 space-y-4">
+            {/* Direct Connect Portrait Card */}
+            <div className="flex items-center gap-3.5 p-3.5 rounded-2xl glass-panel border border-cyan-500/25 bg-gradient-to-r from-cyan-950/40 to-black/60 shadow-lg">
+              <div className="relative w-14 h-14 rounded-xl overflow-hidden border border-cyan-400/40 shrink-0 shadow-md">
+                <Image
+                  src="/images/asif-abir-candid.jpg"
+                  alt="Asif Abir direct contact"
+                  fill
+                  sizes="64px"
+                  className="object-cover object-center"
+                />
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-white">
+                  <span>Direct Advisory & Architecture</span>
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                </div>
+                <p className="text-[11px] text-gray-300 font-mono truncate">
+                  Available for contracts, audits & advisory
+                </p>
+                <span className="text-[9px] font-mono text-cyan-300">
+                  Dhaka, Bangladesh · Response time &lt; 4h
+                </span>
+              </div>
+            </div>
+
             <div className="glass-panel p-5 sm:p-6 rounded-2xl border border-white/10 space-y-4">
               <div className="flex items-center justify-between border-b border-white/10 pb-3">
                 <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-2">
