@@ -67,26 +67,28 @@ export function getRailTravelTiming(fromId: SectionId, toId: SectionId): {
     return {
       direction,
       intermediates,
-      travelDuration: 1.30,
-      exitDuration: 0.30,
-      enterDuration: 0.85,
+      travelDuration: 2.10,
+      exitDuration: 0.35,
+      enterDuration: 0.70,
     };
   }
 
   // Multi-station hop (e.g. Bridge -> Education, 3 intermediates)
-  const travelDuration = 1.30 + intermediateCount * 0.16;
+  const travelDuration = 2.10 + intermediateCount * 0.12;
   return {
     direction,
     intermediates,
     travelDuration,
-    exitDuration: 0.24,
-    enterDuration: 0.85,
+    exitDuration: 0.35,
+    enterDuration: 0.70,
   };
 }
 
+export type BootStage = 'loading' | 'powering' | 'flicker' | 'iris' | 'push_in' | 'ready';
+
 export interface SceneStore {
   activeSection: SectionId;
-  displayedSection: SectionId;
+  displayedSection: SectionId | null;
   transitionDirection: TravelDirection;
   isFlashing: boolean;
   travelDuration: number;
@@ -99,6 +101,10 @@ export interface SceneStore {
   toggleMute: () => void;
   isBooted: boolean;
   setBooted: (booted: boolean) => void;
+  bootStage: BootStage;
+  setBootStage: (stage: BootStage) => void;
+  bootPoweredCount: number;
+  setBootPoweredCount: (count: number) => void;
   viewMode: ViewMode;
   setViewMode: (mode: ViewMode) => void;
   detectionReason: string | null;
@@ -179,9 +185,9 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
   displayedSection: 'bridge',
   transitionDirection: 'none',
   isFlashing: false,
-  travelDuration: 1.3,
-  exitDuration: 0.3,
-  enterDuration: 0.85,
+  travelDuration: 2.10,
+  exitDuration: 0.35,
+  enterDuration: 0.70,
   setSection: (targetSection: SectionId) => {
     const currentSection = get().activeSection;
     if (currentSection === targetSection) return;
@@ -215,9 +221,10 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
       enterDuration,
     } = getRailTravelTiming(currentSection, targetSection);
 
-    // Step 1: Active section and transition timing update smoothly
+    // Step 1: Active section updates, outgoing panel immediately begins responsive exit (~0.35s)
     set({
       activeSection: targetSection,
+      displayedSection: null,
       transitionDirection: direction,
       travelDuration,
       exitDuration,
@@ -225,8 +232,8 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
       isFlashing: false,
     });
 
-    // Step 2: Smooth cinematic handoff: outgoing panel exits, then target section arrives as camera nears destination
-    const arrivalDelay = Math.round(exitDuration * 1000) + 80;
+    // Step 2: Smooth cinematic handoff: camera approaches destination, and new holographic panel arrives
+    const arrivalDelay = Math.max(Math.round((travelDuration - enterDuration * 0.75) * 1000), 500);
     const tArrive = setTimeout(() => {
       set({
         displayedSection: targetSection,
@@ -237,10 +244,23 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
   },
   selectedProjectId: null,
   setSelectedProject: (id: string | null) => set({ selectedProjectId: id }),
-  isMuted: true, // sound off by default as requested
+  isMuted: false, // audio system armed; engages upon first user click to satisfy browser autoplay policies
   toggleMute: () => set((state) => ({ isMuted: !state.isMuted })),
   isBooted: false,
-  setBooted: (booted: boolean) => set({ isBooted: booted }),
+  setBooted: (booted: boolean) => {
+    try {
+      if (booted && typeof window !== 'undefined') {
+        sessionStorage.setItem('asif_portfolio_has_booted', 'true');
+      }
+    } catch {
+      // ignore storage errors
+    }
+    set({ isBooted: booted });
+  },
+  bootStage: 'loading',
+  setBootStage: (stage: BootStage) => set({ bootStage: stage }),
+  bootPoweredCount: 0,
+  setBootPoweredCount: (count: number) => set({ bootPoweredCount: count }),
   viewMode: '3d',
   detectionReason: null,
   railProgress: 0,

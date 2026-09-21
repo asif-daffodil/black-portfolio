@@ -4,13 +4,16 @@ import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-// Accretion Disk Custom Shader
+// ── 1. ACCRETION DISK SHADER ───────────────────────────────────────────────
+// Thin glowing torus-like disk with radial color gradient:
+// White-hot near center -> brilliant gold -> deep fiery orange -> blood red edges
+// Keplerian differential rotation & relativistic Doppler beaming
 const AccretionDiskShader = {
   uniforms: {
     uTime: { value: 0 },
-    uInnerRadius: { value: 0.28 },
-    uOuterRadius: { value: 0.98 },
-    uGlowIntensity: { value: 2.2 },
+    uInnerRadius: { value: 0.38 },
+    uOuterRadius: { value: 0.94 },
+    uGlowIntensity: { value: 1.5 },
   },
   vertexShader: `
     varying vec2 vUv;
@@ -28,14 +31,14 @@ const AccretionDiskShader = {
     uniform float uGlowIntensity;
     varying vec2 vUv;
 
-    // Procedural noise approximation
+    // Fast hash & smooth value noise
     float hash(vec2 p) {
       p = fract(p * vec2(123.34, 456.21));
       p += dot(p, p + 45.32);
       return fract(p.x * p.y);
     }
 
-    float noise(vec2 p) {
+    float vnoise(vec2 p) {
       vec2 i = floor(p);
       vec2 f = fract(p);
       f = f * f * (3.0 - 2.0 * f);
@@ -52,59 +55,72 @@ const AccretionDiskShader = {
       float r = length(center) * 2.0;
       float theta = atan(center.y, center.x);
 
-      // Discard outside accretion bounds with soft feathering
+      // Discard outside accretion bounds with smooth boundary feathering
       if (r < uInnerRadius || r > uOuterRadius) {
         discard;
       }
 
-      float edgeAlpha = smoothstep(uInnerRadius, uInnerRadius + 0.06, r) * 
-                         (1.0 - smoothstep(uOuterRadius - 0.1, uOuterRadius, r));
+      // Smooth inner and outer edge alpha falloff
+      float innerEdge = smoothstep(uInnerRadius, uInnerRadius + 0.06, r);
+      float outerEdge = 1.0 - smoothstep(uOuterRadius - 0.16, uOuterRadius, r);
+      float edgeMask = innerEdge * outerEdge;
 
-      // Differential orbital rotation (Keplerian: inner rotates faster)
-      float speed = 1.4 / sqrt(max(r, 0.1));
-      float rotAngle = theta - uTime * speed;
+      // Keplerian differential rotation (inner plasma spins faster than outer rim)
+      float orbitalSpeed = 1.25 / sqrt(max(r, 0.14));
+      float rotAngle = theta - uTime * orbitalSpeed;
 
-      // Swirling noise filaments
-      vec2 swirlUv = vec2(rotAngle * 2.5, r * 12.0);
-      float n1 = noise(swirlUv);
-      float n2 = noise(swirlUv * 2.2 + vec2(uTime * 1.2, -uTime * 0.8));
-      float plasma = n1 * 0.6 + n2 * 0.4;
+      // Swirling magnetized plasma filaments
+      vec2 swirlUv1 = vec2(rotAngle * 3.2, r * 16.0);
+      vec2 swirlUv2 = vec2(rotAngle * 5.0 + uTime * 0.7, r * 26.0 - uTime * 0.4);
+      float n1 = vnoise(swirlUv1);
+      float n2 = vnoise(swirlUv2);
+      float plasma = n1 * 0.65 + n2 * 0.35;
 
-      // Normalized radial coordinate (0 at inner edge, 1 at outer edge)
-      float normR = (r - uInnerRadius) / (uOuterRadius - uInnerRadius);
+      // Normalized radial position [0.0 = ISCO inner rim, 1.0 = outer fringe]
+      float normR = clamp((r - uInnerRadius) / (uOuterRadius - uInnerRadius), 0.0, 1.0);
 
-      // Color Gradient:
-      // Inner: Intense glowing warm amber/gold (#ff9500 to #ff5e00)
-      // Rim: Cooler blue-white incandescent rim (#60a5fa to #e0f2fe)
-      vec3 coreWarm = vec3(1.0, 0.45, 0.08); // Hot amber/orange
-      vec3 coreGold = vec3(1.0, 0.75, 0.2);  // Rich gold
-      vec3 rimBlue  = vec3(0.5, 0.78, 1.0);  // Doppler blue-white
-      vec3 deepRed  = vec3(0.7, 0.12, 0.02); // Outer red fringe
+      // ── Physical Radial Thermal Color Gradient ──
+      // Inner rim: White-hot incandescent thermal radiation (> 30,000 K)
+      vec3 whiteHot   = vec3(1.15, 1.1, 1.05);  // Incandescent white-hot
+      vec3 brightGold  = vec3(1.0, 0.72, 0.16);  // Solar gold (~10,000 K)
+      vec3 deepOrange  = vec3(0.95, 0.30, 0.03); // Fiery orange (~5,000 K)
+      vec3 darkCrimson = vec3(0.48, 0.05, 0.01); // Cold red fringe (~2,500 K)
 
-      vec3 color = mix(coreWarm, coreGold, smoothstep(0.0, 0.35, normR));
-      color = mix(color, rimBlue, smoothstep(0.65, 1.0, normR));
+      vec3 diskColor;
+      if (normR < 0.16) {
+        diskColor = mix(whiteHot, brightGold, smoothstep(0.0, 0.16, normR));
+      } else if (normR < 0.58) {
+        diskColor = mix(brightGold, deepOrange, smoothstep(0.16, 0.58, normR));
+      } else {
+        diskColor = mix(deepOrange, darkCrimson, smoothstep(0.58, 1.0, normR));
+      }
 
-      // Relativistic Doppler Beaming Effect:
-      // Approaching side (left side: cos(theta + offset) > 0) is significantly brighter and blue-shifted
-      // Receding side (right side) is dimmer and red-shifted
-      float dopplerFactor = 0.5 + 0.5 * cos(theta + 1.25);
-      float beaming = mix(0.4, 1.95, dopplerFactor);
-      vec3 dopplerColor = mix(deepRed, color, dopplerFactor * 0.7 + 0.3);
+      // ── Relativistic Doppler Beaming ──
+      // Approaching side (left) boosted, receding side (right) dimmed
+      float dopplerPhase = cos(theta + 1.30);
+      float dopplerFactor = 0.5 + 0.5 * dopplerPhase;
+      float beaming = mix(0.45, 1.85, pow(dopplerFactor, 1.3));
+      vec3 beamedColor = mix(diskColor * 0.75, diskColor * 1.25, dopplerFactor);
 
-      // Combine plasma texture, temperature colors, and beaming
-      vec3 finalColor = dopplerColor * (0.8 + plasma * 1.4) * beaming * uGlowIntensity;
-      float alpha = edgeAlpha * (0.75 + plasma * 0.35);
+      // Combine plasma texture with beaming & glow
+      vec3 finalColor = beamedColor * (0.8 + plasma * 1.3) * beaming * uGlowIntensity;
+      float alpha = edgeMask * (0.8 + plasma * 0.35);
 
       gl_FragColor = vec4(finalColor, alpha);
     }
   `,
 };
 
-// Gravitational Lensing Halo / Einstein Ring Shader
+// ── 2. GRAVITATIONAL LENSING DISTORTION SHADER ─────────────────────────────
+// Warps and bends the background star field directly behind and around the disk
+// using a fragment UV deflection offset based on distance to the singularity center (1/r)
+// Renders the black hole shadow, curved Einstein arclets, and bright photon ring
 const GravitationalLensingShader = {
   uniforms: {
     uTime: { value: 0 },
-    uDistortion: { value: 0.18 },
+    uShadowRadius: { value: 0.38 },
+    uLensingStrength: { value: 0.075 },
+    uPhotonRingBrightness: { value: 2.1 },
   },
   vertexShader: `
     varying vec2 vUv;
@@ -115,26 +131,82 @@ const GravitationalLensingShader = {
   `,
   fragmentShader: `
     uniform float uTime;
-    uniform float uDistortion;
+    uniform float uShadowRadius;
+    uniform float uLensingStrength;
+    uniform float uPhotonRingBrightness;
     varying vec2 vUv;
 
+    // Procedural pseudo-random hash for background stars
+    float starHash(vec2 p) {
+      p = fract(p * vec2(443.897, 441.423));
+      p += dot(p, p + 19.19);
+      return fract(p.x * p.y);
+    }
+
+    // Procedural starfield generator with warped UVs
+    float getLensedStars(vec2 uv) {
+      vec2 grid = uv * 32.0;
+      vec2 id = floor(grid);
+      vec2 gv = fract(grid) - 0.5;
+
+      float starTotal = 0.0;
+      for (int y = -1; y <= 1; y++) {
+        for (int x = -1; x <= 1; x++) {
+          vec2 neighbor = vec2(float(x), float(y));
+          float h = starHash(id + neighbor);
+          if (h > 0.88) {
+            vec2 starPos = neighbor + (vec2(starHash(id + neighbor + 1.2), starHash(id + neighbor + 2.7)) - 0.5) * 0.7;
+            float d = length(gv - starPos);
+            float brightness = smoothstep(0.12, 0.0, d) * (0.6 + 0.4 * sin(uTime * 1.5 + h * 30.0));
+            starTotal += brightness;
+          }
+        }
+      }
+      return starTotal;
+    }
+
     void main() {
-      vec2 center = vUv - vec2(0.5);
-      float r = length(center) * 2.0;
+      vec2 p = vUv - vec2(0.5);
+      float r = length(p) * 2.0;
 
-      // Einstein ring: bright halo tightly hugging the photon sphere (r ~ 0.65 - 0.85)
-      float ring = exp(-pow((r - 0.72) / 0.045, 2.0));
-      float halo = exp(-pow((r - 0.88) / 0.12, 2.0)) * 0.35;
+      // ── Event Horizon Shadow: Pure light absorption inside photon capture radius ──
+      if (r < uShadowRadius) {
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
+        return;
+      }
 
-      // Color of gravitationally deflected light
-      vec3 ringColor = vec3(0.9, 0.95, 1.0) * 2.2;
-      vec3 haloColor = vec3(1.0, 0.65, 0.25) * 1.4;
-      vec3 finalColor = ringColor * ring + haloColor * halo;
+      // ── Gravitational Lensing Deflection ──
+      // Deflection vector points radially outward from center
+      vec2 dir = normalize(p);
+      float deltaR = max(r - uShadowRadius + 0.02, 0.001);
+      float deflection = uLensingStrength / pow(deltaR, 1.5);
+      vec2 warpedUv = (p - dir * deflection) * 0.5 + vec2(0.5);
 
-      float alpha = (ring + halo) * 0.85;
-      if (alpha < 0.01) discard;
+      // Sample background stars through warped gravitational metric
+      float starIntensity = getLensedStars(warpedUv);
+      vec3 starColor = mix(vec3(0.7, 0.85, 1.0), vec3(1.0, 0.9, 0.7), starHash(floor(warpedUv * 32.0)));
+      vec3 lensedStarlight = starColor * starIntensity * 1.4;
 
-      gl_FragColor = vec4(finalColor, alpha);
+      // ── Einstein Ring / Photon Sphere ──
+      float photonR = uShadowRadius + 0.032;
+      float photonRing = exp(-pow((r - photonR) / 0.018, 2.0)) * uPhotonRingBrightness;
+      float diffuseHalo = exp(-pow((r - photonR) / 0.12, 2.0)) * 0.38;
+
+      vec3 ringColor = vec3(1.0, 0.96, 0.90) * photonRing;
+      vec3 haloColor = vec3(1.0, 0.60, 0.18) * diffuseHalo;
+
+      // ── Upper & Lower Lensed Disk Projection Arcs (Gargantua Effect) ──
+      float upperArc = exp(-pow((r - (uShadowRadius + 0.16)) / 0.08, 2.0)) * abs(dir.y);
+      vec3 arcColor = vec3(1.0, 0.65, 0.18) * upperArc * 0.65;
+
+      vec3 finalRgb = ringColor + haloColor + arcColor + lensedStarlight;
+      float finalAlpha = clamp(photonRing + diffuseHalo * 0.6 + upperArc * 0.55 + starIntensity, 0.0, 1.0);
+
+      if (finalAlpha < 0.005) {
+        discard;
+      }
+
+      gl_FragColor = vec4(finalRgb, finalAlpha);
     }
   `,
 };
@@ -172,8 +244,8 @@ export default function BlackHole() {
 
     if (groupRef.current) {
       // Subtle organic sway reacting to mouse pointer parallax
-      const targetX = state.pointer.x * 0.25;
-      const targetY = state.pointer.y * 0.15;
+      const targetX = state.pointer.x * 0.22;
+      const targetY = state.pointer.y * 0.14;
       groupRef.current.position.x = THREE.MathUtils.lerp(
         groupRef.current.position.x,
         targetX,
@@ -189,15 +261,15 @@ export default function BlackHole() {
 
   return (
     <group ref={groupRef} position={[0, 0.5, -4]}>
-      {/* 1. Pure Event Horizon: Absorbs all light */}
+      {/* ── 1. Central Opaque Event Horizon Sphere ── */}
       <mesh position={[0, 0, 0]}>
-        <sphereGeometry args={[1.05, 64, 64]} />
+        <sphereGeometry args={[1.02, 64, 64]} />
         <meshBasicMaterial color="#000000" />
       </mesh>
 
-      {/* 2. Gravitational Lensing / Einstein Ring Halo */}
-      <mesh position={[0, 0, 0.05]}>
-        <planeGeometry args={[3.2, 3.2]} />
+      {/* ── 2. Gravitational Lensing & Einstein Ring Distortion Quad ── */}
+      <mesh position={[0, 0, -0.02]}>
+        <planeGeometry args={[4.4, 4.4]} />
         <shaderMaterial
           ref={lensingMaterialRef}
           vertexShader={GravitationalLensingShader.vertexShader}
@@ -209,13 +281,13 @@ export default function BlackHole() {
         />
       </mesh>
 
-      {/* 3. Accretion Disk (Tilted toward viewer like Gargantua) */}
+      {/* ── 3. Main Glowing Accretion Disk (Tilted toward viewer like Gargantua) ── */}
       <mesh
         ref={diskMeshRef}
         position={[0, 0, 0]}
-        rotation={[Math.PI * 0.42, 0, -Math.PI * 0.06]}
+        rotation={[Math.PI * 0.42, 0, -Math.PI * 0.08]}
       >
-        <planeGeometry args={[7.2, 7.2]} />
+        <planeGeometry args={[7.4, 7.4]} />
         <shaderMaterial
           ref={diskMaterialRef}
           vertexShader={AccretionDiskShader.vertexShader}
@@ -225,23 +297,6 @@ export default function BlackHole() {
           side={THREE.DoubleSide}
           depthWrite={false}
           blending={THREE.AdditiveBlending}
-        />
-      </mesh>
-
-      {/* 4. Secondary Secondary Cross-Ring (Upper & Lower Lensed Disk Projection) */}
-      <mesh
-        position={[0, 0, -0.05]}
-        rotation={[0, 0, 0]}
-        scale={[1.1, 1.1, 1.1]}
-      >
-        <ringGeometry args={[1.1, 2.8, 64]} />
-        <meshBasicMaterial
-          color="#ff7700"
-          transparent
-          opacity={0.12}
-          blending={THREE.AdditiveBlending}
-          side={THREE.DoubleSide}
-          depthWrite={false}
         />
       </mesh>
     </group>

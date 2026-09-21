@@ -53,6 +53,7 @@ export default function AltitudeIndicator() {
               <button
                 key={st.id}
                 onClick={() => handleSelect(st.id)}
+                onMouseEnter={() => soundFX.playHoverTick()}
                 className={`group flex items-center gap-2.5 text-right transition-all duration-300 focus:outline-none ${
                   isActive
                     ? 'text-cyan-300 translate-x-0 font-semibold'

@@ -21,6 +21,7 @@ export default function ViewModeToggle() {
       <button
         type="button"
         onClick={handleToggle}
+        onMouseEnter={() => soundFX.playHoverTick()}
         aria-label={
           isClassic
             ? 'Launch 3D Cockpit View with interactive space animations'

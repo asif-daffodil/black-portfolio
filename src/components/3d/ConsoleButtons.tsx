@@ -14,14 +14,14 @@ interface ButtonConfig {
 }
 
 const BUTTONS: ButtonConfig[] = [
-  { id: 'bridge', label: 'HOME', code: 'NAV-01', color: '#38bdf8' },
-  { id: 'about', label: 'ABOUT', code: 'BIO-02', color: '#22d3ee' },
-  { id: 'skills', label: 'SKILLS', code: 'SYS-03', color: '#a855f7' },
-  { id: 'experience', label: 'EXP', code: 'LOG-04', color: '#34d399' },
-  { id: 'education', label: 'EDU', code: 'ACD-05', color: '#fbbf24' },
-  { id: 'ai', label: 'AI WORK', code: 'AI-06', color: '#f43f5e' },
-  { id: 'portfolio', label: 'PORTFOLIO', code: 'PRJ-07', color: '#818cf8' },
-  { id: 'contact', label: 'CONTACT', code: 'COM-08', color: '#2dd4bf' },
+  { id: 'bridge', label: 'HOME', code: 'NAV-00', color: '#f59e0b' },
+  { id: 'about', label: 'ABOUT', code: 'BIO-01', color: '#06b6d4' },
+  { id: 'skills', label: 'SKILLS', code: 'SYS-02', color: '#8b5cf6' },
+  { id: 'experience', label: 'EXP', code: 'LOG-03', color: '#10b981' },
+  { id: 'education', label: 'EDU', code: 'ACD-04', color: '#fbbf24' },
+  { id: 'ai', label: 'AI WORK', code: 'AI-05', color: '#ec4899' },
+  { id: 'portfolio', label: 'CHARTS', code: 'PRJ-06', color: '#6366f1' },
+  { id: 'contact', label: 'COMMS', code: 'COM-07', color: '#14b8a6' },
 ];
 
 function createPlaqueTexture(label: string, code: string, color: string, active: boolean) {
@@ -34,11 +34,11 @@ function createPlaqueTexture(label: string, code: string, color: string, active:
   if (!ctx) return null;
 
   // Background plaque
-  ctx.fillStyle = '#0f1422';
+  ctx.fillStyle = '#0a0e1a';
   ctx.fillRect(0, 0, 256, 128);
 
   // Border
-  ctx.strokeStyle = active ? color : 'rgba(255,255,255,0.15)';
+  ctx.strokeStyle = active ? color : 'rgba(255,255,255,0.18)';
   ctx.lineWidth = 6;
   ctx.strokeRect(4, 4, 248, 120);
 
@@ -124,19 +124,19 @@ function ConsoleButton({
     }
 
     if (materialRef.current) {
-      // Breathing emissive pulse
-      const breath = Math.sin(time * 2.8 + index * 0.5) * 0.25 + 0.75;
+      // 2. Idle State Standby Glow Pulse (2.6s cycle, 0.7 to 1.0)
+      const breath = Math.sin(time * 2.4 + index * 0.4) * 0.15 + 0.85;
       const baseEmissive = new THREE.Color(config.color);
 
       if (isActive) {
         materialRef.current.emissive.copy(baseEmissive);
-        materialRef.current.emissiveIntensity = 2.2 + breath * 0.8;
+        materialRef.current.emissiveIntensity = 2.4 * breath;
       } else if (hovered) {
         materialRef.current.emissive.copy(baseEmissive);
         materialRef.current.emissiveIntensity = 1.8;
       } else {
         materialRef.current.emissive.copy(baseEmissive);
-        materialRef.current.emissiveIntensity = 0.4 + breath * 0.3;
+        materialRef.current.emissiveIntensity = 0.45 * breath;
       }
     }
   });
@@ -144,21 +144,15 @@ function ConsoleButton({
   const handleClick = (e: { stopPropagation: () => void }) => {
     e.stopPropagation();
 
-    // Trigger tactile press animation
+    // 4. Trigger tactile press depression
     setPressed(true);
-    setTimeout(() => setPressed(false), 120);
+    setTimeout(() => setPressed(false), 160);
 
-    // Audio click (respects mute toggle)
+    // Audio feedback
     soundFX.playButtonClick();
 
-    // Update global Zustand store
+    // Update global store
     setSection(config.id);
-
-    // Smooth scroll page to target DOM section
-    const targetEl = document.getElementById(config.id);
-    if (targetEl) {
-      targetEl.scrollIntoView({ behavior: 'smooth' });
-    }
   };
 
   return (
@@ -182,8 +176,8 @@ function ConsoleButton({
         <boxGeometry args={[0.30, 0.16, 0.025]} />
         <meshStandardMaterial
           color="#0b0e17"
-          metalness={0.9}
-          roughness={0.35}
+          metalness={0.92}
+          roughness={0.32}
         />
       </mesh>
 
@@ -192,11 +186,11 @@ function ConsoleButton({
         <boxGeometry args={[0.28, 0.14, 0.022]} />
         <meshStandardMaterial
           ref={materialRef}
-          color="#121826"
+          color="#101726"
           emissive={config.color}
           emissiveIntensity={0.6}
-          metalness={0.8}
-          roughness={0.25}
+          metalness={0.82}
+          roughness={0.22}
         />
       </mesh>
 

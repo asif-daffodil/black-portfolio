@@ -1,6 +1,7 @@
 'use client';
 
 import { Canvas } from '@react-three/fiber';
+import * as THREE from 'three';
 import SceneContent from './SceneContent';
 
 export default function SceneCanvas() {
@@ -17,6 +18,9 @@ export default function SceneCanvas() {
           powerPreference: 'high-performance',
           stencil: false,
           depth: true,
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.12,
+          outputColorSpace: THREE.SRGBColorSpace,
         }}
         dpr={[1, 1.75]}
         style={{ background: '#030509' }}

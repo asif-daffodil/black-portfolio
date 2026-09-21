@@ -9,6 +9,7 @@ import CustomCursor from '@/components/ui/CustomCursor';
 import AltitudeIndicator from '@/components/ui/AltitudeIndicator';
 import ClassicPortfolio from '@/components/classic/ClassicPortfolio';
 import AnimatedPanelContainer from '@/components/hud/AnimatedPanelContainer';
+import BootSequence from '@/components/3d/BootSequence';
 import { ChevronDown, ChevronUp, Compass } from 'lucide-react';
 import { soundFX } from '@/lib/sound';
 
@@ -181,6 +182,9 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen text-gray-100 bg-[#030509] selection:bg-cyan-500/30 selection:text-white overflow-hidden">
+      {/* Cockpit Intro Boot Sequence */}
+      <BootSequence />
+
       {/* Custom Spring Magnetic Cursor */}
       <CustomCursor />
 
@@ -210,6 +214,7 @@ export default function Home() {
             {/* Prev Chapter Button */}
             <button
               onClick={() => navigateStation('prev')}
+              onMouseEnter={() => soundFX.playHoverTick()}
               aria-label="Previous Chapter"
               className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono text-gray-400 hover:text-cyan-300 hover:bg-white/[0.05] transition-colors focus:outline-none"
             >
@@ -228,6 +233,7 @@ export default function Home() {
             {/* Next Chapter Button */}
             <button
               onClick={() => navigateStation('next')}
+              onMouseEnter={() => soundFX.playHoverTick()}
               aria-label="Next Chapter"
               className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono text-gray-400 hover:text-cyan-300 hover:bg-white/[0.05] transition-colors focus:outline-none"
             >

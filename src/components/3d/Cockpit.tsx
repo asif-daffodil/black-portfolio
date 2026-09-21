@@ -4,30 +4,50 @@ import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import ConsoleButtons from './ConsoleButtons';
+import { useSceneStore, SectionId } from '@/store/useSceneStore';
+
+const SECTION_COCKPIT_COLORS: Record<SectionId, string> = {
+  bridge: '#f59e0b',     // Warm amber-gold (tied to black hole accretion disk)
+  about: '#06b6d4',      // Radiant cyan
+  skills: '#8b5cf6',     // Violet
+  experience: '#10b981',  // Emerald
+  education: '#fbbf24',  // Gold
+  ai: '#ec4899',         // Pink
+  portfolio: '#6366f1',  // Indigo
+  contact: '#14b8a6',    // Teal
+};
 
 export default function Cockpit() {
   const cockpitRef = useRef<THREE.Group>(null);
+  const pointLightRef = useRef<THREE.PointLight>(null);
+  const activeSection = useSceneStore((state) => state.activeSection);
 
-  useFrame((state) => {
+  useFrame(({ camera }, delta) => {
+    // Keep cockpit locked to camera frame
     if (cockpitRef.current) {
-      // Subtle cockpit inertia for spacecraft simulation
-      const targetX = state.pointer.x * 0.05;
-      const targetY = state.pointer.y * 0.03;
-      cockpitRef.current.position.x = THREE.MathUtils.lerp(
-        cockpitRef.current.position.x,
-        targetX,
-        0.05
-      );
-      cockpitRef.current.position.y = THREE.MathUtils.lerp(
-        cockpitRef.current.position.y,
-        targetY,
-        0.05
-      );
+      cockpitRef.current.position.copy(camera.position);
+      cockpitRef.current.quaternion.copy(camera.quaternion);
+    }
+
+    // Faint cockpit ambient light color subtly shifting based on black hole view
+    if (pointLightRef.current) {
+      const targetHex = SECTION_COCKPIT_COLORS[activeSection] || '#f59e0b';
+      pointLightRef.current.color.lerp(new THREE.Color(targetHex), delta * 2.5);
     }
   });
 
   return (
-    <group ref={cockpitRef} position={[0, 0, 0]}>
+    <group ref={cockpitRef}>
+      {/* ── FAINT COCKPIT INTERIOR AMBIENT LIGHT ── */}
+      {/* Subtle interior lighting shifting with black hole view */}
+      <pointLight
+        ref={pointLightRef}
+        position={[0, -0.4, 0.9]}
+        intensity={0.45}
+        distance={3.5}
+        color="#f59e0b"
+      />
+
       {/* ── 1. MAIN LOWER DASHBOARD / CONSOLE DECK ── */}
       {/* Central console bed */}
       <mesh position={[0, -1.05, 0.9]} rotation={[-Math.PI * 0.32, 0, 0]}>
@@ -138,7 +158,7 @@ export default function Cockpit() {
         <meshBasicMaterial color="#00f0ff" />
       </mesh>
 
-      {/* ── 4. PHYSICAL CONSOLE BUTTONS ── */}
+      {/* ── 4. PHYSICAL 3D CONSOLE BUTTONS ── */}
       <ConsoleButtons />
     </group>
   );

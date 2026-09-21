@@ -353,5 +353,224 @@
   background-size: 24px 24px;
 }
 
+/* ── PHYSICAL SCI-FI COCKPIT CONSOLE CONTROLS ── */
+
+/* 1. Idle State: Standby LED Indicator Glow Breathing (2.6s cycle) */
+@keyframes console-idle-pulse {
+  0%, 100% {
+    opacity: 0.72;
+    filter: drop-shadow(0 0 4px var(--accent-glow, rgba(245, 158, 11, 0.4)));
+  }
+  50% {
+    opacity: 1.0;
+    filter: drop-shadow(0 0 10px var(--accent-glow, rgba(245, 158, 11, 0.85)));
+  }
+}
+
+.console-standby-glow {
+  animation: console-idle-pulse 2.6s ease-in-out infinite;
+}
+
+/* 2. Hover State: Thin Laser Scan-Line Sweep across button once */
+@keyframes console-scan-line {
+  0% {
+    transform: translateX(-120%) skewX(-20deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.9;
+  }
+  80% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(240%) skewX(-20deg);
+    opacity: 0;
+  }
+}
+
+.console-scan-sweep {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.5) 45%,
+    rgba(245, 158, 11, 0.9) 55%,
+    transparent 100%
+  );
+  pointer-events: none;
+  opacity: 0;
+}
+
+.group:hover .console-scan-sweep {
+  animation: console-scan-line 0.55s ease-out forwards;
+}
+
+/* 3. Click State: Button Mechanical Depression & Brightness Flash */
+.console-btn-depress {
+  transition: transform 0.12s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.12s ease-out, filter 0.15s ease-out;
+}
+
+.console-btn-depress:active,
+.console-btn-depressed {
+  transform: translateY(2px) scale(0.96) !important;
+  filter: brightness(1.75) contrast(1.1) !important;
+  box-shadow: 0 1px 0 #050811, 0 0 16px rgba(245, 158, 11, 0.8) !important;
+}
+
+/* 4. Active/Click State: Energy Conduit Light-Pulse traveling toward main screen */
+@keyframes conduit-beam-fire {
+  0% {
+    transform: scaleY(0) translateY(0);
+    opacity: 1;
+  }
+  40% {
+    transform: scaleY(1) translateY(30px);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1.8) translateY(140px);
+    opacity: 0;
+  }
+}
+
+.conduit-pulse-line {
+  animation: conduit-beam-fire 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: top center;
+}
+
+/* ── HOLOGRAPHIC 3D FLOATING CONTENT PANELS ── */
+
+/* 4. Continuous Idle Float (small vertical bob, 3.4s cycle, zero-g drift) */
+@keyframes holographic-idle-drift {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(0.12deg);
+  }
+}
+
+.hologram-float {
+  animation: holographic-idle-drift 3.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hologram-float {
+    animation: none !important;
+  }
+}
+
+/* 5. Holographic Heading Typography: subtle glow & letter-spacing */
+.holo-heading {
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.4), 0 0 28px var(--holo-accent, rgba(56, 189, 248, 0.35));
+}
+
+.holo-subheading {
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 10px var(--holo-accent, rgba(56, 189, 248, 0.3));
+}
+
+/* Ensure all headings inside holographic panels inherit subtle HUD glow & letter-spacing */
+.hologram-float h1,
+.hologram-float h2 {
+  letter-spacing: 0.035em;
+  text-shadow: 0 0 16px rgba(255, 255, 255, 0.25), 0 0 28px rgba(56, 189, 248, 0.22);
+}
+
+.hologram-float h3 {
+  letter-spacing: 0.025em;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+}
+
+/* Keep body text glow-free and high-contrast for readability */
+.hologram-float p,
+.hologram-float li,
+.hologram-float td {
+  text-shadow: none !important;
+}
+
+/* ── COCKPIT BOOT-UP INTRO SEQUENCE STYLES ── */
+
+/* 1. Console Button Power-On Ignition Flash */
+@keyframes console-btn-boot-power {
+  0% {
+    filter: brightness(0.2) contrast(0.8);
+    opacity: 0.3;
+  }
+  35% {
+    filter: brightness(2.6) contrast(1.4);
+    opacity: 1;
+    box-shadow: 0 0 22px rgba(0, 240, 255, 0.85), inset 0 0 10px rgba(255, 255, 255, 0.6);
+  }
+  100% {
+    filter: brightness(1) contrast(1);
+    opacity: 1;
+  }
+}
+
+.console-btn-boot-flash {
+  animation: console-btn-boot-power 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+/* 2. Brief HUD Static / CRT Glitch Flicker */
+@keyframes hud-static-flicker {
+  0% {
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.82;
+    transform: scaleY(1.02);
+  }
+  28% {
+    opacity: 0.12;
+  }
+  45% {
+    opacity: 0.95;
+    transform: scaleY(0.98);
+  }
+  62% {
+    opacity: 0.22;
+  }
+  80% {
+    opacity: 0.78;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.hud-flicker-overlay {
+  animation: hud-static-flicker 0.3s steps(5) forwards;
+}
+
+/* 3. Main Viewscreen Aperture Iris-In */
+@keyframes viewscreen-iris-in {
+  0% {
+    clip-path: circle(0% at 50% 50%);
+    filter: brightness(0) contrast(2);
+  }
+  40% {
+    clip-path: circle(22% at 50% 50%);
+    filter: brightness(1.7) contrast(1.3);
+  }
+  100% {
+    clip-path: circle(150% at 50% 50%);
+    filter: brightness(1) contrast(1);
+  }
+}
+
+.viewscreen-iris {
+  animation: viewscreen-iris-in 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+
+
+
+
 
 
