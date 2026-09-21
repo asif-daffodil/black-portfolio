@@ -13,7 +13,7 @@ export default function SceneCanvas() {
       <Canvas
         camera={{ position: [0, 0, 7.2], fov: 52 }}
         gl={{
-          antialias: true,
+          antialias: false,
           alpha: false,
           powerPreference: 'high-performance',
           stencil: false,
@@ -22,7 +22,7 @@ export default function SceneCanvas() {
           toneMappingExposure: 1.12,
           outputColorSpace: THREE.SRGBColorSpace,
         }}
-        dpr={[1, 1.75]}
+        dpr={1}
         style={{ background: '#030509' }}
       >
         <SceneContent />

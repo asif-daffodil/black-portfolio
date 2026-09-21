@@ -41,6 +41,8 @@ export default function CameraController() {
     targetPointerPitch: 0.0,
     // Idle clock accumulator
     idleTime: 0.0,
+    // Initial boot push-in distance offset (+4.0 units back)
+    bootOffset: useSceneStore.getState().isBooted ? 0.0 : 4.0,
   });
 
   const bootStage = useSceneStore((state) => state.bootStage);
@@ -133,27 +135,33 @@ export default function CameraController() {
     });
   }, [activeSection, camera, setRailProgress]);
 
+  const isBooted = useSceneStore((state) => state.isBooted);
+
+  // If already booted or skipped, immediately zero out bootOffset
+  useEffect(() => {
+    if (isBooted) {
+      const s = stateRef.current;
+      gsap.killTweensOf(s);
+      s.bootOffset = 0.0;
+      s.parallaxWeight = 1.0;
+    }
+  }, [isBooted]);
+
   // ── Automatic camera push-in after boot sequence ──
   useEffect(() => {
     if (bootStage !== 'push_in') return;
 
     const s = stateRef.current;
-    const targetPos = getRailPoint(SECTION_TO_T.bridge, SHIP_RAIL_RADIUS, SHIP_HEIGHT);
 
     // Play subtle warp whoosh for the push-in
     soundFX.playWhoosh(2.1);
 
-    // Smooth automatic camera push-in toward the main screen over 2.0s
-    gsap.killTweensOf(camera.position);
-    gsap.to(camera.position, {
-      x: targetPos.x,
-      y: targetPos.y,
-      z: targetPos.z,
-      duration: 2.0,
+    // Smooth automatic camera push-in toward the main screen over 2.1s
+    gsap.killTweensOf(s);
+    gsap.to(s, {
+      bootOffset: 0.0,
+      duration: 2.1,
       ease: 'power3.out',
-      onUpdate: () => {
-        camera.lookAt(BLACK_HOLE_CENTER);
-      },
       onComplete: () => {
         // Fade mouse parallax in and hand control over to the user
         gsap.to(s, { parallaxWeight: 1.0, duration: 0.6, ease: 'power2.out' });
@@ -161,7 +169,7 @@ export default function CameraController() {
         useSceneStore.getState().setBooted(true);
       },
     });
-  }, [bootStage, camera]);
+  }, [bootStage]);
 
   useFrame((state, delta) => {
     const s = stateRef.current;
@@ -224,12 +232,12 @@ export default function CameraController() {
     const right = new THREE.Vector3().crossVectors(forward, worldUp).normalize();
     const up = new THREE.Vector3().crossVectors(right, forward).normalize();
 
-    // ── 6. Final Camera Position (Rail + Idle Sway) ──
+    // ── 6. Final Camera Position (Rail + Boot Offset + Idle Sway) ──
     const camPos = basePos
       .clone()
+      .addScaledVector(forward, -s.bootOffset + idlePosZ)
       .addScaledVector(right, idlePosX)
-      .addScaledVector(up, idlePosY)
-      .addScaledVector(forward, idlePosZ);
+      .addScaledVector(up, idlePosY + (s.bootOffset > 0.01 ? s.bootOffset * 0.08 : 0));
 
     camera.position.copy(camPos);
 

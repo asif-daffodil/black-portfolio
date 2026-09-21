@@ -278,3 +278,7 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
     set({ viewMode: mode, detectionReason: reason });
   },
 }));
+
+if (typeof window !== 'undefined') {
+  (window as unknown as { __SCENE_STORE__?: typeof useSceneStore }).__SCENE_STORE__ = useSceneStore;
+}

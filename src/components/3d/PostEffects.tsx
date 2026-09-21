@@ -30,6 +30,7 @@ export default function PostEffects() {
         luminanceThreshold={0.92}
         luminanceSmoothing={0.25}
         radius={0.4}
+        levels={5}
         mipmapBlur
       />
 

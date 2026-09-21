@@ -143,26 +143,19 @@ const GravitationalLensingShader = {
       return fract(p.x * p.y);
     }
 
-    // Procedural starfield generator with warped UVs
+    // Procedural starfield generator with warped UVs - efficient direct cell sampling
     float getLensedStars(vec2 uv) {
       vec2 grid = uv * 32.0;
       vec2 id = floor(grid);
       vec2 gv = fract(grid) - 0.5;
 
-      float starTotal = 0.0;
-      for (int y = -1; y <= 1; y++) {
-        for (int x = -1; x <= 1; x++) {
-          vec2 neighbor = vec2(float(x), float(y));
-          float h = starHash(id + neighbor);
-          if (h > 0.88) {
-            vec2 starPos = neighbor + (vec2(starHash(id + neighbor + 1.2), starHash(id + neighbor + 2.7)) - 0.5) * 0.7;
-            float d = length(gv - starPos);
-            float brightness = smoothstep(0.12, 0.0, d) * (0.6 + 0.4 * sin(uTime * 1.5 + h * 30.0));
-            starTotal += brightness;
-          }
-        }
+      float h = starHash(id);
+      if (h > 0.80) {
+        vec2 starPos = (vec2(starHash(id + 1.2), starHash(id + 2.7)) - 0.5) * 0.65;
+        float d = length(gv - starPos);
+        return smoothstep(0.14, 0.0, d) * (0.6 + 0.4 * sin(uTime * 1.5 + h * 30.0));
       }
-      return starTotal;
+      return 0.0;
     }
 
     void main() {

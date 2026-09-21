@@ -50,8 +50,21 @@ export default function BootSequence() {
   };
 
   useEffect(() => {
-    if (isBooted || hasStartedSequence.current) return;
-    hasStartedSequence.current = true;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleSkip();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    if (isBooted) return;
+
+    setProgress(0);
+    setShowFlicker(false);
+    setIsIrisOpening(false);
 
     // ── 1. Minimal Boot Progress Bar Progression ──
     const progressInterval = setInterval(() => {
@@ -60,8 +73,8 @@ export default function BootSequence() {
           clearInterval(progressInterval);
           return 100;
         }
-        // Smooth logarithmic deceleration toward 100%
-        const increment = prev < 50 ? 3.5 : prev < 80 ? 2.5 : 1.8;
+        // Smooth progression toward 100%
+        const increment = prev < 50 ? 3.8 : prev < 80 ? 2.8 : 2.0;
         return Math.min(Math.round(prev + increment), 100);
       });
     }, 45);
@@ -69,7 +82,7 @@ export default function BootSequence() {
     // ── 2. Sequential Console Buttons Power-Up (Staggered 180ms each) ──
     // Buttons: 00 HOME, 01 ABOUT, 02 SKILLS, 03 EXP, 04 CREDS, 05 AI, 06 PORTFOLIO, 07 CONTACT, + AUDIO
     const powerTimers: ReturnType<typeof setTimeout>[] = [];
-    const baseDelay = 450; // start powering up console after initial kernel load
+    const baseDelay = 400; // start powering up console after initial kernel load
     const buttonStagger = 180; // ~180ms stagger per button
 
     for (let i = 0; i <= 8; i++) {
@@ -81,7 +94,7 @@ export default function BootSequence() {
     }
 
     // ── 3. HUD Flicker / Static Glitch Effect ──
-    // Triggers right after all buttons illuminate (~2.15s)
+    // Triggers right after all buttons illuminate (~2.05s)
     const flickerTimer = setTimeout(() => {
       setBootStage('flicker');
       setShowFlicker(true);
@@ -89,21 +102,28 @@ export default function BootSequence() {
 
       setTimeout(() => {
         setShowFlicker(false);
-      }, 300);
-    }, baseDelay + 9 * buttonStagger + 80);
+      }, 280);
+    }, baseDelay + 9 * buttonStagger + 60);
 
     // ── 4. Main Viewscreen Aperture Iris-In ──
-    // Black hole view irises in (~2.65s)
+    // Black hole view irises in (~2.5s)
     const irisTimer = setTimeout(() => {
       setBootStage('iris');
       setIsIrisOpening(true);
-    }, baseDelay + 9 * buttonStagger + 450);
+    }, baseDelay + 9 * buttonStagger + 400);
 
     // ── 5. Automatic Camera Push-In toward Main Screen ──
-    // Once aperture opens, push-in starts (~3.15s)
+    // Once aperture opens, camera push-in starts (~2.9s)
     const pushInTimer = setTimeout(() => {
       setBootStage('push_in');
-    }, baseDelay + 9 * buttonStagger + 950);
+    }, baseDelay + 9 * buttonStagger + 850);
+
+    // Safety fallback: ensure boot is marked complete even if 3D scene was suspended
+    const safetyTimer = setTimeout(() => {
+      setBootPoweredCount(9);
+      setBootStage('ready');
+      setBooted(true);
+    }, baseDelay + 9 * buttonStagger + 3400);
 
     return () => {
       clearInterval(progressInterval);
@@ -111,6 +131,7 @@ export default function BootSequence() {
       clearTimeout(flickerTimer);
       clearTimeout(irisTimer);
       clearTimeout(pushInTimer);
+      clearTimeout(safetyTimer);
     };
   }, [isBooted, setBootPoweredCount, setBootStage, setBooted]);
 
