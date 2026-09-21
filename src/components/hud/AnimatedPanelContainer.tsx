@@ -66,7 +66,7 @@ export default function AnimatedPanelContainer() {
   const SectionComponent = displayedSection ? SECTIONS[displayedSection] : null;
 
   return (
-    <div className="fixed inset-x-0 top-16 sm:top-20 bottom-16 sm:bottom-20 z-20 flex items-center justify-center p-2 sm:p-4 pointer-events-none overflow-hidden">
+    <div className="fixed inset-x-0 top-14 sm:top-18 bottom-10 sm:bottom-14 z-20 flex items-center justify-center p-2 sm:p-4 pointer-events-none overflow-hidden">
       <AnimatePresence mode="wait">
         {isBooted && displayedSection && SectionComponent && (
           <motion.div

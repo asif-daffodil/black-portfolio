@@ -87,14 +87,21 @@ export function getRailTravelTiming(fromId: SectionId, toId: SectionId): {
 export type BootStage = 'loading' | 'powering' | 'flicker' | 'iris' | 'push_in' | 'ready';
 
 export interface SceneStore {
-  activeSection: SectionId;
+  activeSection: SectionId | null;
   displayedSection: SectionId | null;
+  departingSection: SectionId | null;
+  transitionStartTime: number;
+  transitionDuration: number;
   transitionDirection: TravelDirection;
   isFlashing: boolean;
   travelDuration: number;
   exitDuration: number;
   enterDuration: number;
-  setSection: (section: SectionId) => void;
+  setSection: (section: SectionId | null) => void;
+  activateSection: (section: SectionId) => void;
+  deactivateSection: () => void;
+  toggleSection: (section: SectionId) => void;
+  setDisplayedSection: (section: SectionId | null) => void;
   selectedProjectId: string | null;
   setSelectedProject: (id: string | null) => void;
   isMuted: boolean;
@@ -111,6 +118,10 @@ export interface SceneStore {
   initDetection: () => void;
   railProgress: number;
   setRailProgress: (progress: number) => void;
+  ringAngle: number;
+  setRingAngle: (angle: number) => void;
+  isDraggingRing: boolean;
+  setIsDraggingRing: (isDragging: boolean) => void;
 }
 
 export function detectOptimalViewMode(): { mode: ViewMode; reason: string | null } {
@@ -181,66 +192,93 @@ export function detectOptimalViewMode(): { mode: ViewMode; reason: string | null
 let transitionTimeouts: (ReturnType<typeof setTimeout>)[] = [];
 
 export const useSceneStore = create<SceneStore>((set, get) => ({
-  activeSection: 'bridge',
-  displayedSection: 'bridge',
+  activeSection: null, // Initially null so all 8 nodes are docked and the orbital ring is in clear view
+  displayedSection: null,
+  departingSection: null,
+  transitionStartTime: 0,
+  transitionDuration: 0.95,
+  setDisplayedSection: (section: SectionId | null) => set({ displayedSection: section }),
   transitionDirection: 'none',
   isFlashing: false,
-  travelDuration: 2.10,
+  travelDuration: 0.95,
   exitDuration: 0.35,
   enterDuration: 0.70,
-  setSection: (targetSection: SectionId) => {
-    const currentSection = get().activeSection;
-    if (currentSection === targetSection) return;
 
-    // Clear any previous transition queues
+  activateSection: (targetSection: SectionId) => {
+    const current = get().activeSection;
+    if (current === targetSection) return;
+
     transitionTimeouts.forEach(clearTimeout);
     transitionTimeouts = [];
 
-    const prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const now = typeof performance !== 'undefined' ? performance.now() : Date.now();
+    const duration = 0.95;
 
-    // Respect prefers-reduced-motion: simple cross-fade with no slide or flash-through
-    if (prefersReducedMotion) {
-      set({
-        activeSection: targetSection,
-        displayedSection: targetSection,
-        transitionDirection: 'none',
-        isFlashing: false,
-        travelDuration: 0.3,
-        exitDuration: 0.2,
-        enterDuration: 0.3,
-      });
-      return;
-    }
-
-    const {
-      direction,
-      travelDuration,
-      exitDuration,
-      enterDuration,
-    } = getRailTravelTiming(currentSection, targetSection);
-
-    // Step 1: Active section updates, outgoing panel immediately begins responsive exit (~0.35s)
+    // Simultaneous handoff:
+    // If a section was already active, it becomes departingSection and returns to the ring
+    // while targetSection becomes activeSection and undocks toward focus
     set({
       activeSection: targetSection,
-      displayedSection: null,
-      transitionDirection: direction,
-      travelDuration,
-      exitDuration,
-      enterDuration,
+      departingSection: current,
+      displayedSection: targetSection,
+      transitionStartTime: now,
+      transitionDuration: duration,
+      transitionDirection: 'none',
       isFlashing: false,
     });
 
-    // Step 2: Smooth cinematic handoff: camera approaches destination, and new holographic panel arrives
-    const arrivalDelay = Math.max(Math.round((travelDuration - enterDuration * 0.75) * 1000), 500);
-    const tArrive = setTimeout(() => {
-      set({
-        displayedSection: targetSection,
-        isFlashing: false,
-      });
-    }, arrivalDelay);
-    transitionTimeouts.push(tArrive);
+    // Clear departingSection once animation finishes
+    const tClear = setTimeout(() => {
+      if (get().departingSection === current) {
+        set({ departingSection: null });
+      }
+    }, Math.round(duration * 1000));
+    transitionTimeouts.push(tClear);
+  },
+
+  deactivateSection: () => {
+    const current = get().activeSection;
+    if (!current) return;
+
+    transitionTimeouts.forEach(clearTimeout);
+    transitionTimeouts = [];
+
+    const now = typeof performance !== 'undefined' ? performance.now() : Date.now();
+    const duration = 0.95;
+
+    set({
+      activeSection: null,
+      departingSection: current,
+      displayedSection: null,
+      transitionStartTime: now,
+      transitionDuration: duration,
+      transitionDirection: 'none',
+      isFlashing: false,
+    });
+
+    const tClear = setTimeout(() => {
+      if (get().departingSection === current) {
+        set({ departingSection: null });
+      }
+    }, Math.round(duration * 1000));
+    transitionTimeouts.push(tClear);
+  },
+
+  toggleSection: (targetSection: SectionId) => {
+    const current = get().activeSection;
+    if (current === targetSection) {
+      get().deactivateSection();
+    } else {
+      get().activateSection(targetSection);
+    }
+  },
+
+  setSection: (targetSection: SectionId | null) => {
+    if (targetSection === null) {
+      get().deactivateSection();
+    } else {
+      get().toggleSection(targetSection);
+    }
   },
   selectedProjectId: null,
   setSelectedProject: (id: string | null) => set({ selectedProjectId: id }),
@@ -265,6 +303,10 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
   detectionReason: null,
   railProgress: 0,
   setRailProgress: (progress: number) => set({ railProgress: progress }),
+  ringAngle: 0,
+  setRingAngle: (angle: number) => set({ ringAngle: angle }),
+  isDraggingRing: false,
+  setIsDraggingRing: (isDragging: boolean) => set({ isDraggingRing: isDragging }),
   setViewMode: (mode: ViewMode) => {
     try {
       localStorage.setItem('asif_portfolio_view_mode', mode);

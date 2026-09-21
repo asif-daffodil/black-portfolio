@@ -4,140 +4,65 @@ import { useEffect, useRef } from 'react';
 import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import gsap from 'gsap';
-import { useSceneStore, SectionId } from '@/store/useSceneStore';
+import { useSceneStore } from '@/store/useSceneStore';
 import { soundFX } from '@/lib/sound';
 import {
-  SECTION_TO_T,
-  getRailPoint,
-  getShortestRailDelta,
   BLACK_HOLE_CENTER,
-  SHIP_RAIL_RADIUS,
-  SHIP_HEIGHT,
+  ORBITAL_RING_RADIUS,
 } from './railConfig';
 
-const BASE_FOV = 52;
-const MAX_FOV_BOOST = 6.5; // +6.5 deg FOV at midpoint (subtle warp sensation)
+const BASE_FOV = 48;
+// Bounding radius covering the orbital ring plus docked node badges and platform extent
+const BOUNDING_RADIUS = ORBITAL_RING_RADIUS + 0.95; // ~6.75 units
+// Generous margin factor (35% extra buffer around the system)
+const MARGIN_FACTOR = 1.35;
+// Viewing elevation angle above the orbital plane
+const ELEVATION_ANGLE = THREE.MathUtils.degToRad(18); // ~18 degrees elevation
 
 export default function CameraController() {
-  const { camera } = useThree();
-  const activeSection = useSceneStore((state) => state.activeSection);
-  const setRailProgress = useSceneStore((state) => state.setRailProgress);
+  const { camera, size } = useThree();
+  const isBooted = useSceneStore((state) => state.isBooted);
+  const bootStage = useSceneStore((state) => state.bootStage);
 
-  // Cinematic flight, idle drift, and parallax state
   const stateRef = useRef({
-    t: 0.0,
-    prevT: 0.0,
-    velocity: 0.0,
-    bankAngle: 0.0,
-    // Transition progress [0.0 = start, 0.5 = midpoint warp peak, 1.0 = arrival]
-    isTransitioning: false,
-    transitionProgress: 0.0,
-    // Parallax blending weight [1.0 = full mouse influence, 0.0 = disabled during travel]
-    parallaxWeight: 1.0,
-    // Smooth lerped mouse rotation offsets (in radians)
+    distance: 21.0,
+    targetDistance: 21.0,
+    bootOffset: isBooted ? 0.0 : 5.0,
+    parallaxWeight: isBooted ? 1.0 : 0.0,
     pointerYaw: 0.0,
     pointerPitch: 0.0,
     targetPointerYaw: 0.0,
     targetPointerPitch: 0.0,
-    // Idle clock accumulator
     idleTime: 0.0,
-    // Initial boot push-in distance offset (+4.0 units back)
-    bootOffset: useSceneStore.getState().isBooted ? 0.0 : 4.0,
   });
 
-  const bootStage = useSceneStore((state) => state.bootStage);
-  const prevSectionRef = useRef<SectionId>(activeSection);
-
+  // Dynamically compute spacious camera distance based on viewport width/height and camera FOV
+  // Recalculates automatically whenever the window or canvas resizes
   useEffect(() => {
-    const targetT = SECTION_TO_T[activeSection] ?? 0.0;
-    const isFirstRun = prevSectionRef.current === activeSection;
-    prevSectionRef.current = activeSection;
+    if (!('fov' in camera)) return;
+    const perspCam = camera as THREE.PerspectiveCamera;
+    perspCam.fov = BASE_FOV;
+    perspCam.updateProjectionMatrix();
 
-    const s = stateRef.current;
+    const halfFovV = (perspCam.fov * Math.PI) / 360;
+    const aspect = Math.max(size.width / Math.max(size.height, 1), 0.1);
+    const halfFovH = Math.atan(Math.tan(halfFovV) * aspect);
 
-    if (isFirstRun) {
-      s.t = targetT;
-      s.prevT = targetT;
-      s.isTransitioning = false;
-      s.transitionProgress = 0.0;
-      setRailProgress(targetT);
+    // Required distance along vertical and horizontal dimensions to guarantee full containment
+    const distV = (BOUNDING_RADIUS * MARGIN_FACTOR) / Math.tan(halfFovV);
+    const distH = (BOUNDING_RADIUS * MARGIN_FACTOR) / Math.tan(halfFovH);
 
-      const targetPos = getRailPoint(targetT, SHIP_RAIL_RADIUS, SHIP_HEIGHT);
-      const isAlreadyBooted = useSceneStore.getState().isBooted;
+    // Pick maximum distance so system stays comfortably inside frame with generous margin on all sides
+    const computedDistance = Math.max(distV, distH, 18.0);
+    stateRef.current.targetDistance = computedDistance;
 
-      if (isAlreadyBooted) {
-        s.parallaxWeight = 1.0;
-        camera.position.copy(targetPos);
-        camera.lookAt(BLACK_HOLE_CENTER);
-        return;
-      }
-
-      // During boot-up: start pulled back (+4.0 units further out), looking at black hole center
-      s.parallaxWeight = 0.0;
-      const startPos = new THREE.Vector3(targetPos.x, targetPos.y + 0.4, targetPos.z + 4.0);
-      camera.position.copy(startPos);
-      camera.lookAt(BLACK_HOLE_CENTER);
-      return;
+    // If first load or immediately after boot, initialize current distance
+    if (Math.abs(stateRef.current.distance - 21.0) < 0.1) {
+      stateRef.current.distance = computedDistance;
     }
+  }, [size.width, size.height, camera]);
 
-    // Cinematic travel duration: 1.8s to 2.5s (2.1s standard)
-    const travelDuration = useSceneStore.getState().travelDuration || 2.1;
-
-    // Play subtle whoosh audio effect precisely synced with flight transition duration
-    soundFX.playWhoosh(travelDuration);
-
-    // Calculate shortest signed arc delta around the closed circular rail
-    const currentT = s.t;
-    const delta = getShortestRailDelta(currentT, targetT);
-    const destT = currentT + delta;
-
-    // ── 1. Kill any prior tweens on flight state ──
-    gsap.killTweensOf(s);
-
-    s.isTransitioning = true;
-    s.transitionProgress = 0.0;
-
-    // ── 2. Temporarily disable mouse-parallax during transitions ──
-    // Smoothly fade out parallax weight so mouse input doesn't conflict with flight
-    gsap.to(s, {
-      parallaxWeight: 0.0,
-      duration: 0.32,
-      ease: 'power2.out',
-    });
-
-    // Fade parallax back in as ship decelerates into the station
-    gsap.to(s, {
-      parallaxWeight: 1.0,
-      duration: 0.65,
-      delay: travelDuration - 0.45,
-      ease: 'power2.inOut',
-    });
-
-    // ── 3. Cubic Ease-In-Out (power3.inOut) Rail Travel ──
-    gsap.to(s, {
-      t: destT,
-      transitionProgress: 1.0,
-      duration: travelDuration,
-      ease: 'power3.inOut',
-      onUpdate: () => {
-        const normT = ((s.t % 1) + 1) % 1;
-        setRailProgress(normT);
-      },
-      onComplete: () => {
-        s.isTransitioning = false;
-        s.transitionProgress = 0.0;
-        // Unwrap continuous integer laps cleanly
-        const wrap = Math.floor(s.t);
-        s.t -= wrap;
-        s.prevT -= wrap;
-        setRailProgress(s.t);
-      },
-    });
-  }, [activeSection, camera, setRailProgress]);
-
-  const isBooted = useSceneStore((state) => state.isBooted);
-
-  // If already booted or skipped, immediately zero out bootOffset
+  // Handle immediate boot bypass
   useEffect(() => {
     if (isBooted) {
       const s = stateRef.current;
@@ -147,23 +72,19 @@ export default function CameraController() {
     }
   }, [isBooted]);
 
-  // ── Automatic camera push-in after boot sequence ──
+  // Cinematic automatic slow camera push-in after boot sequence completes
   useEffect(() => {
     if (bootStage !== 'push_in') return;
 
     const s = stateRef.current;
-
-    // Play subtle warp whoosh for the push-in
     soundFX.playWhoosh(2.1);
 
-    // Smooth automatic camera push-in toward the main screen over 2.1s
     gsap.killTweensOf(s);
     gsap.to(s, {
       bootOffset: 0.0,
-      duration: 2.1,
+      duration: 2.2,
       ease: 'power3.out',
       onComplete: () => {
-        // Fade mouse parallax in and hand control over to the user
         gsap.to(s, { parallaxWeight: 1.0, duration: 0.6, ease: 'power2.out' });
         useSceneStore.getState().setBootStage('ready');
         useSceneStore.getState().setBooted(true);
@@ -176,88 +97,39 @@ export default function CameraController() {
     s.idleTime += delta;
     const tClock = s.idleTime;
 
-    // ── 1. FOV Warp / Acceleration Effect (Brief +5-8° at midpoint) ──
-    if ('fov' in camera) {
-      const perspCam = camera as THREE.PerspectiveCamera;
-      let targetFov = BASE_FOV;
+    // Smoothly interpolate camera distance to target on window resize
+    s.distance = THREE.MathUtils.damp(s.distance, s.targetDistance, 3.5, delta);
+    const effectiveDistance = s.distance + s.bootOffset;
 
-      if (s.isTransitioning) {
-        // Bell-curve modulation using sin(progress * PI) -> 0 at start, peak at 0.5, 0 at end
-        const warpCurve = Math.sin(s.transitionProgress * Math.PI);
-        targetFov = BASE_FOV + warpCurve * MAX_FOV_BOOST;
-      }
+    // Subtle pointer parallax (max ~1.5 deg, smoothly damped)
+    s.targetPointerYaw = -state.pointer.x * THREE.MathUtils.degToRad(1.4) * s.parallaxWeight;
+    s.targetPointerPitch = state.pointer.y * THREE.MathUtils.degToRad(1.0) * s.parallaxWeight;
+    s.pointerYaw = THREE.MathUtils.damp(s.pointerYaw, s.targetPointerYaw, 4.0, delta);
+    s.pointerPitch = THREE.MathUtils.damp(s.pointerPitch, s.targetPointerPitch, 4.0, delta);
 
-      // Smooth damp for buttery FOV transitions
-      perspCam.fov = THREE.MathUtils.damp(perspCam.fov, targetFov, 6.0, delta);
-      perspCam.updateProjectionMatrix();
-    }
+    // Continuous subtle organic idle drift (ship observation deck sensation)
+    const idleX = Math.sin(tClock * 0.35) * 0.08;
+    const idleY = Math.cos(tClock * 0.28) * 0.06;
+    const idleZ = Math.sin(tClock * 0.42 + 1.0) * 0.05;
 
-    // ── 2. Mouse Parallax (max ~1-2 degrees, smoothly lerped, disabled during transit) ──
-    // 1.5 deg = ~0.026 rad max shift
-    s.targetPointerYaw = -state.pointer.x * THREE.MathUtils.degToRad(1.6) * s.parallaxWeight;
-    s.targetPointerPitch = state.pointer.y * THREE.MathUtils.degToRad(1.2) * s.parallaxWeight;
+    // Base position elevated at ELEVATION_ANGLE looking towards BLACK_HOLE_CENTER
+    const baseDirY = Math.sin(ELEVATION_ANGLE);
+    const baseDirZ = Math.cos(ELEVATION_ANGLE);
 
-    // Smooth lerp for physical cockpit feel
-    s.pointerYaw = THREE.MathUtils.damp(s.pointerYaw, s.targetPointerYaw, 4.2, delta);
-    s.pointerPitch = THREE.MathUtils.damp(s.pointerPitch, s.targetPointerPitch, 4.2, delta);
+    const camX = BLACK_HOLE_CENTER.x + idleX + s.pointerYaw * 2.5;
+    const camY = BLACK_HOLE_CENTER.y + effectiveDistance * baseDirY + idleY + s.pointerPitch * 2.0;
+    const camZ = BLACK_HOLE_CENTER.z + effectiveDistance * baseDirZ + idleZ;
 
-    // ── 3. Continuous Subtle Idle Motion (Ship gently drifting in space, never stops) ──
-    // Slow sinusoidal position sway (~0.02 - 0.04 units)
-    const idlePosX = Math.sin(tClock * 0.45) * 0.034;
-    const idlePosY = Math.cos(tClock * 0.38) * 0.026;
-    const idlePosZ = Math.sin(tClock * 0.52 + 1.2) * 0.022;
+    camera.position.set(camX, camY, camZ);
+    camera.up.set(0, 1, 0);
 
-    // Subtle sinusoidal rotational drift (~0.3 - 0.6 degrees)
-    const idlePitch = Math.sin(tClock * 0.32) * THREE.MathUtils.degToRad(0.40);
-    const idleYaw   = Math.cos(tClock * 0.28) * THREE.MathUtils.degToRad(0.35);
-    const idleRoll  = Math.sin(tClock * 0.40) * THREE.MathUtils.degToRad(0.55);
-
-    // ── 4. Dynamic Banking into Turns (Cubic Eased Angular Velocity) ──
-    const dt = s.t - s.prevT;
-    const instantaneousVel = THREE.MathUtils.clamp(dt / Math.max(delta, 0.001), -4.0, 4.0);
-    s.velocity = THREE.MathUtils.damp(s.velocity, instantaneousVel, 4.5, delta);
-    s.prevT = s.t;
-
-    // Roll into the turn: bank angle peaks at maximum velocity, returns to 0 on station arrival
-    const targetBank = THREE.MathUtils.clamp(s.velocity * -0.25, -0.15, 0.15);
-    s.bankAngle = THREE.MathUtils.damp(s.bankAngle, targetBank, 4.0, delta);
-
-    // ── 5. Compute Spatial Frame on Circular Rail ──
-    // Current orbital base position
-    const basePos = getRailPoint(s.t, SHIP_RAIL_RADIUS, SHIP_HEIGHT);
-
-    // Coordinate basis: forward towards black hole, right along rail tangent, up
-    const forward = new THREE.Vector3().subVectors(BLACK_HOLE_CENTER, basePos).normalize();
-    const worldUp = new THREE.Vector3(0, 1, 0);
-    const right = new THREE.Vector3().crossVectors(forward, worldUp).normalize();
-    const up = new THREE.Vector3().crossVectors(right, forward).normalize();
-
-    // ── 6. Final Camera Position (Rail + Boot Offset + Idle Sway) ──
-    const camPos = basePos
-      .clone()
-      .addScaledVector(forward, -s.bootOffset + idlePosZ)
-      .addScaledVector(right, idlePosX)
-      .addScaledVector(up, idlePosY + (s.bootOffset > 0.01 ? s.bootOffset * 0.08 : 0));
-
-    camera.position.copy(camPos);
-
-    // ── 7. Camera Up Vector (Dynamic Banking + Idle Roll + Mouse Roll) ──
-    const totalRoll = s.bankAngle + idleRoll + (-s.pointerYaw * 0.35);
-    const rollQuat = new THREE.Quaternion().setFromAxisAngle(forward, totalRoll);
-    const dynamicUp = up.clone().applyQuaternion(rollQuat).normalize();
-    camera.up.copy(dynamicUp);
-
-    // ── 8. Camera Look-At Target (Black Hole + Parallax + Idle Rotation) ──
-    // Multiply angular shifts by focal distance (~7.2 units) to aim view
-    const totalYaw = s.pointerYaw + idleYaw;
-    const totalPitch = s.pointerPitch + idlePitch;
-
-    const targetLookAt = BLACK_HOLE_CENTER.clone()
-      .addScaledVector(right, totalYaw * 7.0)
-      .addScaledVector(up, totalPitch * 7.0);
-
-    camera.lookAt(targetLookAt);
+    // Aim precisely at the black hole core with subtle parallax offset
+    const lookTarget = BLACK_HOLE_CENTER.clone().add(
+      new THREE.Vector3(s.pointerYaw * 1.5, s.pointerPitch * 1.2, 0)
+    );
+    camera.lookAt(lookTarget);
   });
 
   return null;
 }
+

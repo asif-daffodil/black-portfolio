@@ -42,13 +42,15 @@ export default function NavigationShortcuts() {
           targetSection = ORDERED_SECTIONS[index];
         }
       } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-        const currentIndex = ORDERED_SECTIONS.indexOf(activeSection);
-        const nextIndex = (currentIndex + 1) % ORDERED_SECTIONS.length;
+        const currentIndex = activeSection ? ORDERED_SECTIONS.indexOf(activeSection) : -1;
+        const nextIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % ORDERED_SECTIONS.length;
         targetSection = ORDERED_SECTIONS[nextIndex];
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        const currentIndex = ORDERED_SECTIONS.indexOf(activeSection);
+        const currentIndex = activeSection ? ORDERED_SECTIONS.indexOf(activeSection) : -1;
         const prevIndex =
-          (currentIndex - 1 + ORDERED_SECTIONS.length) % ORDERED_SECTIONS.length;
+          currentIndex === -1
+            ? ORDERED_SECTIONS.length - 1
+            : (currentIndex - 1 + ORDERED_SECTIONS.length) % ORDERED_SECTIONS.length;
         targetSection = ORDERED_SECTIONS[prevIndex];
       }
 
@@ -71,7 +73,7 @@ export default function NavigationShortcuts() {
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
-      if (!touchStartRef.current || e.changedTouches.length === 0) return;
+      if (!touchStartRef.current || e.changedTouches.length !== 1) return;
 
       const deltaX = e.changedTouches[0].clientX - touchStartRef.current.x;
       const deltaY = e.changedTouches[0].clientY - touchStartRef.current.y;
@@ -79,16 +81,18 @@ export default function NavigationShortcuts() {
 
       // Check for horizontal swipe dominance (> 60px and dx > 1.5 * dy)
       if (Math.abs(deltaX) > 60 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
-        const currentIndex = ORDERED_SECTIONS.indexOf(activeSection);
-        let targetIndex = currentIndex;
+        const currentIndex = activeSection ? ORDERED_SECTIONS.indexOf(activeSection) : -1;
+        let targetIndex: number;
 
         if (deltaX < 0) {
           // Swipe Left -> Next Section
-          targetIndex = (currentIndex + 1) % ORDERED_SECTIONS.length;
+          targetIndex = currentIndex === -1 ? 0 : (currentIndex + 1) % ORDERED_SECTIONS.length;
         } else {
           // Swipe Right -> Previous Section
           targetIndex =
-            (currentIndex - 1 + ORDERED_SECTIONS.length) % ORDERED_SECTIONS.length;
+            currentIndex === -1
+              ? ORDERED_SECTIONS.length - 1
+              : (currentIndex - 1 + ORDERED_SECTIONS.length) % ORDERED_SECTIONS.length;
         }
 
         const targetSection = ORDERED_SECTIONS[targetIndex];

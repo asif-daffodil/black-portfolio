@@ -17,7 +17,7 @@ export default function ViewModeToggle() {
   };
 
   return (
-    <div className="fixed top-18 sm:top-20 right-4 sm:right-6 z-40 pointer-events-auto">
+    <div className="fixed bottom-5 right-4 sm:right-6 z-40 pointer-events-auto">
       <button
         type="button"
         onClick={handleToggle}

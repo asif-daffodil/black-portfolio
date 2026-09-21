@@ -41,10 +41,12 @@ export default function Home() {
 
   // Navigate forward / backward along the 8 spatial stations
   const navigateStation = useCallback((direction: 'next' | 'prev') => {
-    const currentIdx = SECTION_ORDER.indexOf(activeSection);
+    const currentIdx = activeSection ? SECTION_ORDER.indexOf(activeSection) : -1;
     let nextIdx: number;
 
-    if (direction === 'next') {
+    if (currentIdx === -1) {
+      nextIdx = direction === 'next' ? 0 : SECTION_ORDER.length - 1;
+    } else if (direction === 'next') {
       nextIdx = (currentIdx + 1) % SECTION_ORDER.length;
     } else {
       nextIdx = (currentIdx - 1 + SECTION_ORDER.length) % SECTION_ORDER.length;
@@ -115,6 +117,16 @@ export default function Home() {
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA') return;
 
+      if (e.key === 'Escape') {
+        const displayed = useSceneStore.getState().displayedSection;
+        if (displayed) {
+          e.preventDefault();
+          soundFX.playButtonClick();
+          useSceneStore.getState().setDisplayedSection(null);
+          return;
+        }
+      }
+
       const now = Date.now();
       if (now - lastScrollTime.current < 600) return;
 
@@ -176,9 +188,7 @@ export default function Home() {
     };
   }, [is3D, navigateStation]);
 
-  const activeIndex = SECTION_ORDER.indexOf(activeSection);
-  const nextSectionId = SECTION_ORDER[(activeIndex + 1) % SECTION_ORDER.length];
-  const prevSectionId = SECTION_ORDER[(activeIndex - 1 + SECTION_ORDER.length) % SECTION_ORDER.length];
+  const activeIndex = activeSection ? SECTION_ORDER.indexOf(activeSection) : -1;
 
   return (
     <main className="relative min-h-screen text-gray-100 bg-[#030509] selection:bg-cyan-500/30 selection:text-white overflow-hidden">
@@ -226,7 +236,7 @@ export default function Home() {
             <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-mono font-bold">
               <Compass size={13} className="text-cyan-400 animate-spin-slow" />
               <span className="tracking-widest">
-                {activeIndex + 1} / {SECTION_ORDER.length}
+                {activeIndex >= 0 ? `${activeIndex + 1} / ${SECTION_ORDER.length}` : 'ORBIT // 8 NODES'}
               </span>
             </div>
 

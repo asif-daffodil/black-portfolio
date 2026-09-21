@@ -25,7 +25,7 @@ export default function AltitudeIndicator() {
   const activeSection = useSceneStore((state) => state.activeSection);
   const setSection = useSceneStore((state) => state.setSection);
 
-  const activeIndex = SECTION_ORDER.indexOf(activeSection);
+  const activeIndex = activeSection ? SECTION_ORDER.indexOf(activeSection) : -1;
 
   const handleSelect = (id: SectionId) => {
     soundFX.playButtonClick();
@@ -60,18 +60,12 @@ export default function AltitudeIndicator() {
                     : 'text-gray-500 hover:text-gray-300 translate-x-1 hover:translate-x-0'
                 }`}
               >
-                <span
-                  className={`text-[10px] font-mono tracking-wider transition-opacity duration-200 ${
-                    isActive ? 'opacity-100' : 'opacity-40 group-hover:opacity-80'
-                  }`}
-                >
+                <span className="text-[9px] font-mono tracking-widest opacity-60">
                   {st.code}
                 </span>
                 <span
-                  className={`text-[11px] font-mono tracking-widest transition-all duration-200 ${
-                    isActive
-                      ? 'text-cyan-300 font-bold drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]'
-                      : 'text-gray-500 group-hover:text-gray-300'
+                  className={`text-xs font-mono tracking-wider ${
+                    isActive ? 'text-white' : ''
                   }`}
                 >
                   {st.label}
@@ -88,7 +82,8 @@ export default function AltitudeIndicator() {
             className="absolute left-0 w-full rounded-full bg-gradient-to-b from-cyan-400 via-sky-300 to-indigo-500 shadow-[0_0_12px_#38bdf8]"
             initial={false}
             animate={{
-              top: `${(activeIndex / (SECTION_ORDER.length - 1)) * 88}%`,
+              top: activeIndex >= 0 ? `${(activeIndex / (SECTION_ORDER.length - 1)) * 88}%` : '0%',
+              opacity: activeIndex >= 0 ? 1 : 0,
               height: '12%',
             }}
             transition={{ type: 'spring', stiffness: 350, damping: 30 }}

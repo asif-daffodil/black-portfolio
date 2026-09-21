@@ -126,7 +126,7 @@ export default function Navbar() {
     }
   };
 
-  const currentCockpitLight = SECTION_COCKPIT_GLOW[activeSection] || SECTION_COCKPIT_GLOW.bridge;
+  const currentCockpitLight = (activeSection && SECTION_COCKPIT_GLOW[activeSection]) || SECTION_COCKPIT_GLOW.bridge;
 
   return (
     <>

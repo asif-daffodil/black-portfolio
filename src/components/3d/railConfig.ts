@@ -2,28 +2,140 @@ import * as THREE from 'three';
 import { SectionId } from '@/store/useSceneStore';
 
 export const BLACK_HOLE_CENTER = new THREE.Vector3(0, 0.5, -4.0);
-export const SHIP_RAIL_RADIUS = 7.2;
+
+// Single Circular Orbital Ring Parameters
+export const ORBITAL_RING_RADIUS = 5.8;
+export const ORBITAL_RING_INNER_RADIUS = 5.45;
+export const ORBITAL_RING_TUBE_RADIUS = 0.038;
+
+// Tilted plane: tilted toward camera (X axis) and subtle banking (Z axis)
+// so the ring reads as an open, dynamic ellipse framing the accretion disk
+export const RING_TILT_X = 0.44; // ~25.2 degrees tilt towards camera
+export const RING_TILT_Y = 0.0;
+export const RING_TILT_Z = -0.10; // ~ -5.7 degrees subtle lateral incline
+
+// Base auto-rotation speed: ~1 full revolution per 105 seconds (within 90-120s specification)
+export const RING_AUTO_ROTATION_SPEED = (2 * Math.PI) / 105; // ~0.0598 rad/s
+
+// Focused staging position in front of black hole/ring along camera sightline
+export const FOCUSED_NODE_WORLD_POS = new THREE.Vector3(
+  0,
+  0.5 + 7.5 * Math.sin(THREE.MathUtils.degToRad(18)),
+  -4.0 + 7.5 * Math.cos(THREE.MathUtils.degToRad(18))
+); // [0, ~2.82, ~3.13]
+export const FOCUSED_NODE_SCALE = 1.65;
+export const NODE_TRANSITION_DURATION = 0.95; // seconds
+
+export function easeInOutCubic(t: number): number {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+}
+
+// Backward compatibility aliases
+export const SHIP_RAIL_RADIUS = ORBITAL_RING_RADIUS;
 export const SHIP_HEIGHT = 0.0;
-export const VISUAL_RAIL_HEIGHT = -1.1;
+export const VISUAL_RAIL_HEIGHT = 0.0;
 
 export interface StationData {
   id: SectionId;
-  t: number;
+  index: number;
+  angle: number; // base angular position on the ring in radians
+  t: number;     // normalized [0, 1)
   code: string;
   name: string;
+  sublabel: string;
   color: string;
   beaconColor: string;
 }
 
 export const STATIONS: StationData[] = [
-  { id: 'bridge', t: 0.0, code: 'NAV-01', name: 'BRIDGE', color: '#3b82f6', beaconColor: '#60a5fa' },
-  { id: 'about', t: 0.125, code: 'BIO-02', name: 'PROFILE', color: '#06b6d4', beaconColor: '#22d3ee' },
-  { id: 'skills', t: 0.25, code: 'SYS-03', name: 'SYSTEMS', color: '#8b5cf6', beaconColor: '#a78bfa' },
-  { id: 'experience', t: 0.375, code: 'LOG-04', name: 'LOGS', color: '#10b981', beaconColor: '#34d399' },
-  { id: 'education', t: 0.5, code: 'ACD-05', name: 'ARCHIVE', color: '#f59e0b', beaconColor: '#fbbf24' },
-  { id: 'ai', t: 0.625, code: 'AI-06', name: 'AI CORE', color: '#ec4899', beaconColor: '#f472b6' },
-  { id: 'portfolio', t: 0.75, code: 'PRJ-07', name: 'CHARTS', color: '#6366f1', beaconColor: '#818cf8' },
-  { id: 'contact', t: 0.875, code: 'COM-08', name: 'HAILING', color: '#14b8a6', beaconColor: '#2dd4bf' },
+  {
+    id: 'bridge',
+    index: 0,
+    angle: 0 * ((2 * Math.PI) / 8),
+    t: 0.0,
+    code: 'NAV-01',
+    name: 'ORBIT',
+    sublabel: 'COMMAND',
+    color: '#3b82f6',
+    beaconColor: '#60a5fa',
+  },
+  {
+    id: 'about',
+    index: 1,
+    angle: 1 * ((2 * Math.PI) / 8),
+    t: 0.125,
+    code: 'BIO-02',
+    name: 'ORIGIN',
+    sublabel: 'PROFILE',
+    color: '#06b6d4',
+    beaconColor: '#22d3ee',
+  },
+  {
+    id: 'skills',
+    index: 2,
+    angle: 2 * ((2 * Math.PI) / 8),
+    t: 0.25,
+    code: 'SYS-03',
+    name: 'ARSENAL',
+    sublabel: 'SYSTEMS',
+    color: '#8b5cf6',
+    beaconColor: '#a78bfa',
+  },
+  {
+    id: 'experience',
+    index: 3,
+    angle: 3 * ((2 * Math.PI) / 8),
+    t: 0.375,
+    code: 'LOG-04',
+    name: 'FLIGHT LOG',
+    sublabel: 'EXPERIENCE',
+    color: '#10b981',
+    beaconColor: '#34d399',
+  },
+  {
+    id: 'education',
+    index: 4,
+    angle: 4 * ((2 * Math.PI) / 8),
+    t: 0.5,
+    code: 'ACD-05',
+    name: 'CREDENTIALS',
+    sublabel: 'DEGREES & ZCE',
+    color: '#f59e0b',
+    beaconColor: '#fbbf24',
+  },
+  {
+    id: 'ai',
+    index: 5,
+    angle: 5 * ((2 * Math.PI) / 8),
+    t: 0.625,
+    code: 'AI-06',
+    name: 'NEURAL AI',
+    sublabel: 'AGENTIC PIPELINES',
+    color: '#ec4899',
+    beaconColor: '#f472b6',
+  },
+  {
+    id: 'portfolio',
+    index: 6,
+    angle: 6 * ((2 * Math.PI) / 8),
+    t: 0.75,
+    code: 'PRJ-07',
+    name: 'SHOWCASE',
+    sublabel: 'DEPLOYMENTS',
+    color: '#6366f1',
+    beaconColor: '#818cf8',
+  },
+  {
+    id: 'contact',
+    index: 7,
+    angle: 7 * ((2 * Math.PI) / 8),
+    t: 0.875,
+    code: 'COM-08',
+    name: 'RELAY',
+    sublabel: 'SUBSPACE COMMS',
+    color: '#14b8a6',
+    beaconColor: '#2dd4bf',
+  },
 ];
 
 export const SECTION_TO_T: Record<SectionId, number> = {
@@ -38,27 +150,38 @@ export const SECTION_TO_T: Record<SectionId, number> = {
 };
 
 /**
- * Calculates a point on the circular orbital rail
- * t in [0, 1) where t=0 is Bridge (Home)
+ * Calculates local 3D position of a point on the circular orbital plane
+ * (before parent tilt transformation is applied)
+ */
+export function getOrbitalLocalPoint(
+  angle: number,
+  radius = ORBITAL_RING_RADIUS,
+  yOffset = 0.0
+): THREE.Vector3 {
+  return new THREE.Vector3(
+    radius * Math.cos(angle),
+    yOffset,
+    radius * Math.sin(angle)
+  );
+}
+
+/**
+ * Backward compatibility helper for legacy rail queries
  */
 export function getRailPoint(
   t: number,
-  radius = SHIP_RAIL_RADIUS,
+  radius = ORBITAL_RING_RADIUS,
   y = SHIP_HEIGHT
 ): THREE.Vector3 {
   const normT = ((t % 1) + 1) % 1;
   const theta = normT * Math.PI * 2;
   return new THREE.Vector3(
-    BLACK_HOLE_CENTER.x + radius * Math.sin(theta),
+    BLACK_HOLE_CENTER.x + radius * Math.cos(theta),
     y,
-    BLACK_HOLE_CENTER.z + radius * Math.cos(theta)
+    BLACK_HOLE_CENTER.z + radius * Math.sin(theta)
   );
 }
 
-/**
- * Calculates the shortest signed delta around the closed circle
- * Guarantees |delta| <= 0.5 (shorter arc wraparound)
- */
 export function getShortestRailDelta(fromT: number, toT: number): number {
   let delta = toT - fromT;
   while (delta > 0.5) delta -= 1.0;
@@ -66,11 +189,8 @@ export function getShortestRailDelta(fromT: number, toT: number): number {
   return delta;
 }
 
-/**
- * Builds the closed CatmullRomCurve3 for rendering the circular rail tube
- */
 export function createRailCurve(
-  radius = SHIP_RAIL_RADIUS,
+  radius = ORBITAL_RING_RADIUS,
   y = VISUAL_RAIL_HEIGHT,
   numPoints = 64
 ): THREE.CatmullRomCurve3 {
@@ -81,3 +201,4 @@ export function createRailCurve(
   }
   return new THREE.CatmullRomCurve3(points, true);
 }
+

@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import { useSceneStore, SectionId, SECTION_ORDER } from '@/store/useSceneStore';
-import { ArrowRight, Compass } from 'lucide-react';
+import { ArrowRight, Compass, X } from 'lucide-react';
 import { soundFX } from '@/lib/sound';
 
 interface FloatingPanelProps {
@@ -167,6 +167,7 @@ export default function FloatingPanel({
   className = '',
 }: FloatingPanelProps) {
   const setSection = useSceneStore((state) => state.setSection);
+  const deactivateSection = useSceneStore((state) => state.deactivateSection);
   const currentIndex = SECTION_ORDER.indexOf(sectionId);
   const nextSectionId = SECTION_ORDER[(currentIndex + 1) % SECTION_ORDER.length];
   const nextLabel = SECTION_LABELS[nextSectionId];
@@ -176,6 +177,11 @@ export default function FloatingPanel({
   const handleNextStation = () => {
     soundFX.playButtonClick();
     setSection(nextSectionId);
+  };
+
+  const handleClose = () => {
+    soundFX.playButtonClick();
+    deactivateSection();
   };
 
   return (
@@ -226,7 +232,7 @@ export default function FloatingPanel({
                 )}
               </div>
 
-              <div className="flex items-center gap-3 text-xs font-mono text-gray-400">
+              <div className="flex items-center gap-2.5 sm:gap-3 text-xs font-mono text-gray-400">
                 <span className="hidden sm:inline-flex items-center gap-1.5 text-emerald-400">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                   TELEMETRY: ONLINE
@@ -234,13 +240,30 @@ export default function FloatingPanel({
                 <span className="px-2.5 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-[10px] text-gray-300 font-mono tracking-wider">
                   STATION 0{currentIndex + 1}
                 </span>
+
+                {/* ── DIEGETIC CONSOLE CLOSE (×) BUTTON ── */}
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  onMouseEnter={() => soundFX.playHoverTick()}
+                  title="Return node to orbital ring (ESC)"
+                  aria-label="Close station and return to orbital ring"
+                  className="group relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-b from-[#131d33] to-[#080d19] border border-white/15 hover:border-red-400/60 text-gray-300 hover:text-white shadow-sm hover:shadow-[0_0_14px_rgba(248,113,113,0.35)] active:scale-95 active:translate-y-[1px] transition-all cursor-pointer select-none"
+                >
+                  {/* Standby LED rim indicator */}
+                  <span className="absolute top-0 inset-x-0 h-[1.5px] bg-red-400/40 group-hover:bg-red-400 group-hover:shadow-[0_0_6px_#f87171] transition-all rounded-t" />
+                  <span className="text-[10px] font-mono tracking-wider text-gray-400 group-hover:text-red-300">
+                    DOCK // ESC
+                  </span>
+                  <X className="w-3.5 h-3.5 text-gray-300 group-hover:text-red-400 group-hover:rotate-90 transition-transform duration-200" />
+                </button>
               </div>
             </motion.div>
 
             {/* ── 2. STAGGERED ELEMENT 2: MAIN HOLOGRAPHIC BODY CONTENT (120ms Stagger) ── */}
             <motion.div
               variants={itemVariants}
-              className="max-h-[min(76vh,800px)] overflow-y-auto pr-1 sm:pr-3 space-y-6 scrollbar-thin pb-24 sm:pb-32 text-gray-100"
+              className="max-h-[min(64vh,700px)] overflow-y-auto pr-1 sm:pr-3 space-y-6 scrollbar-thin pb-12 text-gray-100"
             >
               {children}
 

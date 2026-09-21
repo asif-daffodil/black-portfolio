@@ -35,7 +35,7 @@ export function SceneElements() {
   }, [particleCount]);
 
   const targetColor = useMemo(
-    () => new THREE.Color(SECTION_COLORS[activeSection] || '#3b82f6'),
+    () => new THREE.Color((activeSection && SECTION_COLORS[activeSection]) || '#3b82f6'),
     [activeSection]
   );
 
@@ -44,26 +44,23 @@ export function SceneElements() {
     if (meshRef.current) {
       meshRef.current.rotation.x += delta * 0.15;
       meshRef.current.rotation.y += delta * 0.2;
-
-      // Color lerp based on active section
       const mat = meshRef.current.material as THREE.MeshStandardMaterial;
       if (mat) {
-        mat.color.lerp(targetColor, delta * 2.5);
+        mat.color.lerp(targetColor, delta * 2);
+        mat.emissive.lerp(targetColor, delta * 2);
       }
     }
 
-    // Gentle rotation of particles
+    // Slow ambient particulate drifting
     if (particlesRef.current) {
-      particlesRef.current.rotation.y += delta * 0.03;
-      particlesRef.current.rotation.x += delta * 0.015;
+      particlesRef.current.rotation.y += delta * 0.02;
     }
   });
 
   return (
-    <>
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[10, 10, 5]} intensity={1} />
-      <pointLight position={[-10, -10, -5]} intensity={0.5} color={SECTION_COLORS[activeSection]} />
+    <group>
+      {/* Dynamic atmospheric light shifting with active sector */}
+      <pointLight position={[-10, -10, -5]} intensity={0.5} color={activeSection ? SECTION_COLORS[activeSection] : '#3b82f6'} />
 
       {/* Floating geometric core */}
       <mesh ref={meshRef} position={[0, 0, -3]} scale={1.8}>
@@ -94,6 +91,6 @@ export function SceneElements() {
           sizeAttenuation
         />
       </points>
-    </>
+    </group>
   );
 }

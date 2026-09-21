@@ -31,7 +31,7 @@ export default function Cockpit() {
 
     // Faint cockpit ambient light color subtly shifting based on black hole view
     if (pointLightRef.current) {
-      const targetHex = SECTION_COCKPIT_COLORS[activeSection] || '#f59e0b';
+      const targetHex = (activeSection && SECTION_COCKPIT_COLORS[activeSection]) || '#f59e0b';
       pointLightRef.current.color.lerp(new THREE.Color(targetHex), delta * 2.5);
     }
   });
