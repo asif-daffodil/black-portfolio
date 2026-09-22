@@ -8,6 +8,8 @@ import { useSceneStore, SectionId, SECTION_ORDER } from '@/store/useSceneStore';
 import { soundFX } from '@/lib/sound';
 import {
   ORBITAL_RING_RADIUS,
+  DOCKED_CARD_SCALE,
+  FOCUSED_CARD_SCALE,
   NODE_TRANSITION_DURATION,
   easeInOutCubic,
   StationData,
@@ -141,9 +143,12 @@ export default function PageCard({
       const pz = THREE.MathUtils.lerp(slotZ, focusLocal.z, w);
       groupRef.current.position.set(px, py, pz);
 
-      // 4. Subtle scale boost: 1.0 (docked) -> 1.25 (focused)
-      const hoverBoost = hovered && w < 0.2 ? 1.08 : 1.0;
-      const currentScale = THREE.MathUtils.lerp(hoverBoost, 1.25, w);
+      // 4. Always billboard to camera
+      groupRef.current.quaternion.copy(state.camera.quaternion);
+
+      // 5. Interpolate 3D scale cleanly between DOCKED_CARD_SCALE and FOCUSED_CARD_SCALE
+      const baseDocked = hovered && w < 0.2 ? DOCKED_CARD_SCALE * 1.08 : DOCKED_CARD_SCALE;
+      const currentScale = THREE.MathUtils.lerp(baseDocked, FOCUSED_CARD_SCALE, w);
       groupRef.current.scale.set(currentScale, currentScale, currentScale);
     }
   });
@@ -166,12 +171,14 @@ export default function PageCard({
     setSection(nextSectionId);
   };
 
-  const isDockedOnly = wState < 0.12;
-  const isFullyFocused = wState > 0.82;
-
-  // Content opacity smoothly cross-fades in near end of motion
-  const contentOpacity = THREE.MathUtils.clamp((wState - 0.45) / 0.45, 0, 1);
+  // Smooth cross-fades during motion
   const dockedOpacity = THREE.MathUtils.clamp((0.35 - wState) / 0.35, 0, 1);
+  const contentOpacity = THREE.MathUtils.clamp((wState - 0.30) / 0.40, 0, 1);
+  const currentCardScale = THREE.MathUtils.lerp(
+    hovered && wState < 0.2 ? DOCKED_CARD_SCALE * 1.08 : DOCKED_CARD_SCALE,
+    FOCUSED_CARD_SCALE,
+    wState
+  );
 
   return (
     <group ref={groupRef}>
@@ -183,55 +190,95 @@ export default function PageCard({
           metalness={0.92}
           roughness={0.25}
           emissive={station.color}
-          emissiveIntensity={isFullyFocused ? 0.9 : 0.25}
+          emissiveIntensity={wState > 0.8 ? 0.9 : 0.25}
         />
       </mesh>
 
-      {/* ── UNIFIED 3D PAGE CARD (HTML Projected in 3D Space) ── */}
+      {/* Sizing is controlled purely via wrapping Object3D scale; distanceFactor and sprite omitted */}
       <Html
         transform
-        sprite
         center
-        distanceFactor={18}
         zIndexRange={isActive || wState > 0.05 ? [100, 50] : [10, 0]}
         wrapperClass="page-card-3d-wrapper pointer-events-none select-none"
       >
-        <div
-          className={`page-card-interactive pointer-events-auto transition-all duration-300 ease-out ${
-            isDockedOnly ? 'cursor-pointer' : ''
-          }`}
-          onClick={isDockedOnly ? handleCardClick : undefined}
-          onMouseEnter={() => {
-            if (isDockedOnly) {
+        {/* ══════════════════════════════════════════════════════════════
+            STATE A: COMPACT DOCKED CARD VIEW (When in orbit on ring)
+        ══════════════════════════════════════════════════════════════ */}
+        {wState < 0.45 && (
+          <div
+            className={`page-card-interactive pointer-events-auto cursor-pointer transition-shadow duration-200 w-[240px] h-[100px] rounded-2xl bg-[#050914]/90 backdrop-blur-md border ${
+              theme.border
+            } ${theme.glow} p-3 overflow-hidden relative select-none ${
+              hovered ? 'shadow-[0_0_20px_rgba(56,189,248,0.45)] border-white/40' : ''
+            }`}
+            onClick={handleCardClick}
+            onMouseEnter={() => {
               setHovered(true);
               soundFX.playHoverTick();
-            }
-          }}
-          onMouseLeave={() => setHovered(false)}
-          style={{
-            width: isDockedOnly
-              ? '236px'
-              : isFullyFocused
-              ? 'min(860px, 90vw)'
-              : `${THREE.MathUtils.lerp(236, 860, wState)}px`,
-            minHeight: isDockedOnly
-              ? '96px'
-              : isFullyFocused
-              ? 'min(580px, 72vh)'
-              : `${THREE.MathUtils.lerp(96, 580, wState)}px`,
-          }}
-        >
-          {/* ── CARD CHASSIS (Shared by both docked card and full active panel) ── */}
-          <div
-            className={`relative rounded-2xl md:rounded-3xl bg-[#050914]/88 backdrop-blur-md border ${
-              theme.border
-            } ${theme.glow} transition-shadow duration-300 overflow-hidden ${
-              hovered && isDockedOnly
-                ? 'shadow-[0_0_24px_rgba(56,189,248,0.45)] border-white/40'
-                : ''
-            }`}
+            }}
+            onMouseLeave={() => setHovered(false)}
             style={{
-              padding: isDockedOnly ? '12px' : '24px',
+              opacity: dockedOpacity,
+            }}
+          >
+            {/* Top holographic projection emitter notch */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 h-[2px] w-20 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
+
+            {/* Holographic sci-fi corner brackets */}
+            <span className={`absolute top-1.5 left-1.5 w-2.5 h-2.5 border-t-2 border-l-2 ${theme.bracketColor} pointer-events-none`} />
+            <span className={`absolute top-1.5 right-1.5 w-2.5 h-2.5 border-t-2 border-r-2 ${theme.bracketColor} pointer-events-none`} />
+            <span className={`absolute bottom-1.5 left-1.5 w-2.5 h-2.5 border-b-2 border-l-2 ${theme.bracketColor} pointer-events-none`} />
+            <span className={`absolute bottom-1.5 right-1.5 w-2.5 h-2.5 border-b-2 border-r-2 ${theme.bracketColor} pointer-events-none`} />
+
+            {/* Header row: Sector code & status beacon */}
+            <div className="flex items-center justify-between font-mono text-[10px] text-gray-400">
+              <span className={`font-bold tracking-wider ${theme.titleColor}`}>
+                [ {station.code} ]
+              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[9px] tracking-widest text-gray-400">
+                  {station.sublabel}
+                </span>
+                <span className={`w-2 h-2 rounded-full animate-pulse ${theme.dot}`} />
+              </div>
+            </div>
+
+            {/* Main row: Icon + Station Title */}
+            <div className="flex items-center gap-2.5 pt-1">
+              <div
+                className="p-1.5 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0"
+                style={{ color: station.beaconColor }}
+              >
+                <IconComponent size={18} />
+              </div>
+              <div className="flex flex-col min-w-0">
+                <span className="font-bold text-sm tracking-wide text-white truncate drop-shadow-sm">
+                  {station.name}
+                </span>
+                <span className="text-[10px] font-mono text-gray-400 truncate">
+                  {station.badge}
+                </span>
+              </div>
+            </div>
+
+            {/* Footer hint */}
+            <div className="flex items-center justify-between text-[9px] font-mono text-cyan-400/80 pt-1 border-t border-white/5 mt-0.5">
+              <span>BERTH {station.index + 1} / 8</span>
+              <span className="hover:text-cyan-300 font-semibold">ENGAGE ↗</span>
+            </div>
+          </div>
+        )}
+
+        {/* ══════════════════════════════════════════════════════════════
+            STATE B: FULL READABLE ACTIVE PANEL (When focused in front)
+        ══════════════════════════════════════════════════════════════ */}
+        {wState > 0.25 && (
+          <div
+            className={`page-card-interactive pointer-events-auto w-[720px] max-w-[88vw] h-[480px] max-h-[70vh] rounded-3xl bg-[#050914]/88 backdrop-blur-md border ${
+              theme.border
+            } ${theme.glow} p-6 overflow-hidden relative flex flex-col justify-between`}
+            style={{
+              opacity: contentOpacity,
             }}
           >
             {/* Top holographic projection emitter notch */}
@@ -243,136 +290,73 @@ export default function PageCard({
             <span className={`absolute bottom-2 left-2 w-3 h-3 border-b-2 border-l-2 ${theme.bracketColor} pointer-events-none`} />
             <span className={`absolute bottom-2 right-2 w-3 h-3 border-b-2 border-r-2 ${theme.bracketColor} pointer-events-none`} />
 
-            {/* ══════════════════════════════════════════════════════════════
-                STATE A: COMPACT DOCKED CARD VIEW (When in orbit on ring)
-            ══════════════════════════════════════════════════════════════ */}
-            {dockedOpacity > 0 && (
-              <div
-                className="flex flex-col justify-between h-full space-y-1.5 transition-opacity duration-200"
-                style={{
-                  opacity: dockedOpacity,
-                  display: wState > 0.4 ? 'none' : 'flex',
-                }}
-              >
-                {/* Header row: Sector code & status beacon */}
-                <div className="flex items-center justify-between font-mono text-[10px] text-gray-400">
-                  <span className={`font-bold tracking-wider ${theme.titleColor}`}>
-                    [ {station.code} ]
+            {/* 1. TOP HUD TELEMETRY BAR */}
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-3 mb-4 shrink-0">
+              <div className="flex items-center gap-2.5">
+                <span className={`w-2 h-2 rounded-full animate-pulse ${theme.dot}`} />
+                <span
+                  className={`font-mono text-xs sm:text-sm font-bold tracking-widest uppercase ${theme.titleColor}`}
+                  style={{ textShadow: `0 0 12px ${theme.textGlow}` }}
+                >
+                  {station.code} // {station.sectorName}
+                </span>
+                <span
+                  className={`hidden sm:inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono font-medium border ${theme.badgeBg} ${theme.badgeBorder} ${theme.badgeText}`}
+                >
+                  {station.badge}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-2.5 text-xs font-mono text-gray-400">
+                <span className="hidden sm:inline-flex items-center gap-1.5 text-emerald-400">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  TELEMETRY: ONLINE
+                </span>
+                <span className="px-2.5 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-[10px] text-gray-300 font-mono tracking-wider">
+                  STATION 0{currentIndex + 1}
+                </span>
+
+                {/* DIEGETIC CONSOLE CLOSE (×) BUTTON */}
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  onMouseEnter={() => soundFX.playHoverTick()}
+                  title="Return node to orbital ring (ESC)"
+                  aria-label="Close station and return to orbital ring"
+                  className="group relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-b from-[#131d33] to-[#080d19] border border-white/15 hover:border-red-400/60 text-gray-300 hover:text-white shadow-sm hover:shadow-[0_0_14px_rgba(248,113,113,0.35)] active:scale-95 active:translate-y-[1px] transition-all cursor-pointer select-none"
+                >
+                  <span className="absolute top-0 inset-x-0 h-[1.5px] bg-red-400/40 group-hover:bg-red-400 group-hover:shadow-[0_0_6px_#f87171] transition-all rounded-t" />
+                  <span className="text-[10px] font-mono tracking-wider text-gray-400 group-hover:text-red-300">
+                    DOCK // ESC
                   </span>
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-[9px] tracking-widest text-gray-400">
-                      {station.sublabel}
-                    </span>
-                    <span className={`w-2 h-2 rounded-full animate-pulse ${theme.dot}`} />
-                  </div>
-                </div>
-
-                {/* Main row: Icon + Station Title */}
-                <div className="flex items-center gap-3 pt-0.5">
-                  <div
-                    className="p-2 rounded-lg bg-white/[0.04] border border-white/10 flex items-center justify-center shrink-0"
-                    style={{ color: station.beaconColor }}
-                  >
-                    <IconComponent size={20} />
-                  </div>
-                  <div className="flex flex-col min-w-0">
-                    <span className="font-bold text-sm tracking-wide text-white truncate drop-shadow-sm">
-                      {station.name}
-                    </span>
-                    <span className="text-[10px] font-mono text-gray-400 truncate">
-                      {station.badge}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Footer hint */}
-                <div className="flex items-center justify-between text-[9px] font-mono text-cyan-400/80 pt-0.5 border-t border-white/5">
-                  <span>BERTH {station.index + 1} / 8</span>
-                  <span className="hover:text-cyan-300">ENGAGE ↗</span>
-                </div>
+                  <X className="w-3.5 h-3.5 text-gray-300 group-hover:text-red-400 group-hover:rotate-90 transition-transform duration-200" />
+                </button>
               </div>
-            )}
+            </div>
 
-            {/* ══════════════════════════════════════════════════════════════
-                STATE B: FULL READABLE ACTIVE PANEL (When focused in front)
-            ══════════════════════════════════════════════════════════════ */}
-            {contentOpacity > 0 && (
-              <div
-                className="flex flex-col h-full transition-opacity duration-300"
-                style={{
-                  opacity: contentOpacity,
-                  display: wState < 0.35 ? 'none' : 'flex',
-                }}
+            {/* 2. SCROLLABLE BODY CONTENT */}
+            <div className="flex-1 overflow-y-auto pr-1 sm:pr-2 space-y-5 scrollbar-thin text-gray-100 min-h-0">
+              {SectionComponent && <SectionComponent />}
+            </div>
+
+            {/* 3. BOTTOM WAYPOINT NAVIGATION FOOTER */}
+            <div className="pt-3 mt-3 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-4 font-mono text-xs shrink-0">
+              <div className="flex items-center gap-2 text-gray-400">
+                <Compass className="w-3.5 h-3.5 text-cyan-400 animate-spin-slow" />
+                <span className="tracking-wide">Sector dossier synchronized</span>
+              </div>
+
+              <button
+                onClick={handleNext}
+                onMouseEnter={() => soundFX.playHoverTick()}
+                className="group inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 hover:border-cyan-500/40 text-xs text-gray-300 hover:text-white transition-all cursor-pointer focus:outline-none shadow-md shadow-black/40"
               >
-                {/* 1. TOP HUD TELEMETRY BAR */}
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] pb-3 mb-5">
-                  <div className="flex items-center gap-2.5">
-                    <span className={`w-2 h-2 rounded-full animate-pulse ${theme.dot}`} />
-                    <span
-                      className={`font-mono text-xs sm:text-sm font-bold tracking-widest uppercase ${theme.titleColor}`}
-                      style={{ textShadow: `0 0 12px ${theme.textGlow}` }}
-                    >
-                      {station.code} // {station.sectorName}
-                    </span>
-                    <span
-                      className={`hidden sm:inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono font-medium border ${theme.badgeBg} ${theme.badgeBorder} ${theme.badgeText}`}
-                    >
-                      {station.badge}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2.5 text-xs font-mono text-gray-400">
-                    <span className="hidden sm:inline-flex items-center gap-1.5 text-emerald-400">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                      TELEMETRY: ONLINE
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-[10px] text-gray-300 font-mono tracking-wider">
-                      STATION 0{currentIndex + 1}
-                    </span>
-
-                    {/* ── DIEGETIC CONSOLE CLOSE (×) BUTTON ── */}
-                    <button
-                      type="button"
-                      onClick={handleClose}
-                      onMouseEnter={() => soundFX.playHoverTick()}
-                      title="Return node to orbital ring (ESC)"
-                      aria-label="Close station and return to orbital ring"
-                      className="group relative flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-b from-[#131d33] to-[#080d19] border border-white/15 hover:border-red-400/60 text-gray-300 hover:text-white shadow-sm hover:shadow-[0_0_14px_rgba(248,113,113,0.35)] active:scale-95 active:translate-y-[1px] transition-all cursor-pointer select-none"
-                    >
-                      <span className="absolute top-0 inset-x-0 h-[1.5px] bg-red-400/40 group-hover:bg-red-400 group-hover:shadow-[0_0_6px_#f87171] transition-all rounded-t" />
-                      <span className="text-[10px] font-mono tracking-wider text-gray-400 group-hover:text-red-300">
-                        DOCK // ESC
-                      </span>
-                      <X className="w-3.5 h-3.5 text-gray-300 group-hover:text-red-400 group-hover:rotate-90 transition-transform duration-200" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* 2. SCROLLABLE BODY CONTENT (Mounts and displays the page content) */}
-                <div className="max-h-[min(56vh,540px)] overflow-y-auto pr-1 sm:pr-3 space-y-6 scrollbar-thin pb-6 text-gray-100">
-                  {SectionComponent && <SectionComponent />}
-                </div>
-
-                {/* 3. BOTTOM WAYPOINT NAVIGATION FOOTER */}
-                <div className="pt-4 mt-4 border-t border-white/[0.08] flex flex-wrap items-center justify-between gap-4 font-mono text-xs">
-                  <div className="flex items-center gap-2 text-gray-400">
-                    <Compass className="w-3.5 h-3.5 text-cyan-400 animate-spin-slow" />
-                    <span className="tracking-wide">Sector dossier synchronized</span>
-                  </div>
-
-                  <button
-                    onClick={handleNext}
-                    onMouseEnter={() => soundFX.playHoverTick()}
-                    className="group inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 hover:border-cyan-500/40 text-xs text-gray-300 hover:text-white transition-all cursor-pointer focus:outline-none shadow-md shadow-black/40"
-                  >
-                    <span className="tracking-wider">Proceed to {nextLabel}</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-cyan-400 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </div>
-            )}
+                <span className="tracking-wider">Proceed to {nextLabel}</span>
+                <ArrowRight className="w-3.5 h-3.5 text-cyan-400 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
           </div>
-        </div>
+        )}
       </Html>
     </group>
   );

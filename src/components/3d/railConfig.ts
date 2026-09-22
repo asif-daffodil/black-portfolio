@@ -17,13 +17,11 @@ export const RING_TILT_Z = -0.10; // ~ -5.7 degrees subtle lateral incline
 // Base auto-rotation speed: ~1 full revolution per 105 seconds (within 90-120s specification)
 export const RING_AUTO_ROTATION_SPEED = (2 * Math.PI) / 105; // ~0.0598 rad/s
 
-// Focused staging position in front of black hole/ring along camera sightline
-export const FOCUSED_NODE_WORLD_POS = new THREE.Vector3(
-  0,
-  0.5 + 7.5 * Math.sin(THREE.MathUtils.degToRad(18)),
-  -4.0 + 7.5 * Math.cos(THREE.MathUtils.degToRad(18))
-); // [0, ~2.82, ~3.13]
-export const FOCUSED_NODE_SCALE = 1.65;
+// Focused staging position in front of black hole/ring comfortably centered in viewport
+export const FOCUSED_NODE_WORLD_POS = new THREE.Vector3(0, 1.45, 2.85);
+export const DOCKED_CARD_SCALE = 0.36;
+export const FOCUSED_CARD_SCALE = 0.95;
+export const FOCUSED_NODE_SCALE = FOCUSED_CARD_SCALE;
 export const NODE_TRANSITION_DURATION = 0.95; // seconds
 
 export function easeInOutCubic(t: number): number {
