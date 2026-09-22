@@ -8,7 +8,6 @@ export default function SceneCanvas() {
   return (
     <div
       className="fixed inset-0 z-0 overflow-hidden pointer-events-auto"
-      aria-hidden="true"
     >
       <Canvas
         camera={{ position: [0, 6, 21], fov: 48 }}

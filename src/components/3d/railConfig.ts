@@ -43,6 +43,9 @@ export interface StationData {
   code: string;
   name: string;
   sublabel: string;
+  sectorName: string;
+  badge: string;
+  iconName: 'Compass' | 'User' | 'Cpu' | 'Briefcase' | 'GraduationCap' | 'Bot' | 'FolderGit2' | 'Mail';
   color: string;
   beaconColor: string;
 }
@@ -56,6 +59,9 @@ export const STATIONS: StationData[] = [
     code: 'NAV-01',
     name: 'ORBIT',
     sublabel: 'COMMAND',
+    sectorName: 'ORBIT COMMAND',
+    badge: 'SPATIAL CORE',
+    iconName: 'Compass',
     color: '#3b82f6',
     beaconColor: '#60a5fa',
   },
@@ -67,6 +73,9 @@ export const STATIONS: StationData[] = [
     code: 'BIO-02',
     name: 'ORIGIN',
     sublabel: 'PROFILE',
+    sectorName: 'ORIGIN ARCHIVE',
+    badge: 'SYSTEM ARCHITECT',
+    iconName: 'User',
     color: '#06b6d4',
     beaconColor: '#22d3ee',
   },
@@ -78,6 +87,9 @@ export const STATIONS: StationData[] = [
     code: 'SYS-03',
     name: 'ARSENAL',
     sublabel: 'SYSTEMS',
+    sectorName: 'ARSENAL CORE',
+    badge: 'PHP & AI STACK',
+    iconName: 'Cpu',
     color: '#8b5cf6',
     beaconColor: '#a78bfa',
   },
@@ -89,6 +101,9 @@ export const STATIONS: StationData[] = [
     code: 'LOG-04',
     name: 'FLIGHT LOG',
     sublabel: 'EXPERIENCE',
+    sectorName: 'FLIGHT LOG ARCHIVE',
+    badge: 'ENTERPRISE LEAD',
+    iconName: 'Briefcase',
     color: '#10b981',
     beaconColor: '#34d399',
   },
@@ -100,6 +115,9 @@ export const STATIONS: StationData[] = [
     code: 'ACD-05',
     name: 'CREDENTIALS',
     sublabel: 'DEGREES & ZCE',
+    sectorName: 'CREDENTIALS MATRIX',
+    badge: 'ZCE & DEGREES',
+    iconName: 'GraduationCap',
     color: '#f59e0b',
     beaconColor: '#fbbf24',
   },
@@ -111,6 +129,9 @@ export const STATIONS: StationData[] = [
     code: 'AI-06',
     name: 'NEURAL AI',
     sublabel: 'AGENTIC PIPELINES',
+    sectorName: 'NEURAL AI CORE',
+    badge: 'AUTONOMOUS AGENTS',
+    iconName: 'Bot',
     color: '#ec4899',
     beaconColor: '#f472b6',
   },
@@ -122,6 +143,9 @@ export const STATIONS: StationData[] = [
     code: 'PRJ-07',
     name: 'SHOWCASE',
     sublabel: 'DEPLOYMENTS',
+    sectorName: 'SHOWCASE MATRIX',
+    badge: 'PRODUCTION APPS',
+    iconName: 'FolderGit2',
     color: '#6366f1',
     beaconColor: '#818cf8',
   },
@@ -133,6 +157,9 @@ export const STATIONS: StationData[] = [
     code: 'COM-08',
     name: 'RELAY',
     sublabel: 'SUBSPACE COMMS',
+    sectorName: 'RELAY TERMINAL',
+    badge: 'DIRECT LINK',
+    iconName: 'Mail',
     color: '#14b8a6',
     beaconColor: '#2dd4bf',
   },

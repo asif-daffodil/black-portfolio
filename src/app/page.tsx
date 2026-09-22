@@ -8,7 +8,6 @@ import ViewModeToggle from '@/components/ui/ViewModeToggle';
 import CustomCursor from '@/components/ui/CustomCursor';
 import AltitudeIndicator from '@/components/ui/AltitudeIndicator';
 import ClassicPortfolio from '@/components/classic/ClassicPortfolio';
-import AnimatedPanelContainer from '@/components/hud/AnimatedPanelContainer';
 import BootSequence from '@/components/3d/BootSequence';
 import { ChevronDown, ChevronUp, Compass } from 'lucide-react';
 import { soundFX } from '@/lib/sound';
@@ -118,11 +117,11 @@ export default function Home() {
       if (tag === 'INPUT' || tag === 'TEXTAREA') return;
 
       if (e.key === 'Escape') {
-        const displayed = useSceneStore.getState().displayedSection;
-        if (displayed) {
+        const active = useSceneStore.getState().activeSection;
+        if (active) {
           e.preventDefault();
           soundFX.playButtonClick();
-          useSceneStore.getState().setDisplayedSection(null);
+          useSceneStore.getState().deactivateSection();
           return;
         }
       }
@@ -215,9 +214,6 @@ export default function Home() {
 
           {/* Right-Edge Vertical Altitude / Station Track */}
           <AltitudeIndicator />
-
-          {/* Center Floating Glassmorphic Content Panels */}
-          <AnimatedPanelContainer />
 
           {/* Bottom Floating Spatial Flight Controls */}
           <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2 sm:gap-3 bg-[#070d1e]/80 backdrop-blur-xl px-4 py-2 rounded-full border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.6)]">
