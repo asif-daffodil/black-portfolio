@@ -6,11 +6,12 @@ import { STATIONS, StationData } from '@/components/3d/railConfig';
 
 export default function HudRadar() {
   const activeSection = useSceneStore((state) => state.activeSection);
+  const pendingSection = useSceneStore((state) => state.pendingSection);
   const setSection = useSceneStore((state) => state.setSection);
   const railProgress = useSceneStore((state) => state.railProgress);
 
   const activeStation =
-    STATIONS.find((s) => s.id === activeSection) || STATIONS[0];
+    STATIONS.find((s) => s.id === (activeSection || pendingSection)) || STATIONS[0];
 
   const handleSelectSector = (id: SectionId) => {
     soundFX.playButtonClick();
@@ -104,7 +105,7 @@ export default function HudRadar() {
             const rad = (angleDeg * Math.PI) / 180;
             const x = centerX + radius * Math.cos(rad);
             const y = centerY + radius * Math.sin(rad);
-            const isActive = station.id === activeSection;
+            const isActive = station.id === activeSection || station.id === pendingSection;
 
             return (
               <g

@@ -69,6 +69,9 @@ interface PageCardProps {
   getRingAngle: () => number;
 }
 
+// Module-level scratch quaternion for zero GC allocations during useFrame
+const _tempParentQuat = new THREE.Quaternion();
+
 export default function PageCard({
   station,
   focusLocal,
@@ -143,13 +146,25 @@ export default function PageCard({
       const pz = THREE.MathUtils.lerp(slotZ, focusLocal.z, w);
       groupRef.current.position.set(px, py, pz);
 
-      // 4. Always billboard to camera
-      groupRef.current.quaternion.copy(state.camera.quaternion);
+      // 4. Always billboard directly to camera with parent tilt cancellation.
+      // Cancels the parent orbital ring's tilt so the card's world quaternion
+      // exactly equals camera.quaternion, guaranteeing 0° tilt/roll across all states and tweens.
+      if (groupRef.current.parent) {
+        groupRef.current.parent.getWorldQuaternion(_tempParentQuat);
+        groupRef.current.quaternion
+          .copy(_tempParentQuat)
+          .invert()
+          .multiply(state.camera.quaternion);
+      } else {
+        groupRef.current.quaternion.copy(state.camera.quaternion);
+      }
 
       // 5. Interpolate 3D scale cleanly between DOCKED_CARD_SCALE and FOCUSED_CARD_SCALE
       const baseDocked = hovered && w < 0.2 ? DOCKED_CARD_SCALE * 1.08 : DOCKED_CARD_SCALE;
       const currentScale = THREE.MathUtils.lerp(baseDocked, FOCUSED_CARD_SCALE, w);
       groupRef.current.scale.set(currentScale, currentScale, currentScale);
+
+      groupRef.current.updateMatrixWorld();
     }
   });
 
@@ -182,19 +197,8 @@ export default function PageCard({
 
   return (
     <group ref={groupRef}>
-      {/* ── MECHANICAL BERTH ALIGNMENT CLAMP (Sits on rail when docked) ── */}
-      <mesh position={[0, -0.04, 0]}>
-        <boxGeometry args={[0.22, 0.04, 0.32]} />
-        <meshStandardMaterial
-          color="#060a14"
-          metalness={0.92}
-          roughness={0.25}
-          emissive={station.color}
-          emissiveIntensity={wState > 0.8 ? 0.9 : 0.25}
-        />
-      </mesh>
-
-      {/* Sizing is controlled purely via wrapping Object3D scale; distanceFactor and sprite omitted */}
+      {/* Sizing is controlled purely via wrapping Object3D scale; distanceFactor and sprite omitted.
+          Orientation is driven solely by Object3D billboarding with parent tilt cancellation. */}
       <Html
         transform
         center

@@ -90,6 +90,7 @@ export interface SceneStore {
   activeSection: SectionId | null;
   displayedSection: SectionId | null;
   departingSection: SectionId | null;
+  pendingSection: SectionId | null;
   transitionStartTime: number;
   transitionDuration: number;
   transitionDirection: TravelDirection;
@@ -195,6 +196,7 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
   activeSection: null, // Initially null so all 8 nodes are docked and the orbital ring is in clear view
   displayedSection: null,
   departingSection: null,
+  pendingSection: null,
   transitionStartTime: 0,
   transitionDuration: 0.95,
   setDisplayedSection: (section: SectionId | null) => set({ displayedSection: section }),
@@ -206,7 +208,11 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
 
   activateSection: (targetSection: SectionId) => {
     const current = get().activeSection;
-    if (current === targetSection) return;
+    const pending = get().pendingSection;
+    const departing = get().departingSection;
+
+    // If target is already active or already pending in stage 2, nothing to do
+    if (current === targetSection || pending === targetSection) return;
 
     transitionTimeouts.forEach(clearTimeout);
     transitionTimeouts = [];
@@ -214,31 +220,88 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
     const now = typeof performance !== 'undefined' ? performance.now() : Date.now();
     const duration = 0.95;
 
-    // Simultaneous handoff:
-    // If a section was already active, it becomes departingSection and returns to the ring
-    // while targetSection becomes activeSection and undocks toward focus
+    // Case 1: A section is currently active/focused.
+    // SEQUENTIAL HANDOFF:
+    // (a) First animate the CURRENTLY active page back down to its live ring slot
+    // and let that motion fully complete (~0.95s).
+    if (current) {
+      set({
+        activeSection: null,
+        departingSection: current,
+        pendingSection: targetSection,
+        displayedSection: targetSection,
+        transitionStartTime: now,
+        transitionDuration: duration,
+        transitionDirection: 'none',
+        isFlashing: false,
+      });
+
+      // (b) Only once step (a) has visually finished, start animating the newly selected page
+      // from its ring slot up to the focused position.
+      const tNext = setTimeout(() => {
+        set({
+          activeSection: targetSection,
+          departingSection: null,
+          pendingSection: null,
+          displayedSection: targetSection,
+          transitionStartTime: typeof performance !== 'undefined' ? performance.now() : Date.now(),
+          transitionDuration: duration,
+        });
+      }, Math.round(duration * 1000));
+      transitionTimeouts.push(tNext);
+      return;
+    }
+
+    // Case 2: A section is currently in flight returning to the ring (departingSection).
+    if (departing) {
+      set({
+        pendingSection: targetSection,
+        displayedSection: targetSection,
+      });
+
+      const elapsed = (now - get().transitionStartTime) / 1000;
+      const remainingMs = Math.max(50, Math.round((duration - elapsed) * 1000));
+
+      const tNext = setTimeout(() => {
+        set({
+          activeSection: targetSection,
+          departingSection: null,
+          pendingSection: null,
+          displayedSection: targetSection,
+          transitionStartTime: typeof performance !== 'undefined' ? performance.now() : Date.now(),
+          transitionDuration: duration,
+        });
+      }, remainingMs);
+      transitionTimeouts.push(tNext);
+      return;
+    }
+
+    // Case 3: No section is active or departing (e.g. initial docked ring state).
+    // Direct dock-to-focus animation.
     set({
       activeSection: targetSection,
-      departingSection: current,
+      departingSection: null,
+      pendingSection: null,
       displayedSection: targetSection,
       transitionStartTime: now,
       transitionDuration: duration,
       transitionDirection: 'none',
       isFlashing: false,
     });
-
-    // Clear departingSection once animation finishes
-    const tClear = setTimeout(() => {
-      if (get().departingSection === current) {
-        set({ departingSection: null });
-      }
-    }, Math.round(duration * 1000));
-    transitionTimeouts.push(tClear);
   },
 
   deactivateSection: () => {
     const current = get().activeSection;
-    if (!current) return;
+    const pending = get().pendingSection;
+
+    if (!current) {
+      if (pending) {
+        transitionTimeouts.forEach(clearTimeout);
+        transitionTimeouts = [];
+        set({ pendingSection: null, displayedSection: null });
+      }
+      return;
+    }
 
     transitionTimeouts.forEach(clearTimeout);
     transitionTimeouts = [];
@@ -246,9 +309,11 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
     const now = typeof performance !== 'undefined' ? performance.now() : Date.now();
     const duration = 0.95;
 
+    // Single-stage return to ring
     set({
       activeSection: null,
       departingSection: current,
+      pendingSection: null,
       displayedSection: null,
       transitionStartTime: now,
       transitionDuration: duration,
@@ -266,7 +331,8 @@ export const useSceneStore = create<SceneStore>((set, get) => ({
 
   toggleSection: (targetSection: SectionId) => {
     const current = get().activeSection;
-    if (current === targetSection) {
+    const pending = get().pendingSection;
+    if (current === targetSection || pending === targetSection) {
       get().deactivateSection();
     } else {
       get().activateSection(targetSection);

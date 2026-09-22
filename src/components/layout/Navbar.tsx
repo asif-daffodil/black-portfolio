@@ -50,6 +50,7 @@ export default function Navbar() {
   const [pulseBeams, setPulseBeams] = useState<PulseBeam[]>([]);
 
   const activeSection = useSceneStore((state) => state.activeSection);
+  const pendingSection = useSceneStore((state) => state.pendingSection);
   const setSection = useSceneStore((state) => state.setSection);
   const isMuted = useSceneStore((state) => state.isMuted);
   const toggleMute = useSceneStore((state) => state.toggleMute);
@@ -126,7 +127,8 @@ export default function Navbar() {
     }
   };
 
-  const currentCockpitLight = (activeSection && SECTION_COCKPIT_GLOW[activeSection]) || SECTION_COCKPIT_GLOW.bridge;
+  const effectiveSection = activeSection || pendingSection;
+  const currentCockpitLight = (effectiveSection && SECTION_COCKPIT_GLOW[effectiveSection]) || SECTION_COCKPIT_GLOW.bridge;
 
   return (
     <>
@@ -211,7 +213,7 @@ export default function Navbar() {
             />
 
             {NAV_ITEMS.map((item, idx) => {
-              const isActive = activeSection === item.id;
+              const isActive = activeSection === item.id || pendingSection === item.id;
               const isPressed = pressedId === item.id;
               const isAmber = item.accent === 'amber';
 
@@ -398,7 +400,7 @@ export default function Navbar() {
           <div className="lg:hidden mt-3 px-4 pb-4 pt-2 bg-[#050914]/95 backdrop-blur-2xl border-b border-white/10 space-y-2">
             <div className="grid grid-cols-2 gap-2">
               {NAV_ITEMS.map((item) => {
-                const isActive = activeSection === item.id;
+                const isActive = activeSection === item.id || pendingSection === item.id;
                 return (
                   <button
                     key={item.id}

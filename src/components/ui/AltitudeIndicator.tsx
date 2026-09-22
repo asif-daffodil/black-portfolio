@@ -23,9 +23,11 @@ const STATIONS_META: StationMeta[] = [
 
 export default function AltitudeIndicator() {
   const activeSection = useSceneStore((state) => state.activeSection);
+  const pendingSection = useSceneStore((state) => state.pendingSection);
   const setSection = useSceneStore((state) => state.setSection);
 
-  const activeIndex = activeSection ? SECTION_ORDER.indexOf(activeSection) : -1;
+  const effectiveSection = activeSection || pendingSection;
+  const activeIndex = effectiveSection ? SECTION_ORDER.indexOf(effectiveSection) : -1;
 
   const handleSelect = (id: SectionId) => {
     soundFX.playButtonClick();
@@ -48,7 +50,7 @@ export default function AltitudeIndicator() {
         {/* Labels */}
         <div className="flex flex-col items-end gap-2.5">
           {STATIONS_META.map((st, idx) => {
-            const isActive = activeSection === st.id;
+            const isActive = effectiveSection === st.id;
             return (
               <button
                 key={st.id}
