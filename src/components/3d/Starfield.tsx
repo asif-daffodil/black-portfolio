@@ -3,6 +3,7 @@
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { advanceSafeTime } from '@/lib/animationTime';
 
 interface StarfieldProps {
   deepCount?: number;
@@ -146,12 +147,17 @@ export default function Starfield({
   }, [foreCount]);
 
   useFrame((state, delta) => {
+    // Starfield is the primary advancer of the shared safe clock.
+    // All other components call getSafeTime() — this is the only call to advanceSafeTime().
+    // The returned `safeDelta` is clamped to MAX_DELTA (50 ms) and is 0 on the first
+    // frame after the tab regains visibility, preventing any visible jump.
+    const safeDelta = advanceSafeTime(delta);
     const px = state.pointer.x;
     const py = state.pointer.y;
 
     // ── 1. Deep Field Parallax (Slowest, Anchoring Background) ──
     if (deepPointsRef.current) {
-      deepPointsRef.current.rotation.y += delta * 0.0015;
+      deepPointsRef.current.rotation.y += safeDelta * 0.0015;
       deepPointsRef.current.position.x = THREE.MathUtils.lerp(
         deepPointsRef.current.position.x,
         -px * 0.15,
@@ -166,8 +172,8 @@ export default function Starfield({
 
     // ── 2. Mid Field Parallax (Moderate Motion & Swirl) ──
     if (midPointsRef.current) {
-      midPointsRef.current.rotation.y += delta * 0.004;
-      midPointsRef.current.rotation.x += delta * 0.002;
+      midPointsRef.current.rotation.y += safeDelta * 0.004;
+      midPointsRef.current.rotation.x += safeDelta * 0.002;
       midPointsRef.current.position.x = THREE.MathUtils.lerp(
         midPointsRef.current.position.x,
         -px * 0.55,
@@ -193,10 +199,13 @@ export default function Starfield({
         0.06
       );
 
-      // Continuous flight stream forward along Z
+      // Continuous flight stream forward along Z.
+      // Using safeDelta here is critical: a raw delta of 60+ seconds after a background
+      // tab would move every particle ~130 units in one frame, causing ALL of them to
+      // cross the z > 7.5 recycling threshold simultaneously — the visible "re-spawn" flash.
       const posAttr = forePointsRef.current.geometry.attributes.position;
       const posArray = posAttr.array as Float32Array;
-      const streamSpeed = delta * 2.2;
+      const streamSpeed = safeDelta * 2.2;
 
       for (let i = 0; i < posArray.length; i += 3) {
         posArray[i + 2] += streamSpeed;

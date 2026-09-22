@@ -3,6 +3,7 @@
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { getSafeTime, MAX_DELTA } from '@/lib/animationTime';
 
 // ── 1. ACCRETION DISK SHADER ───────────────────────────────────────────────
 // Thin glowing torus-like disk with radial color gradient:
@@ -221,7 +222,9 @@ export default function BlackHole() {
   );
 
   useFrame((state, delta) => {
-    const time = state.clock.getElapsedTime();
+    // Use shared safe clock so uTime doesn't jump after tab-background pause.
+    const time = getSafeTime();
+    const safeDelta = Math.min(delta, MAX_DELTA);
 
     if (diskMaterialRef.current) {
       diskMaterialRef.current.uniforms.uTime.value = time;
@@ -232,7 +235,7 @@ export default function BlackHole() {
 
     if (diskMeshRef.current) {
       // Gentle continuous rotation of disk plane
-      diskMeshRef.current.rotation.z += delta * 0.08;
+      diskMeshRef.current.rotation.z += safeDelta * 0.08;
     }
 
     if (groupRef.current) {

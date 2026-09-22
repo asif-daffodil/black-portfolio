@@ -3,6 +3,7 @@
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { getSafeTime, MAX_DELTA } from '@/lib/animationTime';
 
 const NebulaShader = {
   uniforms: {
@@ -129,7 +130,12 @@ export default function NebulaBackground() {
   }, []);
 
   useFrame((state, delta) => {
-    const t = state.clock.getElapsedTime();
+    // Use the shared safe clock advanced by Starfield every frame.
+    // This prevents the nebula from visually snapping forward when the tab returns
+    // from background (where getElapsedTime() would jump by the full paused duration).
+    const t = getSafeTime();
+    // Clamp delta for rotation so it can't teleport on a big frame either.
+    const safeDelta = Math.min(delta, MAX_DELTA);
 
     if (mat1Ref.current) {
       mat1Ref.current.uniforms.uTime.value = t;
@@ -153,7 +159,7 @@ export default function NebulaBackground() {
         1.5 - py * 0.8,
         0.02
       );
-      mesh1Ref.current.rotation.z += delta * 0.003;
+      mesh1Ref.current.rotation.z += safeDelta * 0.003;
     }
 
     if (mesh2Ref.current) {
@@ -167,7 +173,7 @@ export default function NebulaBackground() {
         -2.0 + py * 0.6,
         0.02
       );
-      mesh2Ref.current.rotation.z -= delta * 0.0025;
+      mesh2Ref.current.rotation.z -= safeDelta * 0.0025;
     }
   });
 

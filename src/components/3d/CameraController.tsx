@@ -88,9 +88,13 @@ export default function CameraController() {
         gsap.to(s, { parallaxWeight: 1.0, duration: 0.6, ease: 'power2.out' });
         useSceneStore.getState().setBootStage('ready');
         useSceneStore.getState().setBooted(true);
+        // Auto-focus the Home (bridge) page once the viewscreen is fully open,
+        // exactly as if the user had clicked the Home menu item.
+        useSceneStore.getState().activateSection('bridge');
       },
     });
   }, [bootStage]);
+
 
   useFrame((state, delta) => {
     const s = stateRef.current;

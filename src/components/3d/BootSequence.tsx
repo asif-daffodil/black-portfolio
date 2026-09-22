@@ -26,6 +26,7 @@ export default function BootSequence() {
   const hasStartedSequence = useRef(false);
 
   // Check if session has already completed boot intro once
+  // Bypass the full animation and immediately activate the Home page.
   useEffect(() => {
     try {
       if (
@@ -35,18 +36,22 @@ export default function BootSequence() {
         setBootPoweredCount(9);
         setBootStage('ready');
         setBooted(true);
+        // Same auto-home as the full boot path
+        useSceneStore.getState().activateSection('bridge');
       }
     } catch {
       // ignore
     }
   }, [setBooted, setBootStage, setBootPoweredCount]);
 
-  // Handle Skip
+  // Handle Skip (user clicked or pressed ESC during boot animation)
   const handleSkip = () => {
     soundFX.playButtonClick();
     setBootPoweredCount(9);
     setBootStage('ready');
     setBooted(true);
+    // Treat skip the same as completed boot: open the Home page immediately.
+    useSceneStore.getState().activateSection('bridge');
   };
 
   useEffect(() => {
@@ -123,6 +128,11 @@ export default function BootSequence() {
       setBootPoweredCount(9);
       setBootStage('ready');
       setBooted(true);
+      // If CameraController's push_in animation never fired (e.g. 3D suspended),
+      // still auto-open the Home page as a safety fallback.
+      if (!useSceneStore.getState().activeSection) {
+        useSceneStore.getState().activateSection('bridge');
+      }
     }, baseDelay + 9 * buttonStagger + 3400);
 
     return () => {
