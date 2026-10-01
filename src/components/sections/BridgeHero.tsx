@@ -97,7 +97,7 @@ export default function BridgeHero() {
           {/* Subtitle / Value proposition */}
           <p className="text-xs sm:text-sm text-gray-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
             14+ years engineering resilient, high-availability enterprise web architectures, 
-            university ERP systems at Daffodil Group, and mission-critical cloud platforms for global founders.
+            university ERP systems at Daffodil Group, and mission-critical cloud platforms for international clients & enterprises.
           </p>
 
           {/* Quick Metrics Bar */}
@@ -125,8 +125,10 @@ export default function BridgeHero() {
             </button>
 
             <a
-              href="/images/CV of Asif Mohammadd Abir.pdf"
-              download="CV of Asif Mohammadd Abir.pdf"
+              href="/resume.pdf"
+              download="CV of Asif Mohammad Abir.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full font-mono text-xs font-semibold bg-white/[0.05] hover:bg-white/[0.1] text-white border border-white/20 backdrop-blur-xl transition-all transform hover:-translate-y-0.5 focus:outline-none"
             >
               <Download className="w-3.5 h-3.5 text-cyan-400" />

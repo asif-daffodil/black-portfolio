@@ -163,8 +163,10 @@ export default function ClassicPortfolio() {
               </a>
 
               <a
-                href="/images/CV of Asif Mohammadd Abir.pdf"
-                download
+                href="/resume.pdf"
+                download="CV of Asif Mohammad Abir.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-mono font-semibold text-sm bg-white/10 hover:bg-white/15 text-white border border-white/20 transition-all transform hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:outline-none"
               >
                 <Download className="w-4 h-4" />

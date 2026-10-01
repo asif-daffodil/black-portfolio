@@ -17,7 +17,7 @@ export const experienceData: FlightLogEntry[] = [
   {
     id: 'exp-codersfly',
     missionCode: 'FLIGHT-CFL',
-    role: 'Lead Full-Stack Architect & Co-Founder',
+    role: 'Lead Full-Stack Architect',
     organization: 'CodersFly',
     location: 'Dhaka, Bangladesh / Remote',
     period: '2022 – Present',
@@ -27,7 +27,7 @@ export const experienceData: FlightLogEntry[] = [
     directives: [
       'Architect full-lifecycle web applications utilizing Next.js, React, Node.js, and modern Laravel microservices.',
       'Establish company-wide technical standards for code quality, automated testing, CI/CD deployment, and cloud infrastructure.',
-      'Collaborate directly with global founders to translate complex business specifications into scalable, production-ready software architectures.',
+      'Collaborate directly with global clients and enterprise teams to translate complex business specifications into scalable, production-ready software architectures.',
     ],
     techStack: ['Next.js', 'React', 'Laravel', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS', 'AWS'],
     logoUrl: '/images/legendcoder.png',
@@ -54,13 +54,13 @@ export const experienceData: FlightLogEntry[] = [
   {
     id: 'exp-itechbd',
     missionCode: 'FLIGHT-ITB',
-    role: 'Lead Developer & Technical Founder',
+    role: 'Lead Full-Stack Developer',
     organization: 'itech-bd.com',
     location: 'Dhaka, Bangladesh',
     period: '2018 – Present',
     isCurrent: true,
     status: 'ACTIVE',
-    summary: 'Founded and engineered itech-bd.com, an advanced technical education and e-learning platform providing interactive programming courses and digital training.',
+    summary: 'Architected and engineered itech-bd.com, an advanced technical education and e-learning platform providing interactive programming courses and digital training.',
     directives: [
       'Built custom full-stack learning platform with Laravel, Next.js, and MySQL, featuring automated certificate generation, video streaming, and subscription payments.',
       'Engineered automated CI/CD deployment pipelines, server security hardening, backup automation, and Redis caching layers.',

@@ -375,6 +375,7 @@ export default function Navbar() {
             {/* Resume / Dossier CTA */}
             <a
               href="/resume.pdf"
+              download="CV of Asif Mohammad Abir.pdf"
               target="_blank"
               rel="noopener noreferrer"
               onMouseEnter={() => soundFX.playHoverTick()}
@@ -416,6 +417,18 @@ export default function Navbar() {
                   </button>
                 );
               })}
+            </div>
+            <div className="pt-2 border-t border-white/10">
+              <a
+                href="/resume.pdf"
+                download="CV of Asif Mohammad Abir.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 border border-cyan-400/40 text-xs font-mono font-semibold text-cyan-200 hover:text-white"
+              >
+                <Download size={14} className="text-cyan-300" />
+                <span>Download CV / Resume (PDF)</span>
+              </a>
             </div>
           </div>
         )}

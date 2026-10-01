@@ -51,7 +51,7 @@ export const profileData: ProfileData = {
   executiveImageUrl: '/images/asif-abir-executive.png',
   architectImageUrl: '/images/asif-abir-architect.jpg',
   outdoorImageUrl: '/images/asif-abir-outdoor.jpg',
-  resumeUrl: '/images/CV of Asif Mohammadd Abir.pdf',
+  resumeUrl: '/resume.pdf',
   location: '9 Sher-E-Bangla Road, Hazaribagh, Dhaka-1209, Bangladesh',
   email: 'asif.abir@hotmail.com',
   phone: '+880 1955 517 560',
